@@ -19,4 +19,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="textureImage\blue_armor.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="textureImage\darkMetal_inner.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="textureImage\chrome_backbone.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

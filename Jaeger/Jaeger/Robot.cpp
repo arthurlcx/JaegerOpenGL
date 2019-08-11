@@ -68,6 +68,11 @@ float boneLength = 2.0f;
 
 bool textureOn = false;
 
+//Texture variable declaration
+GLuint texture = 0;
+BITMAP BMP;
+HBITMAP hBMP = NULL;
+
 LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
@@ -143,6 +148,31 @@ bool initPixelFormat(HDC hdc)
 }
 //--------------------------------------------------------------------
 
+//Funtion to load bmp image as texture
+void loadBitmapImage(const char *filename) {
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+	hBMP = (HBITMAP)LoadImage(GetModuleHandle(NULL), filename, IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+	GetObject(hBMP, sizeof(BMP), &BMP);
+
+
+	glEnable(GL_TEXTURE_2D);
+
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
+}
+
+//Function to end texture
+void endTexture() {
+	glDisable(GL_TEXTURE_2D);
+	DeleteObject(hBMP);
+	glDeleteTextures(1, &texture);
+}
+
 void drawSphere(float radius, float slices, float stacks)
 {
 	GLUquadricObj *sphere = NULL;
@@ -157,6 +187,8 @@ void drawCylinder(float base, float top, float height, float slices, float stack
 	GLUquadricObj *cylinder = NULL;
 	cylinder = gluNewQuadric();
 	gluQuadricDrawStyle(cylinder, GLU_FILL);
+	gluQuadricNormals(cylinder, GLU_SMOOTH);
+	gluQuadricTexture(cylinder, GLU_TRUE);
 	gluCylinder(cylinder, base, top, height, slices, stacks);    //gluCylinder(GLUquadric obj *, baseRadius,topRadius, height,slices, stacks);
 	gluDeleteQuadric(cylinder);
 }
@@ -166,42 +198,42 @@ void drawFilledCube()
 	glBegin(GL_QUADS);
 	{
 		// Top Face 
-		glColor3f(1.0, 0.0, 0.0);
+		glColor3f(1.0, 1.0, 1.0);
 		glTexCoord2f(0, 0); glVertex3f(-1.0f, 1.0f, -1.0f);
 		glTexCoord2f(1, 0); glVertex3f(1.0f, 1.0f, -1.0f);
 		glTexCoord2f(1, 1); glVertex3f(1.0f, 1.0f, 1.0f);
 		glTexCoord2f(0, 1); glVertex3f(-1.0f, 1.0f, 1.0f);
 
 		// Left Face 
-		glColor3f(1.0, 1.0, 0.0);
+		glColor3f(1.0, 1.0, 1.0);
 		glTexCoord2f(0, 0); glVertex3f(-1.0f, 1.0f, -1.0f);
 		glTexCoord2f(1, 0); glVertex3f(-1.0f, 1.0f, 1.0f);
 		glTexCoord2f(1, 1); glVertex3f(-1.0f, -1.0f, 1.0f);
 		glTexCoord2f(0, 1); glVertex3f(-1.0f, -1.0f, -1.0f);
 
 		// Back Face 
-		glColor3f(1.0, 0.0, 1.0);
+		glColor3f(1.0, 1.0, 1.0);
 		glTexCoord2f(0, 0); glVertex3f(-1.0f, -1.0f, -1.0f);
 		glTexCoord2f(1, 0); glVertex3f(1.0f, -1.0f, -1.0f);
 		glTexCoord2f(1, 1); glVertex3f(1.0f, 1.0f, -1.0f);
 		glTexCoord2f(0, 1); glVertex3f(-1.0f, 1.0f, -1.0f);
 
 		// Right Face 
-		glColor3f(0.0, 0.0, 1.0);
+		glColor3f(1.0, 1.0, 1.0);
 		glTexCoord2f(0, 0); glVertex3f(1.0f, 1.0f, 1.0f);
 		glTexCoord2f(1, 0); glVertex3f(1.0f, 1.0f, -1.0f);
 		glTexCoord2f(1, 1); glVertex3f(1.0f, -1.0f, -1.0f);
 		glTexCoord2f(0, 1); glVertex3f(1.0f, -1.0f, 1.0f);
 
 		// Bottom Face 
-		glColor3f(0.0, 1.0, 0.0);
+		glColor3f(1.0, 1.0, 1.0);
 		glTexCoord2f(0, 0); glVertex3f(-1.0f, -1.0f, 1.0f);
 		glTexCoord2f(1, 0); glVertex3f(1.0f, -1.0f, 1.0f);
 		glTexCoord2f(1, 1); glVertex3f(1.0f, -1.0f, -1.0f);
 		glTexCoord2f(0, 1); glVertex3f(-1.0f, -1.0f, -1.0f);
 
 		// Front Face 
-		glColor3f(0.0, 1.0, 1.0);
+		glColor3f(1.0, 1.0, 1.0);
 		glTexCoord2f(0, 0); glVertex3f(-1.0f, 1.0f, 1.0f);
 		glTexCoord2f(1, 0); glVertex3f(1.0f, 1.0f, 1.0f);
 		glTexCoord2f(1, 1); glVertex3f(1.0f, -1.0f, 1.0f);
@@ -653,264 +685,269 @@ void drawFrontArmour()
 
 	//Front Laser + Reactor
 	glPushMatrix();
-	glTranslatef(0.0, 2.2, 1.2);
-	glBegin(GL_QUADS);
-	glColor3f(0.0, 0.0, 0.5);
-	glVertex3f(-0.1, 0.1, 0.0);
-	glVertex3f(0.1, 0.1, 0.0);
-	glVertex3f(0.20, 0.0, 0.0);
-	glVertex3f(-0.20, 0.0, 0.0);
-	glEnd();
-	glBegin(GL_QUADS);
-	glColor3f(0.0, 0.0, 0.5);
-	glVertex3f(-0.2, 0.0, 0.0);
-	glVertex3f(0.2, 0.0, 0.0);
-	glVertex3f(0.2, -0.2, 0.0);
-	glVertex3f(-0.2, -0.2, 0.0);
-	glEnd();
-	glBegin(GL_QUADS);
-	glColor3f(0.0, 0.0, 0.5);
-	glVertex3f(-0.2, -0.2, 0.0);
-	glVertex3f(0.2, -0.2, 0.0);
-	glVertex3f(0.1, -0.3, 0.0);
-	glVertex3f(-0.1, -0.3, 0.0);
-	glEnd();
+		glTranslatef(0.0, 2.2, 1.2);
+		glBegin(GL_QUADS);
+		glColor3f(0.0, 0.0, 0.5);
+		glVertex3f(-0.1, 0.1, 0.0);
+		glVertex3f(0.1, 0.1, 0.0);
+		glVertex3f(0.20, 0.0, 0.0);
+		glVertex3f(-0.20, 0.0, 0.0);
+		glEnd();
+		glBegin(GL_QUADS);
+		glColor3f(0.0, 0.0, 0.5);
+		glVertex3f(-0.2, 0.0, 0.0);
+		glVertex3f(0.2, 0.0, 0.0);
+		glVertex3f(0.2, -0.2, 0.0);
+		glVertex3f(-0.2, -0.2, 0.0);
+		glEnd();
+		glBegin(GL_QUADS);
+		glColor3f(0.0, 0.0, 0.5);
+		glVertex3f(-0.2, -0.2, 0.0);
+		glVertex3f(0.2, -0.2, 0.0);
+		glVertex3f(0.1, -0.3, 0.0);
+		glVertex3f(-0.1, -0.3, 0.0);
+		glEnd();
 	glPopMatrix();
 
 	glPushMatrix();             //Ironman Reactor       (how to rotate automatically in glPushMatrix)
-	glColor3f(0.0, 1.0, 1.0);
-	glTranslatef(0.0, 2.1, 0.85);
-	glRotatef(reactor, 1.0, 1.0, 1.0);
-	drawSphere(0.3, 30, 30);
+		glColor3f(0.0, 1.0, 1.0);
+		glTranslatef(0.0, 2.1, 0.85);
+		glRotatef(reactor, 1.0, 1.0, 1.0);
+		drawSphere(0.3, 30, 30);
 	glPopMatrix();
 
 	// Left Upper Shoulder (with missle)
 	glPushMatrix();                 //Largest piece (Beside neck)
-	glTranslatef(0.52, 3.0, 0.05);
-	glRotatef(10, 1.0, 0.0, 0.0);
-	glScalef(0.4, 0.02, 0.55);
-	drawFilledCube();
+		glTranslatef(0.52, 3.0, 0.05);
+		glRotatef(10, 1.0, 0.0, 0.0);
+		glScalef(0.4, 0.02, 0.55);
+		drawFilledCube();
 	glPopMatrix();
+
 	glPushMatrix();                //Missle  (front cube for easy texture)
-	glTranslatef(0.6, 3.1, 0.18);
-	glScalef(0.2, 0.12, 0.02);
-	drawFilledCube();
+		glTranslatef(0.6, 3.1, 0.18);
+		glScalef(0.2, 0.12, 0.02);
+		drawFilledCube();
 	glPopMatrix();
+
 	glPushMatrix();                //back cube for easier texture
-	glTranslatef(0.6, 3.1, -0.02);
-	glScalef(0.2, 0.12, 0.18);
-	drawFilledCube();
+		glTranslatef(0.6, 3.1, -0.02);
+		glScalef(0.2, 0.12, 0.18);
+		drawFilledCube();
 	glPopMatrix();
 
 	glPushMatrix();                 //Second largest piece (Steep piece after largest piece)
-	glTranslatef(0.26, 2.78, 0.83);
-	glRotatef(28, 1.0, 0.0, 0.0);
-	glScalef(0.26, 0.02, 0.27);
-	drawFilledCube();
+		glTranslatef(0.26, 2.78, 0.83);
+		glRotatef(28, 1.0, 0.0, 0.0);
+		glScalef(0.26, 0.02, 0.27);
+		drawFilledCube();
 	glPopMatrix();
 
 	glPushMatrix();                 //Triangle piece beside second largest piece
-	glColor3f(1.0, 0.0, 0.0);
-	glTranslatef(0.52, 2.89, 0.58);
-	glRotatef(118, 1.0, 0.0, 0.0);
-	glScalef(0.4, 0.55, 0.45);
-	drawFilledTriangle();
+		glColor3f(1.0, 0.0, 0.0);
+		glTranslatef(0.52, 2.89, 0.58);
+		glRotatef(118, 1.0, 0.0, 0.0);
+		glScalef(0.4, 0.55, 0.45);
+		drawFilledTriangle();
 	glPopMatrix();
 
 	glPushMatrix();                 //Third piece
-	glTranslatef(0.2, 2.48, 1.12);
-	glRotatef(70, 1.0, 0.0, 0.0);
-	glScalef(0.2, 0.02, 0.19);
-	drawFilledCube();
+		glTranslatef(0.2, 2.48, 1.12);
+		glRotatef(70, 1.0, 0.0, 0.0);
+		glScalef(0.2, 0.02, 0.19);
+		drawFilledCube();
 	glPopMatrix();
 
 	glPushMatrix();                  //Triangle piece beside third piece
-	glColor3f(1.0, 0.0, 0.0);
-	glTranslatef(0.31, 2.66, 1.05);
-	glRotatef(160, 1.0, 0.0, 0.0);
-	glScalef(0.22, 0.38, 0.45);
-	drawFilledTriangle();
+		glColor3f(1.0, 0.0, 0.0);
+		glTranslatef(0.31, 2.66, 1.05);
+		glRotatef(160, 1.0, 0.0, 0.0);
+		glScalef(0.22, 0.38, 0.45);
+		drawFilledTriangle();
 	glPopMatrix();
 
 
 	glPushMatrix();                 //small cube piece at top right of laser
-	glTranslatef(0.2, 2.3, 1.19);
-	glRotatef(-10, 1.0, 0.0, 0.0);
-	glRotatef(46, 0.0, 0.0, 1.0);
-	glScalef(0.07, 0.07, 0.02);
-	drawFilledCube();
+		glTranslatef(0.2, 2.3, 1.19);
+		glRotatef(-10, 1.0, 0.0, 0.0);
+		glRotatef(46, 0.0, 0.0, 1.0);
+		glScalef(0.07, 0.07, 0.02);
+		drawFilledCube();
 	glPopMatrix();
 
 	glPushMatrix();                 //small cube piece at bottom right of laser
-	glTranslatef(0.2, 1.9, 1.19);
-	glRotatef(10, 1.0, 0.0, 0.0);
-	glRotatef(46, 0.0, 0.0, 1.0);
-	glScalef(0.07, 0.07, 0.02);
-	drawFilledCube();
+		glTranslatef(0.2, 1.9, 1.19);
+		glRotatef(10, 1.0, 0.0, 0.0);
+		glRotatef(46, 0.0, 0.0, 1.0);
+		glScalef(0.07, 0.07, 0.02);
+		drawFilledCube();
 	glPopMatrix();
 
 	glPushMatrix();                 //small piece at the right of laser
-	glTranslatef(0.3, 2.11, 1.17);
-	glRotatef(20, 0.0, 1.0, 0.0);
-	glScalef(0.1, 0.2, 0.01);
-	drawFilledCube();
+		glTranslatef(0.3, 2.11, 1.17);
+		glRotatef(20, 0.0, 1.0, 0.0);
+		glScalef(0.1, 0.2, 0.01);
+		drawFilledCube();
 	glPopMatrix();
 
 	glPushMatrix();                 //right piece beside the small piece beside laser
-	glTranslatef(0.5, 2.0, 1.08);
-	glRotatef(25, 0.0, 1.0, 0.0);
-	glScalef(0.15, 0.4, 0.01);
-	drawFilledCube();
+		glTranslatef(0.5, 2.0, 1.08);
+		glRotatef(25, 0.0, 1.0, 0.0);
+		glScalef(0.15, 0.4, 0.01);
+		drawFilledCube();
 	glPopMatrix();
+
 	glPushMatrix();               //horizontal piece of it
-	glTranslatef(0.36, 1.6, 1.13);
-	glRotatef(20, 0.0, 1.0, 0.0);
-	glRotatef(-75, 1.0, 0.0, 0.0);
-	glScalef(0.3, 0.45, 0.2);
-	drawFilledTriangle();
+		glTranslatef(0.36, 1.6, 1.13);
+		glRotatef(20, 0.0, 1.0, 0.0);
+		glRotatef(-75, 1.0, 0.0, 0.0);
+		glScalef(0.3, 0.45, 0.2);
+		drawFilledTriangle();
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(0.8, 2.13, 0.7);
-	glRotatef(60, 0.0, 1.0, 0.0);
-	glScalef(0.36, 0.55, 0.02);
-	drawFilledCube();
+		glTranslatef(0.8, 2.13, 0.7);
+		glRotatef(60, 0.0, 1.0, 0.0);
+		glScalef(0.36, 0.55, 0.02);
+		drawFilledCube();
 	glPopMatrix();
 
 	glPushMatrix();                //Left Side piece
-	glTranslatef(0.98, 1.9, 0.03);
-	glScalef(0.02, 0.3, 0.37);
-	drawFilledCube();
+		glTranslatef(0.98, 1.9, 0.03);
+		glScalef(0.02, 0.3, 0.37);
+		drawFilledCube();
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(0.83, 2.06, -0.45);
-	glRotatef(140, 0.0, 1.0, 0.0);
-	glScalef(0.2, 0.45, 0.02);
-	drawFilledCube();
+		glTranslatef(0.83, 2.06, -0.45);
+		glRotatef(140, 0.0, 1.0, 0.0);
+		glScalef(0.2, 0.45, 0.02);
+		drawFilledCube();
 	glPopMatrix();
 
 	//Right Upper Shoulder (with missle)
 	glPushMatrix();                 //Largest piece (Beside neck)
-	glTranslatef(-0.52, 3.0, 0.05);
-	glRotatef(10, 1.0, 0.0, 0.0);
-	glScalef(0.4, 0.02, 0.55);
-	drawFilledCube();
+		glTranslatef(-0.52, 3.0, 0.05);
+		glRotatef(10, 1.0, 0.0, 0.0);
+		glScalef(0.4, 0.02, 0.55);
+		drawFilledCube();
 	glPopMatrix();
+
 	glPushMatrix();                //Missle  (front cube for easy texture)
-	glTranslatef(-0.6, 3.1, 0.18);
-	glScalef(0.2, 0.12, 0.02);
-	drawFilledCube();
+		glTranslatef(-0.6, 3.1, 0.18);
+		glScalef(0.2, 0.12, 0.02);
+		drawFilledCube();
 	glPopMatrix();
+
 	glPushMatrix();                //back cube for easier texture
-	glTranslatef(-0.6, 3.1, -0.02);
-	glScalef(0.2, 0.12, 0.18);
-	drawFilledCube();
+		glTranslatef(-0.6, 3.1, -0.02);
+		glScalef(0.2, 0.12, 0.18);
+		drawFilledCube();
 	glPopMatrix();
 
 	glPushMatrix();                 //Second largest piece  (After largest piece)
-	glTranslatef(-0.26, 2.78, 0.83);
-	glRotatef(28, 1.0, 0.0, 0.0);
-	glScalef(0.26, 0.02, 0.27);
-	drawFilledCube();
+		glTranslatef(-0.26, 2.78, 0.83);
+		glRotatef(28, 1.0, 0.0, 0.0);
+		glScalef(0.26, 0.02, 0.27);
+		drawFilledCube();
 	glPopMatrix();
 
 	glPushMatrix();                //Triangle piece beside second largest piece
-	glColor3f(1.0, 0.0, 0.0);
-	glTranslatef(-0.52, 2.94, 0.59);
-	glRotatef(118, 1.0, 0.0, 0.0);
-	glRotatef(180, 0.0, 1.0, 0.0);
-	glScalef(0.41, 0.55, 0.45);
-	drawFilledTriangle();
+		glColor3f(1.0, 0.0, 0.0);
+		glTranslatef(-0.52, 2.94, 0.59);
+		glRotatef(118, 1.0, 0.0, 0.0);
+		glRotatef(180, 0.0, 1.0, 0.0);
+		glScalef(0.41, 0.55, 0.45);
+		drawFilledTriangle();
 	glPopMatrix();
 
 
 	glPushMatrix();                 //Third piece
-	glTranslatef(-0.2, 2.48, 1.12);
-	glRotatef(70, 1.0, 0.0, 0.0);
-	glScalef(0.2, 0.02, 0.19);
-	drawFilledCube();
+		glTranslatef(-0.2, 2.48, 1.12);
+		glRotatef(70, 1.0, 0.0, 0.0);
+		glScalef(0.2, 0.02, 0.19);
+		drawFilledCube();
 	glPopMatrix();
 
 	glPushMatrix();                 //Triangle piece beside third piece
-	glColor3f(1.0, 0.0, 0.0);
-	glTranslatef(-0.32, 2.68, 1.08);
-	glRotatef(160, 1.0, 0.0, 0.0);
-	glRotatef(180, 0.0, 1.0, 0.0);
-	glScalef(0.21, 0.38, 0.45);
-	drawFilledTriangle();
+		glColor3f(1.0, 0.0, 0.0);
+		glTranslatef(-0.32, 2.68, 1.08);
+		glRotatef(160, 1.0, 0.0, 0.0);
+		glRotatef(180, 0.0, 1.0, 0.0);
+		glScalef(0.21, 0.38, 0.45);
+		drawFilledTriangle();
 	glPopMatrix();
 
 	glPushMatrix();                 //small cube piece at top left of laser
-	glTranslatef(-0.2, 2.3, 1.19);
-	glRotatef(-10, 1.0, 0.0, 0.0);
-	glRotatef(46, 0.0, 0.0, 1.0);
-	glScalef(0.07, 0.07, 0.02);
-	drawFilledCube();
+		glTranslatef(-0.2, 2.3, 1.19);
+		glRotatef(-10, 1.0, 0.0, 0.0);
+		glRotatef(46, 0.0, 0.0, 1.0);
+		glScalef(0.07, 0.07, 0.02);
+		drawFilledCube();
 	glPopMatrix();
 
 	glPushMatrix();                 //small cube piece at bottom left of laser
-	glTranslatef(-0.2, 1.9, 1.19);
-	glRotatef(10, 1.0, 0.0, 0.0);
-	glRotatef(46, 0.0, 0.0, 1.0);
-	glScalef(0.07, 0.07, 0.02);
-	drawFilledCube();
+		glTranslatef(-0.2, 1.9, 1.19);
+		glRotatef(10, 1.0, 0.0, 0.0);
+		glRotatef(46, 0.0, 0.0, 1.0);
+		glScalef(0.07, 0.07, 0.02);
+		drawFilledCube();
 	glPopMatrix();
 
 	glPushMatrix();                 //small piece at the left of laser
-	glTranslatef(-0.3, 2.11, 1.17);
-	glRotatef(-20, 0.0, 1.0, 0.0);
-	glScalef(0.1, 0.2, 0.01);
-	drawFilledCube();
+		glTranslatef(-0.3, 2.11, 1.17);
+		glRotatef(-20, 0.0, 1.0, 0.0);
+		glScalef(0.1, 0.2, 0.01);
+		drawFilledCube();
 	glPopMatrix();
 
 	glPushMatrix();                 //left piece beside the small piece beside laser
-	glTranslatef(-0.5, 2.0, 1.08);
-	glRotatef(-25, 0.0, 1.0, 0.0);
-	glScalef(0.15, 0.4, 0.01);
-	drawFilledCube();
-	glPopMatrix();
-	glPushMatrix();               //horizontal piece of it
-	glTranslatef(-0.36, 1.58, 1.13);
-	glRotatef(-20, 0.0, 1.0, 0.0);
-	glRotatef(105, 1.0, 0.0, 0.0);
-	glRotatef(180, 0.0, 0.0, 1.0);
-	glScalef(0.3, 0.45, 0.2);
-	drawFilledTriangle();
+		glTranslatef(-0.5, 2.0, 1.08);
+		glRotatef(-25, 0.0, 1.0, 0.0);
+		glScalef(0.15, 0.4, 0.01);
+		drawFilledCube();
+		glPopMatrix();
+		glPushMatrix();               //horizontal piece of it
+		glTranslatef(-0.36, 1.58, 1.13);
+		glRotatef(-20, 0.0, 1.0, 0.0);
+		glRotatef(105, 1.0, 0.0, 0.0);
+		glRotatef(180, 0.0, 0.0, 1.0);
+		glScalef(0.3, 0.45, 0.2);
+		drawFilledTriangle();
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(-0.8, 2.13, 0.7);
-	glRotatef(-60, 0.0, 1.0, 0.0);
-	glScalef(0.36, 0.55, 0.02);
-	drawFilledCube();
+		glTranslatef(-0.8, 2.13, 0.7);
+		glRotatef(-60, 0.0, 1.0, 0.0);
+		glScalef(0.36, 0.55, 0.02);
+		drawFilledCube();
 	glPopMatrix();
 
 	glPushMatrix();                //Right Side piece
-	glTranslatef(-0.98, 1.9, 0.03);
-	glScalef(0.02, 0.3, 0.37);
-	drawFilledCube();
+		glTranslatef(-0.98, 1.9, 0.03);
+		glScalef(0.02, 0.3, 0.37);
+		drawFilledCube();
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(-0.83, 2.06, -0.45);
-	glRotatef(-140, 0.0, 1.0, 0.0);
-	glScalef(0.2, 0.45, 0.02);
-	drawFilledCube();
+		glTranslatef(-0.83, 2.06, -0.45);
+		glRotatef(-140, 0.0, 1.0, 0.0);
+		glScalef(0.2, 0.45, 0.02);
+		drawFilledCube();
 	glPopMatrix();
 
 	//Laser side
 	glPushMatrix();                 //small piece at the bottom of laser (steep)
-	glTranslatef(0.0, 1.8, 1.14);
-	glRotatef(30, 1.0, 0.0, 0.0);
-	glScalef(0.2, 0.12, 0.01);
-	drawFilledCube();
+		glTranslatef(0.0, 1.8, 1.14);
+		glRotatef(30, 1.0, 0.0, 0.0);
+		glScalef(0.2, 0.12, 0.01);
+		drawFilledCube();
 	glPopMatrix();
 
 	glPushMatrix();                 //small piece at the bottom of laser (horizontal)
-	glTranslatef(0.0, 1.7, 0.9);
-	glScalef(0.2, 0.02, 0.2);
-	drawFilledCube();
+		glTranslatef(0.0, 1.7, 0.9);
+		glScalef(0.2, 0.02, 0.2);
+		drawFilledCube();
 	glPopMatrix();
 }
 
@@ -1717,20 +1754,45 @@ void jaegerRobot()
 	glRotatef(90, 1.0, 0.0, 0.0);
 
 	//Inner part of robot
-	drawInnerRobotPart();
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		loadBitmapImage("textureImage/darkMetal_inner.bmp");
+		drawInnerRobotPart();
+		endTexture();
+	glPopMatrix();
 
 	//Backbone part
-	drawBackBone();
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		loadBitmapImage("textureImage/chrome_backbone.bmp");
+		drawBackBone();
+		endTexture();
+	glPopMatrix();
 
 	// Armor part
-	drawFrontArmour();
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		loadBitmapImage("textureImage/blue_armor.bmp");
+		drawFrontArmour();
+		endTexture();
+	glPopMatrix();
 
 	//Front Belly
-	drawFrontBelly();
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		loadBitmapImage("textureImage/blue_armor.bmp");
+		drawFrontBelly();
+		endTexture();
+	glPopMatrix();
 
 	//Leg part
-	drawLeftLeg();
-	drawRightLeg();
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		loadBitmapImage("textureImage/blue_armor.bmp");
+		drawLeftLeg();
+		drawRightLeg();
+		endTexture();
+	glPopMatrix();
 
 	//Testing Area
 
@@ -1803,6 +1865,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 	glLoadIdentity();
 	gluPerspective(70.0, 1, 0.1, 60.0);
 
+	//Enable texture
+
+
 	while (true)
 	{
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
@@ -1839,4 +1904,3 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 //Cautions
 // 1. Rememeber to remove the color in drawFilledCube
 // 2. How to rotate automatically in glPushMatrix for ironman reactor
-//3. webhook 2
