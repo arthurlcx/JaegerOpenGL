@@ -292,12 +292,93 @@ void drawCircle(float radius)
 
 void drawInnerLeftHand()
 {
+	glPushMatrix();            //Horizontal cylinder connect body and left hand
+		glTranslatef(0.9, 2.5, 0.0);
+		glRotatef(90, 0.0, 1.0, 0.0);
+		drawCylinder(0.2, 0.2, 0.8, 50, 50);
+	glPopMatrix();
 
+	glPushMatrix();            //First top vertical cylinder
+		glTranslatef(1.65, 2.8, 0.0);
+		glRotatef(90, 1.0, 0.0, 0.0);
+		drawCylinder(0.2, 0.2, 0.7, 50, 50);
+	glPopMatrix();
+
+	glPushMatrix();            //Cube between elbow and shoulder (arm)
+		glTranslatef(1.65, 1.8, 0.0);
+		glScalef(0.2, 0.4, 0.2);
+		drawFilledCube1();
+	glPopMatrix();
+
+	glPushMatrix();            //Left elbow
+		glTranslatef(1.4, 1.2, 0.0);
+		glRotatef(90, 0.0, 1.0, 0.0);
+		drawCylinder(0.2, 0.2, 0.5, 50, 50);
+	glPopMatrix();
+
+	glPushMatrix();            //Cube between elbow and palm (forearm)
+		glTranslatef(1.65, 0.36, 0.0);
+		glScalef(0.17, 0.65, 0.17);
+		drawFilledCube1();
+	glPopMatrix();
+
+	glPushMatrix();            //cylinder between forearm and palm (wrist)
+		glTranslatef(1.65, -0.20, -0.0);
+	    glScalef(1.0, 1.0, 1.5);
+		glRotatef(90, 1.0, 0.0, 0.0);
+		drawCylinder(0.14, 0.08, 0.3, 50, 50);
+	glPopMatrix();
+
+	glPushMatrix();           //Palm
+		glTranslatef(1.65, -0.7, 0.0);
+		glScalef(0.05, 0.2, 0.2);
+		drawFilledCube1();
+	glPopMatrix();
 }
 
 void drawInnerRightHand()
 {
+	glPushMatrix();            //Horizontal cylinder connect body and right hand
+		glTranslatef(-0.9, 2.5, 0.0);
+		glRotatef(-90, 0.0, 1.0, 0.0);
+		drawCylinder(0.2, 0.2, 0.8, 50, 50);
+	glPopMatrix();
 
+	glPushMatrix();            //First top vertical cylinder
+		glTranslatef(-1.65, 2.8, 0.0);
+		glRotatef(90, 1.0, 0.0, 0.0);
+		drawCylinder(0.2, 0.2, 0.7, 50, 50);
+	glPopMatrix();
+
+	glPushMatrix();             //Cube between elbow and shoulder
+		glTranslatef(-1.65, 1.8, 0.0);
+		glScalef(0.2, 0.4, 0.2);
+		drawFilledCube1();
+	glPopMatrix();
+
+	glPushMatrix();            //Right elbow
+		glTranslatef(-1.4, 1.2, 0.0);
+		glRotatef(-90, 0.0, 1.0, 0.0);
+		drawCylinder(0.2, 0.2, 0.5, 50, 50);
+	glPopMatrix();
+
+	glPushMatrix();            //Cube between elbow and palm (forearm)
+		glTranslatef(-1.65, 0.36, 0.0);
+		glScalef(0.17, 0.65, 0.17);
+		drawFilledCube1();
+	glPopMatrix();
+
+	glPushMatrix();            //cylinder between forearm and palm (wrist)
+		glTranslatef(-1.65, -0.20, -0.0);
+		glScalef(1.0, 1.0, 1.5);
+		glRotatef(90, 1.0, 0.0, 0.0);
+		drawCylinder(0.14, 0.08, 0.3, 50, 50);
+	glPopMatrix();
+	glPushMatrix();           //Palm
+		glTranslatef(-1.65, -0.7, 0.0);
+		glScalef(0.05, 0.2, 0.2);
+		drawFilledCube1();
+	glPopMatrix();
 }
 
 void drawInnerLeftLeg()
@@ -1187,6 +1268,963 @@ void drawFrontBelly()
 	glPopMatrix();
 }
 
+void drawLeftHand()
+{
+//Shoulder outside armor
+	glPushMatrix();         //Top horizontal 
+		glTranslatef(1.65, 3.0, 0.0);
+		glScalef(0.3, 0.02, 0.25);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Inside steep part (right of top horizontal)
+	glPushMatrix();          
+		glTranslatef(1.295, 2.87, 0.0);
+		glRotatef(65, 0.0, 0.0, 1.0);
+		glScalef(0.15, 0.02, 0.25);
+		drawFilledCube();
+	glPopMatrix();
+	glPushMatrix();         // inside small horizontal 
+		glTranslatef(1.13, 2.75, 0.0);
+		glScalef(0.12, 0.02, 0.25);
+		drawFilledCube();
+	glPopMatrix();
+
+	glPushMatrix();          //Front piece infront horizontal and back piece
+		glTranslatef(1.19, 2.5, 0.31);
+		glRotatef(-26, 0.0, 1.0, 0.0);
+		glScalef(0.2, 0.25, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+	glPushMatrix();          
+		glTranslatef(1.19, 2.5, -0.31);
+		glRotatef(26, 0.0, 1.0, 0.0);
+		glScalef(0.2, 0.25, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Front steep infront horizontal 
+	glPushMatrix();         
+		glTranslatef(1.65, 2.957, 0.319);
+		glRotatef(30, 1.0, 0.0, 0.0);
+		glScalef(0.3, 0.02, 0.1);
+		drawFilledCube();
+	glPopMatrix();
+	glPushMatrix();         //Front vertical after steep
+		glTranslatef(1.65, 2.58, 0.395);
+		glScalef(0.3, 0.35, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Between front and outside
+	glPushMatrix();
+		glTranslatef(2.02, 2.864, 0.3);
+		glRotatef(50, 0.0, 1.0, 0.0);
+		glRotatef(-50, 1.0, 0.0, 0.0);
+		glScalef(0.12, 0.12, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Outside steep part (Left of top horizontal) 
+	glPushMatrix();         
+		glTranslatef(2.06, 2.905, 0.0);
+		glRotatef(-40, 0.0, 0.0, 1.0);
+		glScalef(0.16, 0.02, 0.25);
+		drawFilledCube();
+	glPopMatrix();
+	glPushMatrix();
+		glTranslatef(2.22, 2.7, 0.0);
+		glRotatef(-70, 0.0, 0.0, 1.0);
+		glScalef(0.12, 0.02, 0.14);
+		drawFilledCube();
+	glPopMatrix();
+	glPushMatrix();           //Front triangle
+		glTranslatef(2.17, 2.81, 0.145);
+		glRotatef(-70, 0.0, 0.0, 1.0);
+		glRotatef(90, 1.0, 0.0, 0.0);
+		glScalef(0.23, 0.12, 0.3);
+		drawFilledTriangle();
+	glPopMatrix();
+	glPushMatrix();           //Back triangle
+		glTranslatef(2.21, 2.81, -0.13);
+		glRotatef(-70, 0.0, 0.0, 1.0);
+		glRotatef(-90, 1.0, 0.0, 0.0);
+		glScalef(0.23, 0.12, 0.3);
+		drawFilledTriangle();
+	glPopMatrix();
+
+	//Between front and outside
+	glPushMatrix();
+		glTranslatef(2.02, 2.864, -0.3);
+		glRotatef(-50, 0.0, 1.0, 0.0);
+		glRotatef(50, 1.0, 0.0, 0.0);
+		glScalef(0.12, 0.12, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Back steep behind horizontal 
+	glPushMatrix();
+		glTranslatef(1.65, 2.957, -0.319);
+		glRotatef(-30, 1.0, 0.0, 0.0);
+		glScalef(0.3, 0.02, 0.1);
+		drawFilledCube();
+	glPopMatrix();
+	glPushMatrix();         //Front vertical after steep
+		glTranslatef(1.65, 2.58, -0.395);
+		glScalef(-0.3, 0.35, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+
+
+
+//Inside Shoulder to arm
+	glPushMatrix();          //Top horizontal part (Shoulder)
+		glTranslatef(1.65, 2.9, 0.0);
+		glScalef(0.2, 0.03, 0.2);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Front
+	glPushMatrix();          //Front steep (Shoulder) 
+		glTranslatef(1.65, 2.86, 0.25);
+		glRotatef(-50, 1.0, 0.0, 0.0);
+		glScalef(0.20, 0.08, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+	glPushMatrix();         // Front vertical cube (Arm - biceps)
+		glTranslatef(1.65, 2.12, 0.31);
+		glScalef(0.20, 0.7, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Between Front and outside y steep piece
+	glPushMatrix();
+		glTranslatef(1.9, 2.12, 0.25);
+		glRotatef(45, 0.0, 1.0, 0.0);
+		glScalef(0.09, 0.7, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Outside
+	glPushMatrix();          //Outside steep (Shoulder) 
+		glTranslatef(1.9, 2.86, 0.0);
+		glRotatef(50, 0.0, 0.0, 1.0);
+		glScalef(0.02, 0.08, 0.20);
+		drawFilledCube();
+	glPopMatrix();
+	glPushMatrix();         // Outside vertical cube (Arm - biceps)
+		glTranslatef(1.95, 2.12, 0.0);
+		glScalef(0.02, 0.7, 0.20);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Between Front and outside y steep piece
+	glPushMatrix();
+		glTranslatef(1.9, 2.12, -0.25);
+		glRotatef(-45, 0.0, 1.0, 0.0);
+		glScalef(0.09, 0.7, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Back
+	glPushMatrix();          //Back steep (Shoulder) 
+		glTranslatef(1.65, 2.86, -0.25);
+		glRotatef(50, 1.0, 0.0, 0.0);
+		glScalef(0.20, 0.08, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+	glPushMatrix();         // Back vertical cube (Arm - biceps)
+		glTranslatef(1.65, 2.12, -0.31);
+		glScalef(0.20, 0.7, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Between Back and inside y steep piece
+	glPushMatrix();
+		glTranslatef(1.4, 2.12, -0.25);
+		glRotatef(45, 0.0, 1.0, 0.0);
+		glScalef(0.09, 0.7, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Inside
+	glPushMatrix();          //Inside steep (Shoulder) 
+		glTranslatef(1.4, 2.86, 0.0);
+		glRotatef(-50, 0.0, 0.0, 1.0);
+		glScalef(0.02, 0.08, 0.20);
+		drawFilledCube();
+	glPopMatrix();
+	glPushMatrix();         // Inside vertical cube (Arm - biceps)
+		glTranslatef(1.35, 1.82, 0.0);
+		glScalef(0.02, 0.4, 0.20);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Between inside and front y steep piece
+	glPushMatrix();
+		glTranslatef(1.4, 2.12, 0.25);
+		glRotatef(-45, 0.0, 1.0, 0.0);
+		glScalef(0.09, 0.7, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+
+//Forearm
+	//Front
+	glPushMatrix();         //Front steep (Forearm)
+		glTranslatef(1.65, 0.98, 0.22);
+		glRotatef(-30, 1.0, 0.0, 0.0);
+		glScalef(0.18, 0.08, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+	glPushMatrix();         // Front vertical cube (Forearm)
+		glTranslatef(1.65, 0.31, 0.26);
+		glScalef(0.18, 0.61, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Between Front and outside y steep piece (forearm)
+	glPushMatrix();
+		glTranslatef(1.885, 0.31, 0.219);
+		glRotatef(35, 0.0, 1.0, 0.0);
+		glScalef(0.08, 0.61, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Outside
+	glPushMatrix();           //Outside steep (back triangle)
+		glTranslatef(1.97, 0.92, -0.05);
+		glRotatef(90, 0.0, 1.0, 0.0);
+		glScalef(0.14, 0.4, 0.5);
+		drawFilledTriangle();
+	glPopMatrix();
+	glPushMatrix();         // Outside steep (middle cube)
+		glTranslatef(1.95, 1.12, 0.0);
+		glScalef(0.02, 0.2, 0.05);
+		drawFilledCube();
+	glPopMatrix();
+	glPushMatrix();           //Outside steep (front triangle)
+		glTranslatef(1.92, 0.92, 0.05);
+		glRotatef(-90, 0.0, 1.0, 0.0);
+		glScalef(0.14, 0.4, 0.5);
+		drawFilledTriangle();
+	glPopMatrix();
+	glPushMatrix();         // Outside vertical cube (Forearm)
+		glTranslatef(1.95, 0.31, 0.0);
+		glScalef(0.02, 0.61, 0.18);
+		drawFilledCube();
+	glPopMatrix();
+
+
+	//Between Outside and back y steep piece (forearm)
+	glPushMatrix();
+		glTranslatef(1.885, 0.31, -0.219);
+		glRotatef(-35, 0.0, 1.0, 0.0);
+		glScalef(0.08, 0.61, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Back
+	glPushMatrix();         //Back steep (Forearm)
+		glTranslatef(1.65, 0.98, -0.22);
+		glRotatef(30, 1.0, 0.0, 0.0);
+		glScalef(0.18, 0.08, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+	glPushMatrix();         //Back vertical cube (Forearm)
+		glTranslatef(1.65, 0.31, -0.26);
+		glScalef(0.18, 0.61, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Between Back and inside y steep piece (forearm)
+	glPushMatrix();
+		glTranslatef(1.407, 0.31, -0.219);
+		glRotatef(35, 0.0, 1.0, 0.0);
+		glScalef(0.08, 0.61, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Inside
+	glPushMatrix();          //Inside steep (Forearm) 
+		glTranslatef(1.39, 0.98, 0.0);
+		glRotatef(-30, 0.0, 0.0, 1.0);
+		glScalef(0.02, 0.08, 0.18);
+		drawFilledCube();
+	glPopMatrix();
+	glPushMatrix();         // Inside vertical cube (Forearm)
+		glTranslatef(1.35, 0.31, 0.0);
+		glScalef(0.02, 0.61, 0.18);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Between Inside and Front y steep piece (forearm)
+	glPushMatrix();
+		glTranslatef(1.407, 0.31, 0.219);
+		glRotatef(-35, 0.0, 1.0, 0.0);
+		glScalef(0.08, 0.61, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+
+}
+
+void drawLeftHandPalm()
+{
+//Wrist
+	glPushMatrix();       //Front piece
+		glTranslatef(1.65, -0.4, 0.25);
+		glScalef(0.15, 0.09, 0.015);
+		drawFilledCube();
+	glPopMatrix();
+
+	glPushMatrix();       //Outside piece
+		glTranslatef(1.8, -0.4, 0.0);
+		glScalef(0.015, 0.09, 0.24);
+		drawFilledCube();
+	glPopMatrix();
+
+	glPushMatrix();       //Back piece
+		glTranslatef(1.65, -0.4, -0.25);
+		glScalef(0.15, 0.09, 0.015);
+		drawFilledCube();
+	glPopMatrix();
+
+	glPushMatrix();       //Inside piece
+		glTranslatef(1.5, -0.4, 0.0);
+		glScalef(0.015, 0.09, 0.24);
+		drawFilledCube();
+	glPopMatrix();
+
+//Palm
+	glPushMatrix();        //Outside
+		glTranslatef(1.7, -0.7, 0.0);
+		glScalef(0.03, 0.22, 0.25);
+		drawFilledCube();
+	glPopMatrix();
+	glPushMatrix();        //Inside
+		glTranslatef(1.57, -0.7, 0.0);
+		glScalef(0.03, 0.22, 0.25);
+		drawFilledCube();
+	glPopMatrix();
+
+//Finger
+	//Thumb
+	glPushMatrix();            
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(1.63, -0.7, 0.28);
+		glRotatef(-30, 1.0, 0.0, 0.0);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+	glPushMatrix();            //small sphere (circle bone)
+		glTranslatef(1.62, -0.816, 0.345);
+		drawSphere(0.04, 60, 60);
+	glPopMatrix();
+	glPushMatrix();
+		glTranslatef(1.55, -0.92, 0.39);
+		glRotatef(-30, 0.0, 0.0, 1.0);
+		glRotatef(-20, 1.0, 0.0, 0.0);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+
+	//Index Finger
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(1.63, -1.0, 0.2);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+	glPushMatrix();            //small sphere (circle bone)
+		glTranslatef(1.62, -1.12, 0.2);
+		drawSphere(0.04, 60, 60);
+	glPopMatrix();
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(1.58, -1.25, 0.2);
+		glRotatef(-20, 0.0, 0.0, 1.0);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+	glPushMatrix();            //small sphere (circle bone)
+		glTranslatef(1.54, -1.36, 0.2);
+		drawSphere(0.04, 60, 60);
+	glPopMatrix();
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(1.45, -1.45, 0.2);
+		glRotatef(-50, 0.0, 0.0, 1.0);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+
+	//Middle Finger
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(1.63, -1.0, 0.06);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+	glPushMatrix();            //small sphere (circle bone)
+		glTranslatef(1.62, -1.12, 0.06);
+		drawSphere(0.04, 60, 60);
+	glPopMatrix();
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(1.58, -1.25, 0.06);
+		glRotatef(-20, 0.0, 0.0, 1.0);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+	glPushMatrix();            //small sphere (circle bone)
+		glTranslatef(1.54, -1.36, 0.06);
+		drawSphere(0.04, 60, 60);
+	glPopMatrix();
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(1.45, -1.45, 0.06);
+		glRotatef(-50, 0.0, 0.0, 1.0);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+
+	//Ring Finger
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(1.63, -1.0, -0.08);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+	glPushMatrix();            //small sphere (circle bone)
+		glTranslatef(1.62, -1.12, -0.08);
+		drawSphere(0.04, 60, 60);
+	glPopMatrix();
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(1.58, -1.25, -0.08);
+		glRotatef(-20, 0.0, 0.0, 1.0);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+	glPushMatrix();            //small sphere (circle bone)
+		glTranslatef(1.54, -1.36, -0.08);
+		drawSphere(0.04, 60, 60);
+	glPopMatrix();
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(1.45, -1.45, -0.08);
+		glRotatef(-50, 0.0, 0.0, 1.0);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+
+	//Pinky Finger
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(1.63, -1.0, -0.22);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+	glPushMatrix();            //small sphere (circle bone)
+		glTranslatef(1.62, -1.12, -0.22);
+		drawSphere(0.04, 60, 60);
+	glPopMatrix();
+		glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(1.58, -1.25, -0.22);
+		glRotatef(-20, 0.0, 0.0, 1.0);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+	glPushMatrix();            //small sphere (circle bone)
+		glTranslatef(1.54, -1.36, -0.22);
+		drawSphere(0.04, 60, 60);
+	glPopMatrix();
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(1.45, -1.45, -0.22);
+		glRotatef(-50, 0.0, 0.0, 1.0);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+}
+
+void drawRightHand()
+{
+//Shoulder outside armor
+	glPushMatrix();         //Top horizontal 
+		glTranslatef(-1.65, 3.0, 0.0);
+		glScalef(0.3, 0.02, 0.25);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Inside steep part (right of top horizontal)
+	glPushMatrix();          
+		glTranslatef(-1.295, 2.87, 0.0);
+		glRotatef(-65, 0.0, 0.0, 1.0);
+		glScalef(0.15, 0.02, 0.25);
+		drawFilledCube();
+	glPopMatrix();
+	glPushMatrix();
+		glTranslatef(-1.13, 2.75, 0.0);
+		glScalef(0.12, 0.02, 0.25);
+		drawFilledCube();
+	glPopMatrix();
+
+	glPushMatrix();          //Front piece infront horizontal and back also
+		glTranslatef(-1.19, 2.5, 0.31);
+		glRotatef(26, 0.0, 1.0, 0.0);
+		glScalef(0.2, 0.25, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+	glPushMatrix();
+		glTranslatef(-1.19, 2.5, -0.31);
+		glRotatef(-26, 0.0, 1.0, 0.0);
+		glScalef(0.2, 0.25, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Front steep infront horizontal 
+	glPushMatrix();         
+		glTranslatef(-1.65, 2.957, 0.319);
+		glRotatef(30, 1.0, 0.0, 0.0);
+		glScalef(0.3, 0.02, 0.1);
+		drawFilledCube();
+	glPopMatrix();
+	glPushMatrix();         //Front vertical after steep
+		glTranslatef(-1.65, 2.58, 0.395);
+		glScalef(0.3, 0.35, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Between front and outside piece
+	glPushMatrix();
+		glTranslatef(-2.02, 2.864, 0.3);
+		glRotatef(-50, 0.0, 1.0, 0.0);
+		glRotatef(-50, 1.0, 0.0, 0.0);
+		glScalef(0.12, 0.12, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Outside steep part (Left of top horizontal)
+	glPushMatrix();          
+		glTranslatef(-2.06, 2.905, 0.0);
+		glRotatef(40, 0.0, 0.0, 1.0);
+		glScalef(0.16, 0.02, 0.25);
+		drawFilledCube();
+	glPopMatrix();
+	glPushMatrix();
+		glTranslatef(-2.22, 2.7, 0.0);
+		glRotatef(70, 0.0, 0.0, 1.0);
+		glScalef(0.12, 0.02, 0.14);
+		drawFilledCube();
+	glPopMatrix();
+	glPushMatrix();           //Front triangle
+		glTranslatef(-2.2, 2.81, 0.145);
+		glRotatef(-110, 0.0, 0.0, 1.0);
+		glRotatef(90, 1.0, 0.0, 0.0);
+		glScalef(0.23, 0.12, 0.3);
+		drawFilledTriangle();
+	glPopMatrix();
+	glPushMatrix();           //Back triangle
+		glTranslatef(-2.175, 2.79, -0.13);
+		glRotatef(-110, 0.0, 0.0, 1.0);
+		glRotatef(-90, 1.0, 0.0, 0.0);
+		glScalef(0.23, 0.12, 0.3);
+		drawFilledTriangle();
+	glPopMatrix();
+
+	//Between front and outside
+	glPushMatrix();
+		glTranslatef(-2.02, 2.864, -0.3);
+		glRotatef(50, 0.0, 1.0, 0.0);
+		glRotatef(50, 1.0, 0.0, 0.0);
+		glScalef(0.12, 0.12, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Back steep behind horizontal 
+	glPushMatrix();
+		glTranslatef(-1.65, 2.957, -0.319);
+		glRotatef(-30, 1.0, 0.0, 0.0);
+		glScalef(0.3, 0.02, 0.1);
+		drawFilledCube();
+	glPopMatrix();
+	glPushMatrix();         //Front vertical after steep
+		glTranslatef(-1.65, 2.58, -0.395);
+		glScalef(-0.3, 0.35, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+
+//Shoulder to arm
+	glPushMatrix();          //Top horizontal part (Shoulder)
+		glTranslatef(-1.65, 2.9, 0.0);
+		glScalef(0.2, 0.03, 0.2);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Front
+	glPushMatrix();          //Front steep (Shoulder) 
+		glTranslatef(-1.65, 2.86, 0.25);
+		glRotatef(-50, 1.0, 0.0, 0.0);
+		glScalef(0.20, 0.08, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+	glPushMatrix();         // Front vertical cube (Arm - biceps)
+		glTranslatef(-1.65, 2.12, 0.31);
+		glScalef(0.20, 0.7, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+
+	// Between Front and outside y steep piece
+	glPushMatrix();
+	glTranslatef(-1.9, 2.12, 0.25);
+	glRotatef(-45, 0.0, 1.0, 0.0);
+	glScalef(0.09, 0.7, 0.02);
+	drawFilledCube();
+	glPopMatrix();
+
+	//Outside
+	glPushMatrix();          //Front steep (Shoulder) 
+		glTranslatef(-1.9, 2.86, 0.0);
+		glRotatef(-50, 0.0, 0.0, 1.0);
+		glScalef(0.02, 0.08, 0.20);
+		drawFilledCube();
+	glPopMatrix();
+	glPushMatrix();         // Front vertical cube (Arm - biceps)
+		glTranslatef(-1.95, 2.12, 0.0);
+		glScalef(0.02, 0.7, 0.20);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Between Front and outside y steep piece
+	glPushMatrix();
+	glTranslatef(-1.9, 2.12, -0.25);
+	glRotatef(45, 0.0, 1.0, 0.0);
+	glScalef(0.09, 0.7, 0.02);
+	drawFilledCube();
+	glPopMatrix();
+
+	//Back
+	glPushMatrix();          //Back steep (Shoulder) 
+		glTranslatef(-1.65, 2.86, -0.25);
+		glRotatef(50, 1.0, 0.0, 0.0);
+		glScalef(0.20, 0.08, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+	glPushMatrix();         // Back vertical cube (Arm - biceps)
+		glTranslatef(-1.65, 2.12, -0.31);
+		glScalef(0.20, 0.7, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Between Back and inside y steep piece
+	glPushMatrix();
+		glTranslatef(-1.4, 2.12, -0.25);
+		glRotatef(-45, 0.0, 1.0, 0.0);
+		glScalef(0.09, 0.7, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Inside
+	glPushMatrix();          //Front steep (Shoulder) 
+		glTranslatef(-1.4, 2.86, 0.0);
+		glRotatef(50, 0.0, 0.0, 1.0);
+		glScalef(0.02, 0.08, 0.20);
+		drawFilledCube();
+	glPopMatrix();
+	glPushMatrix();         // Front vertical cube (Arm - biceps)
+		glTranslatef(-1.35, 1.82, 0.0);
+		glScalef(0.02, 0.4, 0.20);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Between inside and front y steep piece
+	glPushMatrix();
+		glTranslatef(-1.4, 2.12, 0.25);
+		glRotatef(45, 0.0, 1.0, 0.0);
+		glScalef(0.09, 0.7, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+
+//Forearm
+	//Front
+	glPushMatrix();         //Front steep (Forearm)
+		glTranslatef(-1.65, 0.98, 0.22);
+		glRotatef(-30, 1.0, 0.0, 0.0);
+		glScalef(0.18, 0.08, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+	glPushMatrix();         // Front vertical cube (Forearm)
+		glTranslatef(-1.65, 0.31, 0.26);
+		glScalef(0.18, 0.61, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Between Front and outside y steep piece (forearm)
+	glPushMatrix();
+		glTranslatef(-1.885, 0.31, 0.219);
+		glRotatef(-35, 0.0, 1.0, 0.0);
+		glScalef(0.08, 0.61, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Outside
+	glPushMatrix();           //Outside steep (back triangle)
+		glTranslatef(-1.97, 0.92, 0.05);
+		glRotatef(-90, 0.0, 1.0, 0.0);
+		glScalef(0.14, 0.4, 0.5);
+		drawFilledTriangle();
+	glPopMatrix();
+	glPushMatrix();         // Outside steep (middle cube)
+		glTranslatef(-1.95, 1.12, 0.0);
+		glScalef(0.02, 0.2, 0.05);
+		drawFilledCube();
+	glPopMatrix();
+	glPushMatrix();           //Outside steep (front triangle)
+		glTranslatef(-1.92, 0.92, -0.05);
+		glRotatef(90, 0.0, 1.0, 0.0);
+		glScalef(0.14, 0.4, 0.5);
+		drawFilledTriangle();
+	glPopMatrix();
+	glPushMatrix();         // Outside vertical cube (Forearm)
+		glTranslatef(-1.95, 0.31, 0.0);
+		glScalef(0.02, 0.61, 0.18);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Between Outside and back y steep piece (forearm)
+	glPushMatrix();
+		glTranslatef(-1.885, 0.31, -0.219);
+		glRotatef(35, 0.0, 1.0, 0.0);
+		glScalef(0.08, 0.61, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Back
+	glPushMatrix();         //Back steep (Forearm)
+		glTranslatef(-1.65, 0.98, -0.22);
+		glRotatef(30, 1.0, 0.0, 0.0);
+		glScalef(0.18, 0.08, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+	glPushMatrix();         //Back vertical cube (Forearm)
+		glTranslatef(-1.65, 0.31, -0.26);
+		glScalef(0.18, 0.61, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Between Back and inside y steep piece (forearm)
+	glPushMatrix();
+		glTranslatef(-1.407, 0.31, -0.219);
+		glRotatef(-35, 0.0, 1.0, 0.0);
+		glScalef(0.08, 0.61, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Inside
+	glPushMatrix();          //Inside steep (Forearm) 
+		glTranslatef(-1.39, 0.98, 0.0);
+		glRotatef(30, 0.0, 0.0, 1.0);
+		glScalef(0.02, 0.08, 0.18);
+		drawFilledCube();
+	glPopMatrix();
+	glPushMatrix();         // Inside vertical cube (Forearm)
+		glTranslatef(-1.35, 0.31, 0.0);
+		glScalef(0.02, 0.61, 0.18);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Between Inside and front y steep piece (forearm)
+	glPushMatrix();
+		glTranslatef(-1.407, 0.31, 0.218);
+		glRotatef(35, 0.0, 1.0, 0.0);
+		glScalef(0.08, 0.61, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+
+}
+
+void drawRightHandPalm()
+{
+//Wrist
+	glPushMatrix();       //Front piece
+		glTranslatef(-1.65, -0.4, 0.25);
+		glScalef(0.15, 0.09, 0.015);
+		drawFilledCube();
+	glPopMatrix();
+
+	glPushMatrix();       //Outside piece
+		glTranslatef(-1.8, -0.4, 0.0);
+		glScalef(0.015, 0.09, 0.24);
+		drawFilledCube();
+	glPopMatrix();
+
+	glPushMatrix();       //Back piece
+		glTranslatef(-1.65, -0.4, -0.25);
+		glScalef(0.15, 0.09, 0.015);
+		drawFilledCube();
+	glPopMatrix();
+
+	glPushMatrix();       //Inside piece
+		glTranslatef(-1.5, -0.4, 0.0);
+		glScalef(0.015, 0.09, 0.24);
+		drawFilledCube();
+	glPopMatrix();
+
+//Palm
+	glPushMatrix();        //Outside
+		glTranslatef(-1.7, -0.7, 0.0);
+		glScalef(0.03, 0.22, 0.25);
+		drawFilledCube();
+	glPopMatrix();
+	glPushMatrix();        //Inside
+		glTranslatef(-1.57, -0.7, 0.0);
+		glScalef(0.03, 0.22, 0.25);
+		drawFilledCube();
+	glPopMatrix();
+
+	//Finger
+	//Thumb
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(-1.63, -0.7, 0.28);
+		glRotatef(-30, 1.0, 0.0, 0.0);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+	glPushMatrix();            //small sphere (circle bone)
+		glTranslatef(-1.62, -0.816, 0.345);
+		drawSphere(0.04, 60, 60);
+	glPopMatrix();
+	glPushMatrix();
+		glTranslatef(-1.55, -0.92, 0.39);
+		glRotatef(30, 0.0, 0.0, 1.0);
+		glRotatef(-20, 1.0, 0.0, 0.0);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+
+	//Index Finger
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(-1.63, -1.0, 0.2);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+	glPushMatrix();            //small sphere (circle bone)
+		glTranslatef(-1.62, -1.12, 0.2);
+		drawSphere(0.04, 60, 60);
+	glPopMatrix();
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(-1.58, -1.25, 0.2);
+		glRotatef(20, 0.0, 0.0, 1.0);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+	glPushMatrix();            //small sphere (circle bone)
+		glTranslatef(-1.54, -1.36, 0.2);
+		drawSphere(0.04, 60, 60);
+	glPopMatrix();
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(-1.45, -1.45, 0.2);
+		glRotatef(50, 0.0, 0.0, 1.0);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+
+	//Middle Finger
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(-1.63, -1.0, 0.06);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+	glPushMatrix();            //small sphere (circle bone)
+		glTranslatef(-1.62, -1.12, 0.06);
+		drawSphere(0.04, 60, 60);
+	glPopMatrix();
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(-1.58, -1.25, 0.06);
+		glRotatef(20, 0.0, 0.0, 1.0);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+	glPushMatrix();            //small sphere (circle bone)
+		glTranslatef(-1.54, -1.36, 0.06);
+		drawSphere(0.04, 60, 60);
+	glPopMatrix();
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(-1.45, -1.45, 0.06);
+		glRotatef(50, 0.0, 0.0, 1.0);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+
+	//Ring Finger
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(-1.63, -1.0, -0.08);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+	glPushMatrix();            //small sphere (circle bone)
+		glTranslatef(-1.62, -1.12, -0.08);
+		drawSphere(0.04, 60, 60);
+	glPopMatrix();
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(-1.58, -1.25, -0.08);
+		glRotatef(20, 0.0, 0.0, 1.0);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+	glPushMatrix();            //small sphere (circle bone)
+		glTranslatef(-1.54, -1.36, -0.08);
+		drawSphere(0.04, 60, 60);
+	glPopMatrix();
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(-1.45, -1.45, -0.08);
+		glRotatef(50, 0.0, 0.0, 1.0);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+
+	//Pinky Finger
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(-1.63, -1.0, -0.22);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+	glPushMatrix();            //small sphere (circle bone)
+		glTranslatef(-1.62, -1.12, -0.22);
+		drawSphere(0.04, 60, 60);
+	glPopMatrix();
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(-1.58, -1.25, -0.22);
+		glRotatef(20, 0.0, 0.0, 1.0);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+	glPushMatrix();            //small sphere (circle bone)
+		glTranslatef(-1.54, -1.36, -0.22);
+		drawSphere(0.04, 60, 60);
+	glPopMatrix();
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(-1.45, -1.45, -0.22);
+		glRotatef(50, 0.0, 0.0, 1.0);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+}
+
 void drawLeftLeg()
 {
 	//1 (thigh)
@@ -1728,6 +2766,13 @@ void jaegerRobot()
 	//Front Belly
 	drawFrontBelly();
 
+	//Hand part
+	drawLeftHand();
+	drawRightHand();
+
+	drawLeftHandPalm();
+	drawRightHandPalm();
+
 	//Leg part
 	drawLeftLeg();
 	drawRightLeg();
@@ -1832,7 +2877,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 //Color
 
 //Texture
-
 
 
 
