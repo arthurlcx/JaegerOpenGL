@@ -118,9 +118,12 @@
     <ClCompile Include="Robot.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="textureImage\black_armor.bmp" />
     <Image Include="textureImage\blue_armor.bmp" />
+    <Image Include="textureImage\camo_armor.bmp" />
     <Image Include="textureImage\chrome_backbone.bmp" />
     <Image Include="textureImage\darkMetal_inner.bmp" />
+    <Image Include="textureImage\reactor.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

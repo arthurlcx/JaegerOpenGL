@@ -104,7 +104,13 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		if (wParam == VK_ESCAPE)
 			PostQuitMessage(0);
 		else if (wParam == VK_LEFT)
-			reactor += 10.0;
+			reactor += 100.0;
+		else if (wParam == 0x31)
+			ambientOn = !ambientOn;
+		else if (wParam == 0x32)
+			diffuseOn = !diffuseOn;
+		else if (wParam == 0x33)
+			specularOn = !specularOn;
 		break;
 
 
@@ -177,7 +183,8 @@ void drawSphere(float radius, float slices, float stacks)
 {
 	GLUquadricObj *sphere = NULL;
 	sphere = gluNewQuadric();
-	gluQuadricDrawStyle(sphere, GLU_LINE);
+	gluQuadricTexture(sphere, GLU_TRUE);
+	gluQuadricDrawStyle(sphere, GLU_FILL);
 	gluSphere(sphere, radius, slices, stacks);
 	gluDeleteQuadric(sphere);
 }
@@ -287,20 +294,37 @@ void drawFilledCube1()
 
 void drawFilledTriangle()
 {
-	glBegin(GL_POLYGON);
-	glVertex3f(0.0, 1.0, 0.0);
-	glVertex3f(0.0, 0.0, 0.0);
-	glVertex3f(1.0, 0.0, 0.0);
-	glVertex3f(0.0, 1.0, 0.0);
-	glVertex3f(0.0, 1.0, -0.1);
-	glVertex3f(0.0, 0.0, -0.1);
-	glVertex3f(0.0, 0.0, 0.0);
-	glVertex3f(1.0, 0.0, 0.0);
-	glVertex3f(1.0, 0.0, -0.1);
-	glVertex3f(0.0, 0.0, -0.1);
-	glVertex3f(0.0, 1.0, -0.1);
-	glVertex3f(1.0, 0.0, -0.1);
-	glVertex3f(1.0, 0.0, 0.0);
+	glBegin(GL_TRIANGLES);
+		glTexCoord2f(0, 1);  glVertex3f(0.0, 1.0, 0.0);
+		glTexCoord2f(0, 0);  glVertex3f(0.0, 0.0, 0.0);
+		glTexCoord2f(1, 0);  glVertex3f(1.0, 0.0, 0.0);
+	glEnd();
+
+	glBegin(GL_TRIANGLES);
+		glTexCoord2f(0, 1);  glVertex3f(0.0, 1.0, -0.1);
+		glTexCoord2f(0, 0);  glVertex3f(0.0, 0.0, -0.1);
+		glTexCoord2f(1, 0);  glVertex3f(1.0, 0.0, -0.1);
+	glEnd();
+
+	glBegin(GL_QUADS);
+		glTexCoord2f(0, 1);  glVertex3f(0.0, 1.0, -0.1);
+		glTexCoord2f(0, 0);  glVertex3f(0.0, 0.0, -0.1);
+		glTexCoord2f(1, 0);  glVertex3f(0.0, 0.0, 0.0);
+		glTexCoord2f(1, 1);  glVertex3f(0.0, 1.0, 0.0);
+	glEnd();
+
+	glBegin(GL_QUADS);
+		glTexCoord2f(0, 1);  glVertex3f(1.0, 0.0, -0.1);
+		glTexCoord2f(0, 0);  glVertex3f(0.0, 0.0, -0.1);
+		glTexCoord2f(1, 0);  glVertex3f(0.0, 0.0, 0.0);
+		glTexCoord2f(1, 0);  glVertex3f(1.0, 0.0, 0.0);
+	glEnd();
+
+	glBegin(GL_QUADS);
+		glTexCoord2f(0, 1);  glVertex3f(0.0, 1.0, 0.0);
+		glTexCoord2f(0, 0);  glVertex3f(1.0, 0.0, 0.0);
+		glTexCoord2f(1, 0);  glVertex3f(1.0, 0.0, -0.1);
+		glTexCoord2f(1, 1);  glVertex3f(0.0, 1.0, -0.1);
 	glEnd();
 }
 
@@ -763,40 +787,6 @@ void drawBackBone()
 
 void drawFrontArmour()
 {
-
-	//Front Laser + Reactor
-	glPushMatrix();
-		glTranslatef(0.0, 2.2, 1.2);
-		glBegin(GL_QUADS);
-		glColor3f(0.0, 0.0, 0.5);
-		glVertex3f(-0.1, 0.1, 0.0);
-		glVertex3f(0.1, 0.1, 0.0);
-		glVertex3f(0.20, 0.0, 0.0);
-		glVertex3f(-0.20, 0.0, 0.0);
-		glEnd();
-		glBegin(GL_QUADS);
-		glColor3f(0.0, 0.0, 0.5);
-		glVertex3f(-0.2, 0.0, 0.0);
-		glVertex3f(0.2, 0.0, 0.0);
-		glVertex3f(0.2, -0.2, 0.0);
-		glVertex3f(-0.2, -0.2, 0.0);
-		glEnd();
-		glBegin(GL_QUADS);
-		glColor3f(0.0, 0.0, 0.5);
-		glVertex3f(-0.2, -0.2, 0.0);
-		glVertex3f(0.2, -0.2, 0.0);
-		glVertex3f(0.1, -0.3, 0.0);
-		glVertex3f(-0.1, -0.3, 0.0);
-		glEnd();
-	glPopMatrix();
-
-	glPushMatrix();             //Ironman Reactor       (how to rotate automatically in glPushMatrix)
-		glColor3f(0.0, 1.0, 1.0);
-		glTranslatef(0.0, 2.1, 0.85);
-		glRotatef(reactor, 1.0, 1.0, 1.0);
-		drawSphere(0.3, 30, 30);
-	glPopMatrix();
-
 	// Left Upper Shoulder (with missle)
 	glPushMatrix();                 //Largest piece (Beside neck)
 		glTranslatef(0.52, 3.0, 0.05);
@@ -825,7 +815,7 @@ void drawFrontArmour()
 	glPopMatrix();
 
 	glPushMatrix();                 //Triangle piece beside second largest piece
-		glColor3f(1.0, 0.0, 0.0);
+		glColor3f(1.0, 1.0, 1.0);
 		glTranslatef(0.52, 2.89, 0.58);
 		glRotatef(118, 1.0, 0.0, 0.0);
 		glScalef(0.4, 0.55, 0.45);
@@ -840,7 +830,7 @@ void drawFrontArmour()
 	glPopMatrix();
 
 	glPushMatrix();                  //Triangle piece beside third piece
-		glColor3f(1.0, 0.0, 0.0);
+		glColor3f(1.0, 1.0, 1.0);
 		glTranslatef(0.31, 2.66, 1.05);
 		glRotatef(160, 1.0, 0.0, 0.0);
 		glScalef(0.22, 0.38, 0.45);
@@ -934,7 +924,7 @@ void drawFrontArmour()
 	glPopMatrix();
 
 	glPushMatrix();                //Triangle piece beside second largest piece
-		glColor3f(1.0, 0.0, 0.0);
+		glColor3f(1.0, 1.0, 1.0);
 		glTranslatef(-0.52, 2.94, 0.59);
 		glRotatef(118, 1.0, 0.0, 0.0);
 		glRotatef(180, 0.0, 1.0, 0.0);
@@ -951,7 +941,7 @@ void drawFrontArmour()
 	glPopMatrix();
 
 	glPushMatrix();                 //Triangle piece beside third piece
-		glColor3f(1.0, 0.0, 0.0);
+		glColor3f(1.0, 1.0, 1.0);
 		glTranslatef(-0.32, 2.68, 1.08);
 		glRotatef(160, 1.0, 0.0, 0.0);
 		glRotatef(180, 0.0, 1.0, 0.0);
@@ -1029,6 +1019,43 @@ void drawFrontArmour()
 		glTranslatef(0.0, 1.7, 0.9);
 		glScalef(0.2, 0.02, 0.2);
 		drawFilledCube();
+	glPopMatrix();
+}
+
+void drawReactor() {
+	glPushMatrix();             //Ironman Reactor       (how to rotate automatically in glPushMatrix)
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(0.0, 2.1, 0.85);
+		glRotatef(reactor, 1.0, 1.0, 1.0);
+		drawSphere(0.3, 30, 30);
+	glPopMatrix();
+}
+
+void drawReactorShell() {
+	//Front Laser + Reactor
+	glPushMatrix();
+		glTranslatef(0.0, 2.2, 1.2);
+		glBegin(GL_QUADS);
+			glColor3f(0.0, 0.0, 0.5);
+			glVertex3f(-0.1, 0.1, 0.0);
+			glVertex3f(0.1, 0.1, 0.0);
+			glVertex3f(0.20, 0.0, 0.0);
+			glVertex3f(-0.20, 0.0, 0.0);
+		glEnd();
+		glBegin(GL_QUADS);
+			glColor3f(0.0, 0.0, 0.5);
+			glVertex3f(-0.2, 0.0, 0.0);
+			glVertex3f(0.2, 0.0, 0.0);
+			glVertex3f(0.2, -0.2, 0.0);
+			glVertex3f(-0.2, -0.2, 0.0);
+		glEnd();
+		glBegin(GL_QUADS);
+			glColor3f(0.0, 0.0, 0.5);
+			glVertex3f(-0.2, -0.2, 0.0);
+			glVertex3f(0.2, -0.2, 0.0);
+			glVertex3f(0.1, -0.3, 0.0);
+			glVertex3f(-0.1, -0.3, 0.0);
+		glEnd();
 	glPopMatrix();
 }
 
@@ -2815,6 +2842,22 @@ void jaegerRobot()
 		endTexture();
 	glPopMatrix();
 
+	// Reactor
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		loadBitmapImage("textureImage/reactor.bmp");
+		drawReactor();
+		endTexture();
+	glPopMatrix();
+
+	// Reactor
+	/*glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		loadBitmapImage("textureImage/.bmp");
+		drawReactorShell();
+		endTexture();
+	glPopMatrix();*/
+
 	//Front Belly
 	glPushMatrix();
 		glColor3f(1.0, 1.0, 1.0);
@@ -2843,6 +2886,44 @@ void jaegerRobot()
 
 }
 
+void initLighting() {
+	//Lighting - ambient, diffuse, specular
+	GLfloat light_ambient[] = { 1.0, 1.0 ,1.0, 1.0 };
+	GLfloat light_close[] = { 0.0, 0.0 ,0.0, 1.0 };
+	GLfloat light_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
+	GLfloat light_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+
+	GLfloat light_position[] = { x,y,z, 0.0 };
+
+	glEnable(GL_LIGHTING);
+
+	if (ambientOn) {
+		glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+	}
+	else {
+		glLightfv(GL_LIGHT0, GL_AMBIENT, light_close);
+	}
+
+	if (diffuseOn) {
+		glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+	}
+	else {
+		glLightfv(GL_LIGHT0, GL_DIFFUSE, light_close);
+	}
+
+	if (specularOn) {
+		glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
+	}
+	else {
+		glLightfv(GL_LIGHT0, GL_SPECULAR, light_close);
+	}
+
+
+	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+
+	glEnable(GL_LIGHT0);
+}
+
 void display()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -2850,6 +2931,8 @@ void display()
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+
+	//initLighting();
 
 	glTranslatef(0.0, 0.0, zoomLevel);
 
@@ -2909,8 +2992,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluPerspective(70.0, 1, 0.1, 60.0);
-
-	//Enable texture
 
 
 	while (true)

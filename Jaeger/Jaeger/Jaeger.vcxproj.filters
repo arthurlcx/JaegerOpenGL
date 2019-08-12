@@ -29,5 +29,14 @@
     <Image Include="textureImage\chrome_backbone.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="textureImage\reactor.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="textureImage\camo_armor.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="textureImage\black_armor.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
