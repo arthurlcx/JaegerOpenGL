@@ -1,2 +1,13 @@
 
 Jaeger/.vs/Jaeger/v15/Browse.VC.opendb
+Jaeger/.vs/Jaeger/v15/.suo
+*.log
+*.lastbuildstate
+*.tlog
+*.tlog
+*.obj
+*.idb
+*.pdb
+*.exe
+*.ilk
+*.pdb
