@@ -3,6 +3,7 @@
 #include <gl/GL.h>
 #include <gl/GLU.h>
 #include <math.h>
+#include <string>
 
 #pragma comment (lib, "OpenGL32.lib")
 #pragma comment (lib, "GLU32.lib")
@@ -69,6 +70,11 @@ float boneLength = 2.0f;
 bool textureOn = false;
 
 //Texture variable declaration
+std::string armorTextureArray[] = { "textureImage/blue_armor.bmp", "textureImage/black_armor.bmp", "textureImage/camo_armor.bmp" };
+std::string innerTextureArray[] = { "textureImage/darkMetal_inner.bmp", "textureImage/whiteMetal_inner.bmp", "textureImage/greenMetal_inner.bmp" };
+std::string wingTextureArray[] = { "textureImage/wing1.bmp", "textureImage/wing2.bmp", "textureImage/wing3.bmp" };
+int textureSetIndex = 0;
+
 GLuint texture = 0;
 BITMAP BMP;
 HBITMAP hBMP = NULL;
@@ -111,6 +117,12 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			diffuseOn = !diffuseOn;
 		else if (wParam == 0x33)
 			specularOn = !specularOn;
+		else if (wParam == VK_NUMPAD1) // numpad 1 for texture set 1
+			textureSetIndex = 0;
+		else if (wParam == VK_NUMPAD2) // numpad 1 for texture set 2
+			textureSetIndex = 1;
+		else if (wParam == VK_NUMPAD3) // numpad 1 for texture set 3
+			textureSetIndex = 2;
 		break;
 
 
@@ -3113,7 +3125,7 @@ void drawBackWing()
 	glPushMatrix();           //Cube piece 
 		glTranslatef(0.8, 2.0, -0.7);
 		glScalef(0.45, 0.35, 0.02);
-		drawFilledCubeT();
+		drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();           //Top Triangle piece
 		glTranslatef(1.25, 2.35, -0.72);
@@ -3125,7 +3137,7 @@ void drawBackWing()
 	glPushMatrix();           //Cube piece 
 		glTranslatef(1.7, 2.49, -0.7);
 		glScalef(0.45, 0.35, 0.02);
-		drawFilledCubeT();
+		drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();           //Bottom Triangle piece
 		glTranslatef(1.25, 2.14, -0.72);
@@ -3139,31 +3151,31 @@ void drawBackWing()
 		glTranslatef(2.68, 2.25, -0.7);
 		glRotatef(-40, 0.0, 0.0, 1.0);
 		glScalef(0.8, 0.1, 0.02);
-		drawFilledCubeT();
+		drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();          //second
 		glTranslatef(2.55, 2.1, -0.7);
 		glRotatef(-40, 0.0, 0.0, 1.0);
 		glScalef(0.7, 0.1, 0.02);
-		drawFilledCubeT();
+		drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();          //third
 		glTranslatef(2.42, 1.95, -0.7);
 		glRotatef(-40, 0.0, 0.0, 1.0);
 		glScalef(0.6, 0.1, 0.02);
-		drawFilledCubeT();
+		drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();          //fourth
 		glTranslatef(2.29, 1.8, -0.7);
 		glRotatef(-40, 0.0, 0.0, 1.0);
 		glScalef(0.5, 0.1, 0.02);
-		drawFilledCubeT();
+		drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();          //fifth
 		glTranslatef(2.1, 1.7, -0.7);
 		glRotatef(-40, 0.0, 0.0, 1.0);
 		glScalef(0.5, 0.1, 0.02);
-		drawFilledCubeT();
+		drawFilledCube();
 	glPopMatrix();
 
 //3  (wings) (face up)
@@ -3177,25 +3189,25 @@ void drawBackWing()
 		glTranslatef(2.3, 3.1, -0.7);
 		glRotatef(57, 0.0, 0.0, 1.0);
 		glScalef(0.7, 0.1, 0.02);
-		drawFilledCubeT();
+		drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();          //third
 		glTranslatef(2.4, 2.9, -0.7);
 		glRotatef(54, 0.0, 0.0, 1.0);
 		glScalef(0.6, 0.1, 0.02);
-		drawFilledCubeT();
+		drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();          //fourth
 		glTranslatef(2.4, 2.6, -0.7);
 		glRotatef(46, 0.0, 0.0, 1.0);
 		glScalef(0.5, 0.1, 0.02);
-		drawFilledCubeT();
+		drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();          //fifth
 		glTranslatef(2.4, 2.3, -0.7);
 		glRotatef(40, 0.0, 0.0, 1.0);
 		glScalef(0.5, 0.1, 0.02);
-		drawFilledCubeT();
+		drawFilledCube();
 	glPopMatrix();
 
 //Right side
@@ -3208,7 +3220,7 @@ void drawBackWing()
 	glPushMatrix();           //Cube piece 
 		glTranslatef(-0.8, 2.0, -0.7);
 		glScalef(0.45, 0.35, 0.02);
-		drawFilledCubeT();
+		drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();           //Triangle piece
 		glTranslatef(-1.25, 2.35, -0.72);
@@ -3219,7 +3231,7 @@ void drawBackWing()
 	glPushMatrix();           //Cube piece 
 		glTranslatef(-1.7, 2.5, -0.7);
 		glScalef(0.45, 0.35, 0.02);
-		drawFilledCubeT();
+		drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();           //Bottom Triangle piece
 		glTranslatef(-1.25, 2.15, -0.68);
@@ -3234,31 +3246,31 @@ void drawBackWing()
 		glTranslatef(-2.68, 2.25, -0.7);
 		glRotatef(40, 0.0, 0.0, 1.0);
 		glScalef(0.8, 0.1, 0.02);
-		drawFilledCubeT();
+		drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();          //second
 		glTranslatef(-2.55, 2.1, -0.7);
 		glRotatef(40, 0.0, 0.0, 1.0);
 		glScalef(0.7, 0.1, 0.02);
-		drawFilledCubeT();
+		drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();          //third
 		glTranslatef(-2.42, 1.95, -0.7);
 		glRotatef(40, 0.0, 0.0, 1.0);
 		glScalef(0.6, 0.1, 0.02);
-		drawFilledCubeT();
+		drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();          //fourth
 		glTranslatef(-2.29, 1.8, -0.7);
 		glRotatef(40, 0.0, 0.0, 1.0);
 		glScalef(0.5, 0.1, 0.02);
-		drawFilledCubeT();
+		drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();          //fifth
 		glTranslatef(-2.1, 1.7, -0.7);
 		glRotatef(40, 0.0, 0.0, 1.0);
 		glScalef(0.5, 0.1, 0.02);
-		drawFilledCubeT();
+		drawFilledCube();
 	glPopMatrix();
 
 //3  (wings) (face up)
@@ -3272,25 +3284,25 @@ void drawBackWing()
 	glTranslatef(-2.3, 3.1, -0.7);
 	glRotatef(-57, 0.0, 0.0, 1.0);
 	glScalef(0.7, 0.1, 0.02);
-	drawFilledCubeT();
+	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();          //third
 	glTranslatef(-2.4, 2.9, -0.7);
 	glRotatef(-54, 0.0, 0.0, 1.0);
 	glScalef(0.6, 0.1, 0.02);
-	drawFilledCubeT();
+	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();          //fourth
 	glTranslatef(-2.4, 2.6, -0.7);
 	glRotatef(-46, 0.0, 0.0, 1.0);
 	glScalef(0.5, 0.1, 0.02);
-	drawFilledCubeT();
+	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();          //fifth
 	glTranslatef(-2.4, 2.3, -0.7);
 	glRotatef(-40, 0.0, 0.0, 1.0);
 	glScalef(0.5, 0.1, 0.02);
-	drawFilledCubeT();
+	drawFilledCube();
 	glPopMatrix();
 }
 
@@ -3303,13 +3315,18 @@ void jaegerRobot()
 	//Inner part of robot
 	glPushMatrix();
 		glColor3f(1.0, 1.0, 1.0);
-		loadBitmapImage("textureImage/darkMetal_inner.bmp");
+		loadBitmapImage(innerTextureArray[textureSetIndex].data());
 		drawInnerRobotPart();
 		endTexture();
 	glPopMatrix();
 
 	//Head part
-	drawHeadArmour();
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		loadBitmapImage(armorTextureArray[textureSetIndex].data());
+		drawHeadArmour();
+		endTexture();
+	glPopMatrix();
 
 	//Backbone part
 	glPushMatrix();
@@ -3320,12 +3337,17 @@ void jaegerRobot()
 	glPopMatrix();
 
 	//Back wing or Exhaust
-	drawBackWing();
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		loadBitmapImage(wingTextureArray[textureSetIndex].data());
+		drawBackWing();
+		endTexture();
+	glPopMatrix();
 
 	// Armor part
 	glPushMatrix();
 		glColor3f(1.0, 1.0, 1.0);
-		loadBitmapImage("textureImage/blue_armor.bmp");
+		loadBitmapImage(armorTextureArray[textureSetIndex].data());
 		drawFrontArmour();
 		endTexture();
 	glPopMatrix();
@@ -3349,22 +3371,46 @@ void jaegerRobot()
 	//Front Belly
 	glPushMatrix();
 		glColor3f(1.0, 1.0, 1.0);
-		loadBitmapImage("textureImage/blue_armor.bmp");
+		loadBitmapImage(armorTextureArray[textureSetIndex].data());
 		drawFrontBelly();
 		endTexture();
 	glPopMatrix();
 
 	//Hand part
-	drawLeftHand();
-	drawRightHand();
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		loadBitmapImage(armorTextureArray[textureSetIndex].data());
+		drawLeftHand();
+		endTexture();
+	glPopMatrix();
 
-	drawLeftHandPalm();
-	drawRightHandPalm();
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		loadBitmapImage(armorTextureArray[textureSetIndex].data());
+		drawRightHand();
+		endTexture();
+	glPopMatrix();
+
+	//Palm + finger
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		loadBitmapImage(innerTextureArray[textureSetIndex].data());
+		drawLeftHandPalm();
+		endTexture();
+		glPopMatrix();
+
+
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		loadBitmapImage(innerTextureArray[textureSetIndex].data());
+		drawRightHandPalm();
+		endTexture();
+	glPopMatrix();
 
 	//Leg part
 	glPushMatrix();
 		glColor3f(1.0, 1.0, 1.0);
-		loadBitmapImage("textureImage/blue_armor.bmp");
+		loadBitmapImage(armorTextureArray[textureSetIndex].data());
 		drawLeftLeg();
 		drawRightLeg();
 		endTexture();
