@@ -534,37 +534,37 @@ void drawInnerLeftLeg()
 	glPopMatrix();
 
 	glPushMatrix();          //Left thick cube before joint
-	glTranslatef(0.689, -1.37, 0.106);
-	glScalef(0.24, 0.45, 0.36);
+	glTranslatef(0.689, -1.62, 0.106);
+	glScalef(0.24, 0.7, 0.36);
 	drawFilledCube1();
 	glPopMatrix();
 
 	glPushMatrix();       //Left Joint
-	glTranslatef(0.42, -2.07, 0.1);
+	glTranslatef(0.42, -2.57, 0.1);
 	glRotatef(90, 0.0, 1.0, 0.0);
 	drawCylinder(0.25, 0.25, 0.55, 30, 30);
 	glPopMatrix();
 
 	glPushMatrix();          //Left thick cube after joint
-	glTranslatef(0.689, -3.07, 0.106);
-	glScalef(0.24, 0.75, 0.36);
+	glTranslatef(0.689, -3.65, 0.106);
+	glScalef(0.24, 0.85, 0.36);
 	drawFilledCube1();
 	glPopMatrix();
 
 	glPushMatrix();          //Left ankle
-	glTranslatef(0.69, -3.832, 0.02);
+	glTranslatef(0.69, -4.512, 0.02);
 	glRotatef(45, 0.0, 1.0, 0.0);
 	glRotatef(90, 1.0, 0.0, 0.0);
 	drawCylinder(0.347, 0.1, 0.3, 4, 4);
 	glPopMatrix();
 	glPushMatrix();
-	glTranslatef(0.878, -4.116, 0.3);
+	glTranslatef(0.878, -4.796, 0.3);
 	glRotatef(90, 0.0, 1.0, 0.0);
 	glScalef(0.2, 0.28, 4.0);
 	drawFilledTriangle();
 	glPopMatrix();
 	glPushMatrix();
-	glTranslatef(0.68, -3.98, 0.48);
+	glTranslatef(0.68, -4.66, 0.48);
 	glScalef(0.2, 0.15, 0.18);
 	drawFilledCube1();
 	glPopMatrix();
@@ -612,45 +612,45 @@ void drawInnerRightLeg()
 	glPopMatrix();
 
 	glPushMatrix();          //Left thin cube after top 4 cylinder
-	glTranslatef(-0.689, -0.9, 0.106);
-	glScalef(0.24, 0.02, 0.36);
-	drawFilledCube1();
+		glTranslatef(-0.689, -0.9, 0.106);
+		glScalef(0.24, 0.02, 0.36);
+		drawFilledCube1();
 	glPopMatrix();
 
 	glPushMatrix();          //Right thick cube before joint
-	glTranslatef(-0.689, -1.37, 0.106);
-	glScalef(0.24, 0.45, 0.36);
-	drawFilledCube1();
+		glTranslatef(-0.689, -1.62, 0.106);
+		glScalef(0.24, 0.7, 0.36);
+		drawFilledCube1();
 	glPopMatrix();
 
 	glPushMatrix();       //Right Joint
-	glTranslatef(-0.42, -2.07, 0.1);
-	glRotatef(-90, 0.0, 1.0, 0.0);
-	drawCylinder(0.25, 0.25, 0.55, 30, 30);
+		glTranslatef(-0.42, -2.57, 0.1);
+		glRotatef(-90, 0.0, 1.0, 0.0);
+		drawCylinder(0.25, 0.25, 0.55, 30, 30);
 	glPopMatrix();
 
 	glPushMatrix();          //Right thick cube after joint
-	glTranslatef(-0.689, -3.07, 0.106);
-	glScalef(0.24, 0.75, 0.36);
-	drawFilledCube1();
+		glTranslatef(-0.689, -3.65, 0.106);
+		glScalef(0.24, 0.85, 0.36);
+		drawFilledCube1();
 	glPopMatrix();
 
-	glPushMatrix();          //Left ankle
-	glTranslatef(-0.69, -3.832, 0.02);
-	glRotatef(45, 0.0, 1.0, 0.0);
-	glRotatef(90, 1.0, 0.0, 0.0);
-	drawCylinder(0.347, 0.1, 0.3, 4, 4);
+	glPushMatrix();          //Right ankle
+		glTranslatef(-0.69, -4.512, 0.02);
+		glRotatef(45, 0.0, 1.0, 0.0);
+		glRotatef(90, 1.0, 0.0, 0.0);
+		drawCylinder(0.347, 0.1, 0.3, 4, 4);
 	glPopMatrix();
 	glPushMatrix();
-	glTranslatef(-0.49, -4.116, 0.3);
-	glRotatef(90, 0.0, 1.0, 0.0);
-	glScalef(0.2, 0.28, 4.0);
-	drawFilledTriangle();
+		glTranslatef(-0.478, -4.796, 0.3);
+		glRotatef(90, 0.0, 1.0, 0.0);
+		glScalef(0.2, 0.28, 4.0);
+		drawFilledTriangle();
 	glPopMatrix();
 	glPushMatrix();
-	glTranslatef(-0.68, -3.98, 0.48);
-	glScalef(0.2, 0.15, 0.18);
-	drawFilledCube1();
+		glTranslatef(-0.68, -4.66, 0.48);
+		glScalef(0.2, 0.15, 0.18);
+		drawFilledCube1();
 	glPopMatrix();
 }
 
@@ -2605,63 +2605,63 @@ void drawLeftLeg()
 
 	//2  (thigh)
 	glPushMatrix();         //Thigh front rectangle piece
-	glTranslatef(0.7, -1.12, 0.8);
-	glScalef(0.2, 0.5, 0.02);
+	glTranslatef(0.7, -1.36, 0.8);
+	glScalef(0.2, 0.75, 0.02);
 	drawFilledCube();
 	glPopMatrix();
 
 	glPushMatrix();         //Thigh front left rectangle piece
-	glTranslatef(1.0, -1.12, 0.68);
+	glTranslatef(1.0, -1.36, 0.68);
 	glRotatef(53, 0.0, 1.0, 0.0);
-	glScalef(0.16, 0.5, 0.02);
+	glScalef(0.16, 0.75, 0.02);
 	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();         //Thigh left rectangle piece
-	glTranslatef(1.11, -1.12, 0.15);
-	glScalef(0.02, 0.7, 0.4);
+	glTranslatef(1.11, -1.36, 0.15);
+	glScalef(0.02, 0.75, 0.4);
 	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();         //Thigh back left rectangle piece
-	glTranslatef(0.91, -1.12, -0.3);
+	glTranslatef(0.91, -1.36, -0.3);
 	glRotatef(75, 0.0, 1.0, 0.0);
-	glScalef(0.02, 0.6, 0.2);
+	glScalef(0.02, 0.7, 0.2);
 	drawFilledCube();
 	glPopMatrix();
 
 	glPushMatrix();         //Thigh front right rectangle piece
-	glTranslatef(0.4, -1.12, 0.68);
+	glTranslatef(0.4, -1.36, 0.68);
 	glRotatef(-53, 0.0, 1.0, 0.0);
-	glScalef(0.16, 0.5, 0.02);
+	glScalef(0.16, 0.75, 0.02);
 	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();         //Thigh left rectangle piece
-	glTranslatef(0.31, -1.12, 0.15);
-	glScalef(0.02, 0.7, 0.4);
+	glTranslatef(0.31, -1.36, 0.15);
+	glScalef(0.02, 0.75, 0.4);
 	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();         //Thigh back left rectangle piece
-	glTranslatef(0.51, -1.12, -0.3);
+	glTranslatef(0.51, -1.36, -0.3);
 	glRotatef(-75, 0.0, 1.0, 0.0);
-	glScalef(0.02, 0.6, 0.2);
+	glScalef(0.02, 0.7, 0.2);
 	drawFilledCube();
 	glPopMatrix();
 
 	//3  (thigh)
 	glPushMatrix();     //Top steep cube
-	glTranslatef(0.7, -1.77, 0.68);
+	glTranslatef(0.7, -2.27, 0.68);
 	glRotatef(40, 1.0, 0.0, 0.0);
 	glScalef(0.2, 0.2, 0.02);
 	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();    //Left small Triangle piece
-	glTranslatef(0.9, -1.67, 0.72);
+	glTranslatef(0.9, -2.17, 0.72);
 	glRotatef(-140, 1.0, 0.0, 0.0);
 	glRotatef(-40, 0.0, 1.0, 0.0);
 	glScalef(0.2, 0.3, 0.4);
 	drawFilledTriangle();
 	glPopMatrix();
 	glPushMatrix();    //Right small Triangle piece
-	glTranslatef(0.465, -1.705, 0.78);
+	glTranslatef(0.465, -2.205, 0.78);
 	glRotatef(-140, 1.0, 0.0, 0.0);
 	glRotatef(50, 0.0, 1.0, 0.0);
 	glRotatef(180, 0.0, 1.0, 0.0);
@@ -2671,21 +2671,21 @@ void drawLeftLeg()
 
 	//4   (knee)
 	glPushMatrix();      //Front piece 
-	glTranslatef(0.7, -2.15, 0.50);
+	glTranslatef(0.7, -2.6, 0.50);
 	glRotatef(15, 1.0, 0.0, 0.0);
 	glScalef(0.2, 0.15, 0.02);
 	drawFilledCube();
 	glPopMatrix();
 
 	glPushMatrix();      //Left front piece 
-	glTranslatef(0.93, -2.13, 0.42);
+	glTranslatef(0.93, -2.58, 0.42);
 	glRotatef(15, 1.0, 0.0, 0.0);
 	glRotatef(-28, 0.0, 1.0, 0.0);
 	glScalef(0.02, 0.15, 0.09);
 	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();      //Left piece 
-	glTranslatef(1.02, -2.08, 0.12);
+	glTranslatef(1.02, -2.53, 0.12);
 	glRotatef(8, 1.0, 0.0, 0.0);
 	glRotatef(-10, 0.0, 1.0, 0.0);
 	glScalef(0.02, 0.15, 0.3);
@@ -2693,14 +2693,14 @@ void drawLeftLeg()
 	glPopMatrix();
 
 	glPushMatrix();      //Right front piece 
-	glTranslatef(0.463, -2.13, 0.42);
+	glTranslatef(0.463, -2.58, 0.42);
 	glRotatef(15, 1.0, 0.0, 0.0);
 	glRotatef(28, 0.0, 1.0, 0.0);
 	glScalef(0.02, 0.15, 0.09);
 	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();      //Right piece 
-	glTranslatef(0.37, -2.08, 0.12);
+	glTranslatef(0.37, -2.53, 0.12);
 	glRotatef(8, 1.0, 0.0, 0.0);
 	glRotatef(10, 0.0, 1.0, 0.0);
 	glScalef(0.02, 0.15, 0.3);
@@ -2710,7 +2710,7 @@ void drawLeftLeg()
 
 	//5 (shin)
 	glPushMatrix();     //Top steep cube
-	glTranslatef(0.7, -2.45, 0.56);
+	glTranslatef(0.7, -2.9, 0.56);
 	glRotatef(-40, 1.0, 0.0, 0.0);
 	glScalef(0.2, 0.15, 0.02);
 	drawFilledCube();
@@ -2718,68 +2718,68 @@ void drawLeftLeg()
 
 	//6  (shin)
 	glPushMatrix();         //Shin front rectangle piece
-	glTranslatef(0.7, -3.07, 0.66);
-	glScalef(0.2, 0.5, 0.02);
+	glTranslatef(0.7, -3.65, 0.66);
+	glScalef(0.2, 0.65, 0.02);
 	drawFilledCube();
 	glPopMatrix();
 
 	glPushMatrix();         //Shin front left rectangle piece
-	glTranslatef(0.93, -3.07, 0.53);
+	glTranslatef(0.93, -3.65, 0.53);
 	glRotatef(58, 0.0, 1.0, 0.0);
-	glScalef(0.16, 0.5, 0.02);
+	glScalef(0.16, 0.65, 0.02);
 	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();         //Shin left rectangle piece
-	glTranslatef(1.02, -3.17, 0.1);
-	glScalef(0.02, 0.6, 0.3);
+	glTranslatef(1.02, -3.75, 0.1);
+	glScalef(0.02, 0.75, 0.3);
 	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();          //Left behind rocket
-	glTranslatef(0.9, -3.0, -0.42);
+	glTranslatef(0.9, -3.6, -0.42);
 	glRotatef(90, 1.0, 0.0, 0.0);
 	drawCylinder(0.15, 0.15, 0.7, 30, 30);
 	glPopMatrix();
 
 	glPushMatrix();         //Shin front right rectangle piece
-	glTranslatef(0.468, -3.07, 0.53);
+	glTranslatef(0.468, -3.65, 0.53);
 	glRotatef(-58, 0.0, 1.0, 0.0);
-	glScalef(0.16, 0.5, 0.02);
+	glScalef(0.16, 0.65, 0.02);
 	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();         //Shin right rectangle piece
-	glTranslatef(0.38, -3.17, 0.1);
-	glScalef(0.02, 0.6, 0.3);
+	glTranslatef(0.38, -3.75, 0.1);
+	glScalef(0.02, 0.75, 0.3);
 	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();          //Right behind rocket
-	glTranslatef(0.5, -3.0, -0.42);
+	glTranslatef(0.5, -3.6, -0.42);
 	glRotatef(90, 1.0, 0.0, 0.0);
 	drawCylinder(0.15, 0.15, 0.7, 30, 30);
 	glPopMatrix();
 
 	//7  (ankle)
 	glPushMatrix();     //Top steep cube
-	glTranslatef(0.7, -3.67, 0.742);
+	glTranslatef(0.7, -4.4, 0.742);
 	glRotatef(-40, 1.0, 0.0, 0.0);
 	glScalef(0.2, 0.12, 0.02);
 	drawFilledCube();
 	glPopMatrix();
 
 	glPushMatrix();     //Second steep cube
-	glTranslatef(0.7, -3.82, 0.94);
+	glTranslatef(0.7, -4.55, 0.94);
 	glRotatef(-65, 1.0, 0.0, 0.0);
 	glScalef(0.1, 0.14, 0.02);
 	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();     //Second steep left triangle
-	glTranslatef(0.799, -3.79, 0.81);
+	glTranslatef(0.799, -4.52, 0.81);
 	glRotatef(-65, 1.0, 0.0, 0.0);
 	glRotatef(180, 1.0, 0.0, 0.0);
 	glScalef(0.1, 0.27, 0.4);
 	drawFilledTriangle();
 	glPopMatrix();
 	glPushMatrix();     //Second steep right triangle
-	glTranslatef(0.6, -3.749, 0.83);
+	glTranslatef(0.6, -4.479, 0.83);
 	glRotatef(-65, 1.0, 0.0, 0.0);
 	glRotatef(180, 0.0, 1.0, 0.0);
 	glRotatef(180, 1.0, 0.0, 0.0);
@@ -2788,53 +2788,53 @@ void drawLeftLeg()
 	glPopMatrix();
 
 	glPushMatrix();     //Third front cube
-	glTranslatef(0.7, -3.96, 1.06);
+	glTranslatef(0.7, -4.71, 1.06);
 	glScalef(0.1, 0.1, 0.02);
 	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();     //Third front bottom steep cube
-	glTranslatef(0.7, -4.09, 0.86);
+	glTranslatef(0.7, -4.84, 0.86);
 	glRotatef(-10, 1.0, 0.0, 0.0);
 	glScalef(0.1, 0.02, 0.21);
 	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();     //Bottom cube
-	glTranslatef(0.69, -4.115, 0.35);
+	glTranslatef(0.69, -4.865, 0.35);
 	glScalef(0.215, 0.02, 0.3);
 	drawFilledCube();
 	glPopMatrix();
 
 	glPushMatrix();     //Third front left cube
-	glTranslatef(0.852, -3.96, 0.885);
+	glTranslatef(0.852, -4.71, 0.885);
 	glRotatef(70, 0.0, 1.0, 0.0);
 	glScalef(0.2, 0.1, 0.02);
 	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();     //Third left side cube
-	glTranslatef(0.92, -3.99, 0.4);
+	glTranslatef(0.92, -4.74, 0.4);
 	glScalef(0.03, 0.13, 0.3);
 	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();     //Third left back cube
-	glTranslatef(0.955, -3.94, 0.06);
+	glTranslatef(0.955, -4.69, 0.06);
 	glScalef(0.04, 0.172, 0.28);
 	drawFilledCube();
 	glPopMatrix();
 
 
 	glPushMatrix();     //Third front right cube
-	glTranslatef(0.54, -3.96, 0.885);
+	glTranslatef(0.54, -4.71, 0.885);
 	glRotatef(-67, 0.0, 1.0, 0.0);
 	glScalef(0.2, 0.1, 0.02);
 	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();     //Third right side cube
-	glTranslatef(0.46, -3.99, 0.4);
+	glTranslatef(0.46, -4.74, 0.4);
 	glScalef(0.03, 0.13, 0.3);
 	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();     //Third right back cube
-	glTranslatef(0.43, -3.94, 0.06);
+	glTranslatef(0.43, -4.69, 0.06);
 	glScalef(0.04, 0.172, 0.28);
 	drawFilledCube();
 	glPopMatrix();
@@ -2868,63 +2868,63 @@ void drawRightLeg()
 
 	//2  (thigh)
 	glPushMatrix();         //Thigh front rectangle piece
-	glTranslatef(-0.7, -1.12, 0.8);
-	glScalef(0.2, 0.5, 0.02);
+	glTranslatef(-0.7, -1.36, 0.8);
+	glScalef(0.2, 0.75, 0.02);
 	drawFilledCube();
 	glPopMatrix();
 
 	glPushMatrix();         //Thigh front left rectangle piece
-	glTranslatef(-0.4, -1.12, 0.68);
+	glTranslatef(-0.4, -1.36, 0.68);
 	glRotatef(53, 0.0, 1.0, 0.0);
-	glScalef(0.16, 0.5, 0.02);
+	glScalef(0.16, 0.75, 0.02);
 	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();         //Thigh left rectangle piece
-	glTranslatef(-0.31, -1.12, 0.15);
-	glScalef(0.02, 0.7, 0.4);
+	glTranslatef(-0.31, -1.36, 0.15);
+	glScalef(0.02, 0.75, 0.4);
 	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();         //Thigh back left rectangle piece
-	glTranslatef(-0.51, -1.12, -0.3);
+	glTranslatef(-0.51, -1.36, -0.3);
 	glRotatef(75, 0.0, 1.0, 0.0);
-	glScalef(0.02, 0.6, 0.2);
+	glScalef(0.02, 0.7, 0.2);
 	drawFilledCube();
 	glPopMatrix();
 
 	glPushMatrix();         //Thigh front right rectangle piece
-	glTranslatef(-1.0, -1.12, 0.68);
+	glTranslatef(-1.0, -1.36, 0.68);
 	glRotatef(-53, 0.0, 1.0, 0.0);
-	glScalef(0.16, 0.5, 0.02);
+	glScalef(0.16, 0.75, 0.02);
 	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();         //Thigh left rectangle piece
-	glTranslatef(-1.11, -1.12, 0.15);
-	glScalef(0.02, 0.7, 0.4);
+	glTranslatef(-1.11, -1.36, 0.15);
+	glScalef(0.02, 0.75, 0.4);
 	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();         //Thigh back left rectangle piece
-	glTranslatef(-0.91, -1.12, -0.3);
+	glTranslatef(-0.91, -1.36, -0.3);
 	glRotatef(-75, 0.0, 1.0, 0.0);
-	glScalef(0.02, 0.6, 0.2);
+	glScalef(0.02, 0.7, 0.2);
 	drawFilledCube();
 	glPopMatrix();
 
 	//3  (thigh)
 	glPushMatrix();     //Top steep cube
-	glTranslatef(-0.7, -1.77, 0.68);
+	glTranslatef(-0.7, -2.27, 0.68);
 	glRotatef(40, 1.0, 0.0, 0.0);
 	glScalef(0.2, 0.2, 0.02);
 	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();    //Left small Triangle piece
-	glTranslatef(-0.5, -1.67, 0.72);
+	glTranslatef(-0.5, -2.17, 0.72);
 	glRotatef(-140, 1.0, 0.0, 0.0);
 	glRotatef(-40, 0.0, 1.0, 0.0);
 	glScalef(0.2, 0.3, 0.4);
 	drawFilledTriangle();
 	glPopMatrix();
 	glPushMatrix();    //Right small Triangle piece
-	glTranslatef(-0.935, -1.705, 0.78);
+	glTranslatef(-0.935, -2.205, 0.78);
 	glRotatef(-140, 1.0, 0.0, 0.0);
 	glRotatef(50, 0.0, 1.0, 0.0);
 	glRotatef(180, 0.0, 1.0, 0.0);
@@ -2934,21 +2934,21 @@ void drawRightLeg()
 
 	//4  (knee)
 	glPushMatrix();      //Front piece 
-	glTranslatef(-0.7, -2.15, 0.50);
+	glTranslatef(-0.7, -2.6, 0.50);
 	glRotatef(15, 1.0, 0.0, 0.0);
 	glScalef(0.2, 0.15, 0.02);
 	drawFilledCube();
 	glPopMatrix();
 
 	glPushMatrix();      //Left front piece 
-	glTranslatef(-0.463, -2.13, 0.42);
+	glTranslatef(-0.463, -2.58, 0.42);
 	glRotatef(15, 1.0, 0.0, 0.0);
 	glRotatef(-28, 0.0, 1.0, 0.0);
 	glScalef(0.02, 0.15, 0.09);
 	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();      //Left piece 
-	glTranslatef(-0.37, -2.08, 0.12);
+	glTranslatef(-0.37, -2.53, 0.12);
 	glRotatef(8, 1.0, 0.0, 0.0);
 	glRotatef(-10, 0.0, 1.0, 0.0);
 	glScalef(0.02, 0.15, 0.3);
@@ -2956,14 +2956,14 @@ void drawRightLeg()
 	glPopMatrix();
 
 	glPushMatrix();      //Right front piece 
-	glTranslatef(-0.93, -2.13, 0.42);
+	glTranslatef(-0.93, -2.58, 0.42);
 	glRotatef(15, 1.0, 0.0, 0.0);
 	glRotatef(28, 0.0, 1.0, 0.0);
 	glScalef(0.02, 0.15, 0.09);
 	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();      //Right piece 
-	glTranslatef(-1.02, -2.08, 0.12);
+	glTranslatef(-1.02, -2.53, 0.12);
 	glRotatef(8, 1.0, 0.0, 0.0);
 	glRotatef(10, 0.0, 1.0, 0.0);
 	glScalef(0.02, 0.15, 0.3);
@@ -2972,7 +2972,7 @@ void drawRightLeg()
 
 	//5   (shin)
 	glPushMatrix();     //Top steep cube
-	glTranslatef(-0.7, -2.45, 0.56);
+	glTranslatef(-0.7, -2.9, 0.56);
 	glRotatef(-40, 1.0, 0.0, 0.0);
 	glScalef(0.2, 0.15, 0.02);
 	drawFilledCube();
@@ -2980,68 +2980,68 @@ void drawRightLeg()
 
 	//6  (shin)
 	glPushMatrix();         //Shin front rectangle piece
-	glTranslatef(-0.7, -3.07, 0.66);
-	glScalef(0.2, 0.5, 0.02);
+	glTranslatef(-0.7, -3.65, 0.66);
+	glScalef(0.2, 0.65, 0.02);
 	drawFilledCube();
 	glPopMatrix();
 
 	glPushMatrix();         //Shin front left rectangle piece
-	glTranslatef(-0.47, -3.07, 0.53);
+	glTranslatef(-0.47, -3.65, 0.53);
 	glRotatef(58, 0.0, 1.0, 0.0);
-	glScalef(0.16, 0.5, 0.02);
+	glScalef(0.16, 0.65, 0.02);
 	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();         //Shin left rectangle piece
-	glTranslatef(-0.37, -3.17, 0.1);
-	glScalef(0.02, 0.6, 0.3);
+	glTranslatef(-0.37, -3.75, 0.1);
+	glScalef(0.02, 0.75, 0.3);
 	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();          //Left behind rocket
-	glTranslatef(-0.5, -3.0, -0.42);
+	glTranslatef(-0.5, -3.6, -0.42);
 	glRotatef(90, 1.0, 0.0, 0.0);
 	drawCylinder(0.15, 0.15, 0.7, 30, 30);
 	glPopMatrix();
 
 	glPushMatrix();         //Shin front right rectangle piece
-	glTranslatef(-0.928, -3.07, 0.53);
+	glTranslatef(-0.928, -3.65, 0.53);
 	glRotatef(-58, 0.0, 1.0, 0.0);
-	glScalef(0.16, 0.5, 0.02);
+	glScalef(0.16, 0.65, 0.02);
 	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();         //Shin right rectangle piece
-	glTranslatef(-1.01, -3.17, 0.1);
-	glScalef(0.02, 0.6, 0.3);
+	glTranslatef(-1.01, -3.75, 0.1);
+	glScalef(0.02, 0.75, 0.3);
 	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();          //Right behind rocket
-	glTranslatef(-0.9, -3.0, -0.42);
+	glTranslatef(-0.9, -3.6, -0.42);
 	glRotatef(90, 1.0, 0.0, 0.0);
 	drawCylinder(0.15, 0.15, 0.7, 30, 30);
 	glPopMatrix();
 
 	//7  (ankle)
 	glPushMatrix();     //Top steep cube
-	glTranslatef(-0.7, -3.67, 0.742);
+	glTranslatef(-0.7, -4.4, 0.742);
 	glRotatef(-40, 1.0, 0.0, 0.0);
 	glScalef(0.2, 0.12, 0.02);
 	drawFilledCube();
 	glPopMatrix();
 
 	glPushMatrix();     //Second steep cube
-	glTranslatef(-0.7, -3.82, 0.94);
+	glTranslatef(-0.7, -4.55, 0.94);
 	glRotatef(-65, 1.0, 0.0, 0.0);
 	glScalef(0.1, 0.14, 0.02);
 	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();     //Second steep left triangle
-	glTranslatef(-0.6, -3.79, 0.81);
+	glTranslatef(-0.6, -4.52, 0.81);
 	glRotatef(-65, 1.0, 0.0, 0.0);
 	glRotatef(180, 1.0, 0.0, 0.0);
 	glScalef(0.1, 0.27, 0.4);
 	drawFilledTriangle();
 	glPopMatrix();
 	glPushMatrix();     //Second steep right triangle
-	glTranslatef(-0.8, -3.749, 0.83);
+	glTranslatef(-0.8, -4.479, 0.83);
 	glRotatef(-65, 1.0, 0.0, 0.0);
 	glRotatef(180, 0.0, 1.0, 0.0);
 	glRotatef(180, 1.0, 0.0, 0.0);
@@ -3050,52 +3050,52 @@ void drawRightLeg()
 	glPopMatrix();
 
 	glPushMatrix();     //Third front cube
-	glTranslatef(-0.7, -3.96, 1.06);
+	glTranslatef(-0.7, -4.71, 1.06);
 	glScalef(0.1, 0.1, 0.02);
 	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();     //Third front bottom steep cube
-	glTranslatef(-0.7, -4.09, 0.86);
+	glTranslatef(-0.7, -4.84, 0.86);
 	glRotatef(-10, 1.0, 0.0, 0.0);
 	glScalef(0.1, 0.02, 0.21);
 	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();     //Bottom cube
-	glTranslatef(-0.69, -4.115, 0.35);
+	glTranslatef(-0.69, -4.865, 0.35);
 	glScalef(0.215, 0.02, 0.3);
 	drawFilledCube();
 	glPopMatrix();
 
 	glPushMatrix();     //Third front left cube
-	glTranslatef(-0.54, -3.96, 0.885);
+	glTranslatef(-0.54, -4.71, 0.885);
 	glRotatef(67, 0.0, 1.0, 0.0);
 	glScalef(0.2, 0.1, 0.02);
 	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();     //Third left side cube
-	glTranslatef(-0.46, -3.99, 0.4);
+	glTranslatef(-0.46, -4.74, 0.4);
 	glScalef(0.03, 0.13, 0.3);
 	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();     //Third left back cube
-	glTranslatef(-0.43, -3.94, 0.06);
+	glTranslatef(-0.43, -4.69, 0.06);
 	glScalef(0.04, 0.172, 0.28);
 	drawFilledCube();
 	glPopMatrix();
 
 	glPushMatrix();     //Third front right cube
-	glTranslatef(-0.851, -3.96, 0.885);
+	glTranslatef(-0.851, -4.71, 0.885);
 	glRotatef(-70, 0.0, 1.0, 0.0);
 	glScalef(0.2, 0.1, 0.02);
 	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();     //Third right side cube
-	glTranslatef(-0.92, -3.99, 0.4);
+	glTranslatef(-0.92, -4.74, 0.4);
 	glScalef(0.03, 0.13, 0.3);
 	drawFilledCube();
 	glPopMatrix();
 	glPushMatrix();     //Third right back cube
-	glTranslatef(-0.955, -3.94, 0.06);
+	glTranslatef(-0.955, -4.69, 0.06);
 	glScalef(0.04, 0.172, 0.28);
 	drawFilledCube();
 	glPopMatrix();
