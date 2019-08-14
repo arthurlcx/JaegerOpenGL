@@ -3101,6 +3101,199 @@ void drawRightLeg()
 	glPopMatrix();
 }
 
+void drawBackWing()
+{
+//Left side
+	glPushMatrix();          // Piece stick to body
+		glTranslatef(0.5, 2.0, -0.65);
+		glScalef(0.15, 0.4, 0.03);
+		drawFilledCube();
+	glPopMatrix();
+//1
+	glPushMatrix();           //Cube piece 
+		glTranslatef(0.8, 2.0, -0.7);
+		glScalef(0.45, 0.35, 0.02);
+		drawFilledCubeT();
+	glPopMatrix();
+	glPushMatrix();           //Top Triangle piece
+		glTranslatef(1.25, 2.35, -0.72);
+		glRotatef(180, 0.0, 1.0, 0.0);
+		glScalef(0.9, 0.5, 0.4);
+		drawFilledTriangle();
+	glPopMatrix();
+//2
+	glPushMatrix();           //Cube piece 
+		glTranslatef(1.7, 2.49, -0.7);
+		glScalef(0.45, 0.35, 0.02);
+		drawFilledCubeT();
+	glPopMatrix();
+	glPushMatrix();           //Bottom Triangle piece
+		glTranslatef(1.25, 2.14, -0.72);
+		glRotatef(180, 1.0, 0.0, 0.0);
+		glScalef(0.9, 0.5, 0.4);
+		drawFilledTriangle();
+	glPopMatrix();
+
+//3  (wings) (face down)
+	glPushMatrix();          //first
+		glTranslatef(2.68, 2.25, -0.7);
+		glRotatef(-40, 0.0, 0.0, 1.0);
+		glScalef(0.8, 0.1, 0.02);
+		drawFilledCubeT();
+	glPopMatrix();
+	glPushMatrix();          //second
+		glTranslatef(2.55, 2.1, -0.7);
+		glRotatef(-40, 0.0, 0.0, 1.0);
+		glScalef(0.7, 0.1, 0.02);
+		drawFilledCubeT();
+	glPopMatrix();
+	glPushMatrix();          //third
+		glTranslatef(2.42, 1.95, -0.7);
+		glRotatef(-40, 0.0, 0.0, 1.0);
+		glScalef(0.6, 0.1, 0.02);
+		drawFilledCubeT();
+	glPopMatrix();
+	glPushMatrix();          //fourth
+		glTranslatef(2.29, 1.8, -0.7);
+		glRotatef(-40, 0.0, 0.0, 1.0);
+		glScalef(0.5, 0.1, 0.02);
+		drawFilledCubeT();
+	glPopMatrix();
+	glPushMatrix();          //fifth
+		glTranslatef(2.1, 1.7, -0.7);
+		glRotatef(-40, 0.0, 0.0, 1.0);
+		glScalef(0.5, 0.1, 0.02);
+		drawFilledCubeT();
+	glPopMatrix();
+
+//3  (wings) (face up)
+	glPushMatrix();          //first
+		glTranslatef(2.2, 3.3, -0.7);
+		glRotatef(60, 0.0, 0.0, 1.0);
+		glScalef(0.8, 0.1, 0.02);
+		drawFilledCube();
+	glPopMatrix();
+	glPushMatrix();          //second
+		glTranslatef(2.3, 3.1, -0.7);
+		glRotatef(57, 0.0, 0.0, 1.0);
+		glScalef(0.7, 0.1, 0.02);
+		drawFilledCubeT();
+	glPopMatrix();
+	glPushMatrix();          //third
+		glTranslatef(2.4, 2.9, -0.7);
+		glRotatef(54, 0.0, 0.0, 1.0);
+		glScalef(0.6, 0.1, 0.02);
+		drawFilledCubeT();
+	glPopMatrix();
+	glPushMatrix();          //fourth
+		glTranslatef(2.4, 2.6, -0.7);
+		glRotatef(46, 0.0, 0.0, 1.0);
+		glScalef(0.5, 0.1, 0.02);
+		drawFilledCubeT();
+	glPopMatrix();
+	glPushMatrix();          //fifth
+		glTranslatef(2.4, 2.3, -0.7);
+		glRotatef(40, 0.0, 0.0, 1.0);
+		glScalef(0.5, 0.1, 0.02);
+		drawFilledCubeT();
+	glPopMatrix();
+
+//Right side
+	glPushMatrix();          // Piece stick to body
+		glTranslatef(-0.5, 2.0, -0.65);
+		glScalef(0.15, 0.4, 0.03);
+		drawFilledCube();
+	glPopMatrix();
+//1
+	glPushMatrix();           //Cube piece 
+		glTranslatef(-0.8, 2.0, -0.7);
+		glScalef(0.45, 0.35, 0.02);
+		drawFilledCubeT();
+	glPopMatrix();
+	glPushMatrix();           //Triangle piece
+		glTranslatef(-1.25, 2.35, -0.72);
+		glScalef(0.9, 0.5, 0.4);
+		drawFilledTriangle();
+	glPopMatrix();
+//2
+	glPushMatrix();           //Cube piece 
+		glTranslatef(-1.7, 2.5, -0.7);
+		glScalef(0.45, 0.35, 0.02);
+		drawFilledCubeT();
+	glPopMatrix();
+	glPushMatrix();           //Bottom Triangle piece
+		glTranslatef(-1.25, 2.15, -0.68);
+		glRotatef(180, 0.0, 1.0, 0.0);
+		glRotatef(180, 1.0, 0.0, 0.0);
+		glScalef(0.9, 0.5, 0.4);
+		drawFilledTriangle();
+	glPopMatrix();
+
+//3  (wings) (face down)
+	glPushMatrix();          //first
+		glTranslatef(-2.68, 2.25, -0.7);
+		glRotatef(40, 0.0, 0.0, 1.0);
+		glScalef(0.8, 0.1, 0.02);
+		drawFilledCubeT();
+	glPopMatrix();
+	glPushMatrix();          //second
+		glTranslatef(-2.55, 2.1, -0.7);
+		glRotatef(40, 0.0, 0.0, 1.0);
+		glScalef(0.7, 0.1, 0.02);
+		drawFilledCubeT();
+	glPopMatrix();
+	glPushMatrix();          //third
+		glTranslatef(-2.42, 1.95, -0.7);
+		glRotatef(40, 0.0, 0.0, 1.0);
+		glScalef(0.6, 0.1, 0.02);
+		drawFilledCubeT();
+	glPopMatrix();
+	glPushMatrix();          //fourth
+		glTranslatef(-2.29, 1.8, -0.7);
+		glRotatef(40, 0.0, 0.0, 1.0);
+		glScalef(0.5, 0.1, 0.02);
+		drawFilledCubeT();
+	glPopMatrix();
+	glPushMatrix();          //fifth
+		glTranslatef(-2.1, 1.7, -0.7);
+		glRotatef(40, 0.0, 0.0, 1.0);
+		glScalef(0.5, 0.1, 0.02);
+		drawFilledCubeT();
+	glPopMatrix();
+
+//3  (wings) (face up)
+	glPushMatrix();          //first
+	glTranslatef(-2.2, 3.3, -0.7);
+	glRotatef(-60, 0.0, 0.0, 1.0);
+	glScalef(0.8, 0.1, 0.02);
+	drawFilledCube();
+	glPopMatrix();
+	glPushMatrix();          //second
+	glTranslatef(-2.3, 3.1, -0.7);
+	glRotatef(-57, 0.0, 0.0, 1.0);
+	glScalef(0.7, 0.1, 0.02);
+	drawFilledCubeT();
+	glPopMatrix();
+	glPushMatrix();          //third
+	glTranslatef(-2.4, 2.9, -0.7);
+	glRotatef(-54, 0.0, 0.0, 1.0);
+	glScalef(0.6, 0.1, 0.02);
+	drawFilledCubeT();
+	glPopMatrix();
+	glPushMatrix();          //fourth
+	glTranslatef(-2.4, 2.6, -0.7);
+	glRotatef(-46, 0.0, 0.0, 1.0);
+	glScalef(0.5, 0.1, 0.02);
+	drawFilledCubeT();
+	glPopMatrix();
+	glPushMatrix();          //fifth
+	glTranslatef(-2.4, 2.3, -0.7);
+	glRotatef(-40, 0.0, 0.0, 1.0);
+	glScalef(0.5, 0.1, 0.02);
+	drawFilledCubeT();
+	glPopMatrix();
+}
+
 void jaegerRobot()
 {
 	//Body
@@ -3125,6 +3318,9 @@ void jaegerRobot()
 		drawBackBone();
 		endTexture();
 	glPopMatrix();
+
+	//Back wing or Exhaust
+	drawBackWing();
 
 	// Armor part
 	glPushMatrix();
@@ -3215,6 +3411,7 @@ void initLighting() {
 
 	glEnable(GL_LIGHT0);
 }
+
 
 void display()
 {
