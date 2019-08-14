@@ -68,6 +68,9 @@ float boneLength = 2.0f;
 
 bool textureOn = false;
 
+//
+float drillRotate = 10;
+
 //Texture variable declaration
 GLuint texture = 0;
 BITMAP BMP;
@@ -105,6 +108,8 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			PostQuitMessage(0);
 		else if (wParam == VK_LEFT)
 			reactor += 100.0;
+		else if (wParam == VK_RIGHT)
+			drillRotate += 30.0;
 		else if (wParam == 0x31)
 			ambientOn = !ambientOn;
 		else if (wParam == 0x32)
@@ -194,6 +199,17 @@ void drawCylinder(float base, float top, float height, float slices, float stack
 	GLUquadricObj *cylinder = NULL;
 	cylinder = gluNewQuadric();
 	gluQuadricDrawStyle(cylinder, GLU_FILL);
+	gluQuadricNormals(cylinder, GLU_SMOOTH);
+	gluQuadricTexture(cylinder, GLU_TRUE);
+	gluCylinder(cylinder, base, top, height, slices, stacks);    //gluCylinder(GLUquadric obj *, baseRadius,topRadius, height,slices, stacks);
+	gluDeleteQuadric(cylinder);
+}
+
+void drawCylinderL(float base, float top, float height, float slices, float stacks)
+{
+	GLUquadricObj *cylinder = NULL;
+	cylinder = gluNewQuadric();
+	gluQuadricDrawStyle(cylinder, GLU_LINE);
 	gluQuadricNormals(cylinder, GLU_SMOOTH);
 	gluQuadricTexture(cylinder, GLU_TRUE);
 	gluCylinder(cylinder, base, top, height, slices, stacks);    //gluCylinder(GLUquadric obj *, baseRadius,topRadius, height,slices, stacks);
@@ -1619,6 +1635,148 @@ void drawFrontBelly()
 	glScalef(0.35, 0.1, 0.08);
 	drawFilledCube();
 	glPopMatrix();
+}
+
+void drawWeapon()
+{
+//Drill hand
+	
+	//glPushMatrix();      //Box
+	//glScalef(0.5, 0.3, 0.3);
+	//drawFilledCubeT();
+	//glPopMatrix();
+
+	//glPushMatrix();
+	//glTranslatef(0.5, 0.0, 0.0);
+	//glRotatef(drillRotate, 1.0, 0.0, 0.0);
+	//glRotatef(90, 0.0, 1.0, 0.0);
+	//drawCylinderL(0.3, 0.0, 0.8, 20, 10);
+	//glPopMatrix();
+
+//Bullet hand
+
+	//glPushMatrix();      //Box
+	//	glScalef(0.5, 0.3, 0.3);
+	//	drawFilledCubeT();
+	//glPopMatrix();
+
+	//glPushMatrix();        //Bullet
+	//	glTranslatef(0.5, 0.18, 0.15);
+	//	glRotatef(90, 0.0, 1.0, 0.0);
+	//	drawCylinder(0.1, 0.1, 0.6, 30, 30);
+	//glPopMatrix();
+	//glPushMatrix();        //Bullet
+	//	glTranslatef(0.5, -0.18, 0.15);
+	//	glRotatef(90, 0.0, 1.0, 0.0);
+	//	drawCylinder(0.1, 0.1, 0.6, 30, 30);
+	//glPopMatrix();
+	//glPushMatrix();        //Bullet
+	//	glTranslatef(0.5, 0.18, -0.15);
+	//	glRotatef(90, 0.0, 1.0, 0.0);
+	//	drawCylinder(0.1, 0.1, 0.6, 30, 30);
+	//glPopMatrix();
+	//glPushMatrix();        //Bullet
+	//	glTranslatef(0.5, -0.18, -0.15);
+	//	glRotatef(90, 0.0, 1.0, 0.0);
+	//	drawCylinder(0.1, 0.1, 0.6, 30, 30);
+	//glPopMatrix();
+
+//Laser gun
+	/*glPushMatrix();
+	glScalef(1.2 , 0.6, 0.6);
+	drawSphere(0.6, 20, 20);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(-0.7, 0.0, 0.0);
+	glRotatef(90, 0.0, 1.0, 0.0);
+	drawCylinder(0.35, 0.35, 0.85, 50, 50);
+	glPopMatrix();*/
+
+//Sword
+
+	glPushMatrix();      //Box
+		glScalef(0.5, 0.3, 0.3);
+		drawFilledCubeT();
+	glPopMatrix();
+	glPushMatrix();      //Long piece
+		glTranslatef(1.5, 0.0, 0.0);
+		glScalef(1.2, 0.26, 0.06);
+		drawFilledCube();
+	glPopMatrix();
+	glPushMatrix();        //Sharp side triangle
+		glTranslatef(2.7, 0.26, 0.055);
+		glRotatef(-90, 0.0, 0.0, 1.0);
+		glScalef(0.8, 0.8, 1.1);
+		drawFilledTriangle();
+	glPopMatrix();
+	glPushMatrix();      //Under cube piece
+	glTranslatef(2.4, -0.4, 0.0);
+	glScalef(0.3, 0.14, 0.06);
+	drawFilledCube();
+	glPopMatrix();
+	glPushMatrix();        //Sharp side triangle (small)
+		glTranslatef(2.099, -0.26, -0.06);
+		glRotatef(180, 0.0, 1.0, 0.0);
+		glRotatef(-90, 0.0, 0.0, 1.0);
+		glScalef(0.27, 0.4, 1.15);
+		drawFilledTriangle();
+	glPopMatrix();
+
+	//Top of sword
+	glPushMatrix();           //thin long cube 
+		glTranslatef(1.5, 0.21, 0.1);
+		glScalef(0.5, 0.08, 0.04);
+		drawFilledCubeT();
+	glPopMatrix();
+	glPushMatrix();
+		glTranslatef(1.5, 0.21, -0.1);
+		glScalef(0.5, 0.08, 0.04);
+		drawFilledCubeT();
+	glPopMatrix();
+
+	glPushMatrix();           //steep piece
+		glTranslatef(1.82, 0.35, 0.0);
+		glRotatef(30, 0.0, 0.0, 1.0);
+		glScalef(0.2, 0.02, 0.1);
+		drawFilledCubeT();
+	glPopMatrix();
+	glPushMatrix();           //horizontal piece
+		glTranslatef(2.3, 0.44, 0.0);
+		glScalef(0.30, 0.02, 0.1);
+		drawFilledCubeT();
+	glPopMatrix();
+
+	glPushMatrix();           //second thick long cube 
+		glTranslatef(2.3, 0.26, 0.1);
+		glScalef(0.3, 0.2, 0.04);
+		drawFilledCubeT();
+	glPopMatrix();
+	glPushMatrix();          
+		glTranslatef(2.3, 0.26, -0.1);
+		glScalef(0.3, 0.2, 0.04);
+		drawFilledCubeT();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(2.75, 0.35, 0.0);
+	glRotatef(-30, 0.0, 0.0, 1.0);
+	glScalef(0.2, 0.02, 0.1);
+	drawFilledCubeT();
+	glPopMatrix();
+
+	glPushMatrix();        //front Sharp side triangle (small)
+		glTranslatef(2.6, 0.26, 0.14);
+		glRotatef(-90, 0.0, 0.0, 1.0);
+		glScalef(0.2, 0.5, 0.8);
+		drawFilledTriangle();
+	glPopMatrix();
+	glPushMatrix();        //front Sharp side triangle (small)
+		glTranslatef(2.6, 0.26, -0.06);
+		glRotatef(-90, 0.0, 0.0, 1.0);
+		glScalef(0.2, 0.5, 0.8);
+		drawFilledTriangle();
+	glPopMatrix();
+
 }
 
 void drawLeftHand()
@@ -3103,76 +3261,79 @@ void drawRightLeg()
 
 void jaegerRobot()
 {
-	//Body
+	////Body
 
 	glRotatef(90, 1.0, 0.0, 0.0);
 
-	//Inner part of robot
-	glPushMatrix();
-		glColor3f(1.0, 1.0, 1.0);
-		loadBitmapImage("textureImage/darkMetal_inner.bmp");
-		drawInnerRobotPart();
-		endTexture();
-	glPopMatrix();
+	////Inner part of robot
+	//glPushMatrix();
+	//	glColor3f(1.0, 1.0, 1.0);
+	//	loadBitmapImage("textureImage/darkMetal_inner.bmp");
+	//	drawInnerRobotPart();
+	//	endTexture();
+	//glPopMatrix();
 
-	//Head part
-	drawHeadArmour();
+	////Head part
+	//drawHeadArmour();
 
-	//Backbone part
-	glPushMatrix();
-		glColor3f(1.0, 1.0, 1.0);
-		loadBitmapImage("textureImage/chrome_backbone.bmp");
-		drawBackBone();
-		endTexture();
-	glPopMatrix();
+	////Backbone part
+	//glPushMatrix();
+	//	glColor3f(1.0, 1.0, 1.0);
+	//	loadBitmapImage("textureImage/chrome_backbone.bmp");
+	//	drawBackBone();
+	//	endTexture();
+	//glPopMatrix();
 
-	// Armor part
-	glPushMatrix();
-		glColor3f(1.0, 1.0, 1.0);
-		loadBitmapImage("textureImage/blue_armor.bmp");
-		drawFrontArmour();
-		endTexture();
-	glPopMatrix();
+	//// Armor part
+	//glPushMatrix();
+	//	glColor3f(1.0, 1.0, 1.0);
+	//	loadBitmapImage("textureImage/blue_armor.bmp");
+	//	drawFrontArmour();
+	//	endTexture();
+	//glPopMatrix();
 
-	// Reactor
-	glPushMatrix();
-		glColor3f(1.0, 1.0, 1.0);
-		loadBitmapImage("textureImage/reactor.bmp");
-		drawReactor();
-		endTexture();
-	glPopMatrix();
+	//// Reactor
+	//glPushMatrix();
+	//	glColor3f(1.0, 1.0, 1.0);
+	//	loadBitmapImage("textureImage/reactor.bmp");
+	//	drawReactor();
+	//	endTexture();
+	//glPopMatrix();
 
-	// Reactor
-	/*glPushMatrix();
-		glColor3f(1.0, 1.0, 1.0);
-		loadBitmapImage("textureImage/.bmp");
-		drawReactorShell();
-		endTexture();
-	glPopMatrix();*/
+	//// Reactor
+	///*glPushMatrix();
+	//	glColor3f(1.0, 1.0, 1.0);
+	//	loadBitmapImage("textureImage/.bmp");
+	//	drawReactorShell();
+	//	endTexture();
+	//glPopMatrix();*/
 
-	//Front Belly
-	glPushMatrix();
-		glColor3f(1.0, 1.0, 1.0);
-		loadBitmapImage("textureImage/blue_armor.bmp");
-		drawFrontBelly();
-		endTexture();
-	glPopMatrix();
+	////Front Belly
+	//glPushMatrix();
+	//	glColor3f(1.0, 1.0, 1.0);
+	//	loadBitmapImage("textureImage/blue_armor.bmp");
+	//	drawFrontBelly();
+	//	endTexture();
+	//glPopMatrix();
 
-	//Hand part
-	drawLeftHand();
-	drawRightHand();
+	//Weapon 
+	drawWeapon();
 
-	drawLeftHandPalm();
-	drawRightHandPalm();
+	////Hand part
+	//drawLeftHand();
+	//drawRightHand();
 
-	//Leg part
-	glPushMatrix();
-		glColor3f(1.0, 1.0, 1.0);
-		loadBitmapImage("textureImage/blue_armor.bmp");
-		drawLeftLeg();
-		drawRightLeg();
-		endTexture();
-	glPopMatrix();
+	//drawLeftHandPalm();
+	//drawRightHandPalm();
+
+	////Leg part
+	//glPushMatrix();
+	//	glColor3f(1.0, 1.0, 1.0);
+	//	loadBitmapImage("textureImage/blue_armor.bmp");
+	//	drawLeftLeg();
+	//	drawRightLeg();
+	//	endTexture();
+	//glPopMatrix();
 
 	//Testing Area
 
