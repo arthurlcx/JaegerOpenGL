@@ -85,7 +85,14 @@ float robotMove = 0.0;
 std::string armorTextureArray[] = { "textureImage/blue_armor.bmp", "textureImage/black_armor.bmp", "textureImage/camo_armor.bmp" };
 std::string innerTextureArray[] = { "textureImage/darkMetal_inner.bmp", "textureImage/whiteMetal_inner.bmp", "textureImage/greenMetal_inner.bmp" };
 std::string wingTextureArray[] = { "textureImage/wing1.bmp", "textureImage/wing2.bmp", "textureImage/wing3.bmp" };
+std::string environmentTopTextureArray[] = { "environmentTexture/Daylight Box_Top.bmp", "environmentTexture/cottoncandy_up.bmp", "environmentTexture/midnight-silence_up.bmp" };
+std::string environmentBottomTextureArray[] = { "environmentTexture/Daylight Box_Bottom.bmp" , "environmentTexture/cottoncandy_dn.bmp", "environmentTexture/midnight-silence_dn.bmp" };
+std::string environmentLeftTextureArray[] = { "environmentTexture/Daylight Box_Left.bmp" , "environmentTexture/cottoncandy_rt.bmp", "environmentTexture/midnight-silence_rt.bmp" };
+std::string environmentRightTextureArray[] = { "environmentTexture/Daylight Box_Right.bmp" , "environmentTexture/cottoncandy_lf.bmp", "environmentTexture/midnight-silence_lf.bmp" };
+std::string environmentFrontTextureArray[] = { "environmentTexture/Daylight Box_Back.bmp" , "environmentTexture/cottoncandy_bk.bmp", "environmentTexture/midnight-silence_bk.bmp" };
+std::string environmentBackTextureArray[] = { "environmentTexture/Daylight Box_Front.bmp" , "environmentTexture/cottoncandy_ft.bmp", "environmentTexture/midnight-silence_ft.bmp" };
 int textureSetIndex = 0;
+int textureEnvironmentIndex = 1;
 
 GLuint texture = 0;
 BITMAP BMP;
@@ -268,6 +275,12 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			textureSetIndex = 1;
 		else if (wParam == VK_NUMPAD3) // numpad 1 for texture set 3
 			textureSetIndex = 2;
+		else if (wParam == VK_NUMPAD4) // numpad 1 for environemnt texture set 1
+			textureEnvironmentIndex = 0;
+		else if (wParam == VK_NUMPAD5) // numpad 1 for environemnt texture set 2
+			textureEnvironmentIndex = 1;
+		else if (wParam == VK_NUMPAD6) // numpad 1 for environemnt texture set 3
+			textureEnvironmentIndex = 2;
 		break;
 
 
@@ -323,8 +336,8 @@ void loadBitmapImage(const char *filename) {
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, BMP.bmWidth, BMP.bmHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, BMP.bmBits);
 }
@@ -551,7 +564,6 @@ void drawCircle(float radius)
 	}
 	glEnd();
 }
-
 
 void drawInnerRobotPart()
 {
@@ -3574,6 +3586,96 @@ void drawBackWing()
 	glPopMatrix();
 }
 
+void environment() {
+	glTranslatef(0.0, 5.0, 0.0);
+	glScalef(30.0, 10.0, 30.0);
+	glPushMatrix();
+		loadBitmapImage(environmentTopTextureArray[textureEnvironmentIndex].data());
+		glBegin(GL_QUADS);
+		{
+			// Top Face
+			glTexCoord2f(0, 0); glVertex3f(-1.0f, 1.0f, -1.0f);
+			glTexCoord2f(1, 0); glVertex3f(1.0f, 1.0f, -1.0f);
+			glTexCoord2f(1, 1); glVertex3f(1.0f, 1.0f, 1.0f);
+			glTexCoord2f(0, 1); glVertex3f(-1.0f, 1.0f, 1.0f);
+		}
+		glEnd();
+		endTexture();
+	glPopMatrix();
+
+	glPushMatrix();
+		loadBitmapImage(environmentLeftTextureArray[textureEnvironmentIndex].data());
+		glBegin(GL_QUADS);
+		{
+			// Left Face
+			glTexCoord2f(1, 1); glVertex3f(-1.0f, 1.0f, -1.0f);
+			glTexCoord2f(0, 1); glVertex3f(-1.0f, 1.0f, 1.0f);
+			glTexCoord2f(0, 0); glVertex3f(-1.0f, -1.0f, 1.0f);
+			glTexCoord2f(1, 0); glVertex3f(-1.0f, -1.0f, -1.0f);
+		}
+		glEnd();
+		endTexture();
+	glPopMatrix();
+
+	glPushMatrix();
+		loadBitmapImage(environmentBackTextureArray[textureEnvironmentIndex].data());
+		glBegin(GL_QUADS);
+		{
+			// Back Face
+			glTexCoord2f(0, 0); glVertex3f(-1.0f, -1.0f, -1.0f);
+			glTexCoord2f(1, 0); glVertex3f(1.0f, -1.0f, -1.0f);
+			glTexCoord2f(1, 1); glVertex3f(1.0f, 1.0f, -1.0f);
+			glTexCoord2f(0, 1); glVertex3f(-1.0f, 1.0f, -1.0f);
+
+		}
+		glEnd();
+		endTexture();
+	glPopMatrix();
+
+	glPushMatrix();
+	loadBitmapImage(environmentRightTextureArray[textureEnvironmentIndex].data());
+		glBegin(GL_QUADS);
+		{
+			// Right Face
+			glTexCoord2f(1, 1); glVertex3f(1.0f, 1.0f, 1.0f);
+			glTexCoord2f(0, 1); glVertex3f(1.0f, 1.0f, -1.0f);
+			glTexCoord2f(0, 0); glVertex3f(1.0f, -1.0f, -1.0f);
+			glTexCoord2f(1, 0); glVertex3f(1.0f, -1.0f, 1.0f);
+		}
+		glEnd();
+		endTexture();
+	glPopMatrix();
+
+	glPushMatrix();
+		loadBitmapImage(environmentBottomTextureArray[textureEnvironmentIndex].data());
+		glBegin(GL_QUADS);
+		{
+			// Bottom Face
+			glTexCoord2f(0, 0); glVertex3f(-1.0f, -1.0f, 1.0f);
+			glTexCoord2f(1, 0); glVertex3f(1.0f, -1.0f, 1.0f);
+			glTexCoord2f(1, 1); glVertex3f(1.0f, -1.0f, -1.0f);
+			glTexCoord2f(0, 1); glVertex3f(-1.0f, -1.0f, -1.0f);
+		}
+		glEnd();
+		endTexture();
+	glPopMatrix();
+
+	glPushMatrix();
+		loadBitmapImage(environmentFrontTextureArray[textureEnvironmentIndex].data());
+		glBegin(GL_QUADS);
+		{
+			// Front Face
+			glTexCoord2f(1, 1); glVertex3f(-1.0f, 1.0f, 1.0f);
+			glTexCoord2f(0, 1); glVertex3f(1.0f, 1.0f, 1.0f);
+			glTexCoord2f(0, 0); glVertex3f(1.0f, -1.0f, 1.0f);
+			glTexCoord2f(1, 0); glVertex3f(-1.0f, -1.0f, 1.0f);
+		}
+		glEnd();
+		endTexture();
+	glPopMatrix();
+	
+}
+
 void jaegerRobot()
 {
 //Body
@@ -3808,6 +3910,9 @@ void display()
 	glRotatef(zRotated, 0.0, 0.0, 1.0);
 
 	jaegerRobot();
+
+	environment();
+
 }
 //--------------------------------------------------------------------
 
@@ -3854,7 +3959,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(70.0, 1, 0.1, 60.0);
+	gluPerspective(70.0, 1, 0.1, 100.0);
 
 
 	while (true)
