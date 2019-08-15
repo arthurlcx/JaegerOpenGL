@@ -80,6 +80,7 @@ float LeftLegKneeShinAngle1 = 0.0, RightLegKneeShinAngle1;
 
 bool legMove = true;
 float robotMove = 0.0;
+float fingerAngle1 = 0.0, fingerAngle2 = 0.0, fingerAngle3 = 0.0, fingerAngle4 = 0.0;;
 
 //Texture variable declaration
 std::string armorTextureArray[] = { "textureImage/blue_armor.bmp", "textureImage/black_armor.bmp", "textureImage/camo_armor.bmp" };
@@ -232,6 +233,32 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 				LeftLegAnkleAngle += 5;
 			if (RightLegAnkleAngle < 0 && RightLegAnkleAngle >= -10)
 				RightLegAnkleAngle += 5;
+		}
+		else if (wParam == 'M')               //Finger part
+		{
+			if (fingerAngle1 <= 0 && fingerAngle1 > -50)
+			{
+				fingerAngle1 -= 2.0;
+				fingerAngle2 -= 3.0;
+			}
+			if (fingerAngle3 >= 0 && fingerAngle3 < 50)
+			{
+				fingerAngle3 += 2.0;
+				fingerAngle4 += 3.0;
+			}
+		}
+		else if (wParam == 'N')               //Finger part
+		{
+			if (fingerAngle1 < 0 && fingerAngle1 >= -55)
+			{
+				fingerAngle1 += 2.0;
+				fingerAngle2 += 3.0;
+			}
+			if (fingerAngle3 > 0 && fingerAngle3 <= 55)
+			{
+				fingerAngle3 -= 2.0;
+				fingerAngle4 -= 3.0;
+			}
 		}
 
 		else if (wParam == 0x31)
@@ -1865,21 +1892,166 @@ void drawLeftElbowForearm()
 
 }
 
+void left4FingerPart1()
+{
+	//Index finger
+	glPushMatrix();
+	glColor3f(1.0, 1.0, 1.0);
+	glTranslatef(1.53, -1.0, 0.2);
+	glScalef(0.04, 0.09, 0.05);
+	drawFilledCube1();
+	glPopMatrix();
+
+	//Middle Finger
+	glPushMatrix();
+	glColor3f(1.0, 1.0, 1.0);
+	glTranslatef(1.53, -1.0, 0.06);
+	glScalef(0.04, 0.09, 0.05);
+	drawFilledCube1();
+	glPopMatrix();
+
+	//Ring Finger
+	glPushMatrix();
+	glColor3f(1.0, 1.0, 1.0);
+	glTranslatef(1.53, -1.0, -0.08);
+	glScalef(0.04, 0.09, 0.05);
+	drawFilledCube1();
+	glPopMatrix();
+
+	//Pinky Finger
+	glPushMatrix();
+	glColor3f(1.0, 1.0, 1.0);
+	glTranslatef(1.53, -1.0, -0.22);
+	glScalef(0.04, 0.09, 0.05);
+	drawFilledCube1();
+	glPopMatrix();
+}
+
+void left4FingerPart2()
+{
+	//Index finger
+	glPushMatrix();            //small sphere (circle bone)
+	glTranslatef(1.52, -1.12, 0.2);
+	drawSphere(0.04, 60, 60);
+	glPopMatrix();
+	glPushMatrix();
+	glColor3f(1.0, 1.0, 1.0);
+	glTranslatef(1.48, -1.25, 0.2);
+	glRotatef(-20, 0.0, 0.0, 1.0);
+	glScalef(0.04, 0.09, 0.05);
+	drawFilledCube1();
+	glPopMatrix();
+
+	//Middle Finger
+	glPushMatrix();            //small sphere (circle bone)
+	glTranslatef(1.52, -1.12, 0.06);
+	drawSphere(0.04, 60, 60);
+	glPopMatrix();
+	glPushMatrix();
+	glColor3f(1.0, 1.0, 1.0);
+	glTranslatef(1.48, -1.25, 0.06);
+	glRotatef(-20, 0.0, 0.0, 1.0);
+	glScalef(0.04, 0.09, 0.05);
+	drawFilledCube1();
+	glPopMatrix();
+
+	//Ring Finger
+	glPushMatrix();            //small sphere (circle bone)
+	glTranslatef(1.52, -1.12, -0.08);
+	drawSphere(0.04, 60, 60);
+	glPopMatrix();
+	glPushMatrix();
+	glColor3f(1.0, 1.0, 1.0);
+	glTranslatef(1.48, -1.25, -0.08);
+	glRotatef(-20, 0.0, 0.0, 1.0);
+	glScalef(0.04, 0.09, 0.05);
+	drawFilledCube1();
+	glPopMatrix();
+
+	//Pinky Finger
+	glPushMatrix();            //small sphere (circle bone)
+	glTranslatef(1.52, -1.12, -0.22);
+	drawSphere(0.04, 60, 60);
+	glPopMatrix();
+	glPushMatrix();
+	glColor3f(1.0, 1.0, 1.0);
+	glTranslatef(1.48, -1.25, -0.22);
+	glRotatef(-20, 0.0, 0.0, 1.0);
+	glScalef(0.04, 0.09, 0.05);
+	drawFilledCube1();
+	glPopMatrix();
+}
+
+void left4FingerPart3()
+{
+	//Index Finger
+	glPushMatrix();            //small sphere (circle bone)
+	glTranslatef(1.44, -1.36, 0.2);
+	drawSphere(0.04, 60, 60);
+	glPopMatrix();
+	glPushMatrix();
+	glColor3f(1.0, 1.0, 1.0);
+	glTranslatef(1.35, -1.45, 0.2);
+	glRotatef(-50, 0.0, 0.0, 1.0);
+	glScalef(0.04, 0.09, 0.05);
+	drawFilledCube1();
+	glPopMatrix();
+
+	//Middle Finger
+	glPushMatrix();            //small sphere (circle bone)
+	glTranslatef(1.44, -1.36, 0.06);
+	drawSphere(0.04, 60, 60);
+	glPopMatrix();
+	glPushMatrix();
+	glColor3f(1.0, 1.0, 1.0);
+	glTranslatef(1.35, -1.45, 0.06);
+	glRotatef(-50, 0.0, 0.0, 1.0);
+	glScalef(0.04, 0.09, 0.05);
+	drawFilledCube1();
+	glPopMatrix();
+
+	//Ring Finger
+	glPushMatrix();            //small sphere (circle bone)
+	glTranslatef(1.44, -1.36, -0.08);
+	drawSphere(0.04, 60, 60);
+	glPopMatrix();
+	glPushMatrix();
+	glColor3f(1.0, 1.0, 1.0);
+	glTranslatef(1.35, -1.45, -0.08);
+	glRotatef(-50, 0.0, 0.0, 1.0);
+	glScalef(0.04, 0.09, 0.05);
+	drawFilledCube1();
+	glPopMatrix();
+
+	//Pinky Finger
+	glPushMatrix();            //small sphere (circle bone)
+	glTranslatef(1.44, -1.36, -0.22);
+	drawSphere(0.04, 60, 60);
+	glPopMatrix();
+	glPushMatrix();
+	glColor3f(1.0, 1.0, 1.0);
+	glTranslatef(1.35, -1.45, -0.22);
+	glRotatef(-50, 0.0, 0.0, 1.0);
+	glScalef(0.04, 0.09, 0.05);
+	drawFilledCube1();
+	glPopMatrix();
+}
+
 void drawLeftHandPalm()
 {
 //Inner part
 	glPushMatrix();            //cylinder between forearm and palm (wrist)
-	glColor3f(0.0, 0.0, 0.0);
-	glTranslatef(1.55, -0.20, -0.0);
-	glScalef(1.0, 1.0, 1.5);
-	glRotatef(90, 1.0, 0.0, 0.0);
-	drawCylinder(0.14, 0.08, 0.3, 50, 50);
+		glColor3f(0.0, 0.0, 0.0);
+		glTranslatef(1.55, -0.20, -0.0);
+		glScalef(1.0, 1.0, 1.5);
+		glRotatef(90, 1.0, 0.0, 0.0);
+		drawCylinder(0.14, 0.08, 0.3, 50, 50);
 	glPopMatrix();
 
 	glPushMatrix();           //Palm
-	glTranslatef(1.55, -0.7, 0.0);
-	glScalef(0.05, 0.2, 0.2);
-	drawFilledCube1();
+		glTranslatef(1.55, -0.7, 0.0);
+		glScalef(0.05, 0.2, 0.2);
+		drawFilledCube1();
 	glPopMatrix();
 
 //Wrist
@@ -1920,7 +2092,7 @@ void drawLeftHandPalm()
 	glPopMatrix();
 
 //Finger
-	//Thumb
+	//Thumb	
 	glPushMatrix();
 		glColor3f(1.0, 1.0, 1.0);
 		glTranslatef(1.53, -0.7, 0.28);
@@ -1928,136 +2100,49 @@ void drawLeftHandPalm()
 		glScalef(0.04, 0.09, 0.05);
 		drawFilledCube1();
 	glPopMatrix();
-	glPushMatrix();            //small sphere (circle bone)
-		glTranslatef(1.52, -0.816, 0.345);
-		drawSphere(0.04, 60, 60);
-	glPopMatrix();
-	glPushMatrix();
-		glTranslatef(1.45, -0.92, 0.39);
-		glRotatef(-30, 0.0, 0.0, 1.0);
-		glRotatef(-20, 1.0, 0.0, 0.0);
-		glScalef(0.04, 0.09, 0.05);
-		drawFilledCube1();
-	glPopMatrix();
 
-	//Index Finger
 	glPushMatrix();
-		glColor3f(1.0, 1.0, 1.0);
-		glTranslatef(1.53, -1.0, 0.2);
-		glScalef(0.04, 0.09, 0.05);
-		drawFilledCube1();
-	glPopMatrix();
-	glPushMatrix();            //small sphere (circle bone)
-		glTranslatef(1.52, -1.12, 0.2);
-		drawSphere(0.04, 60, 60);
-	glPopMatrix();
-	glPushMatrix();
-		glColor3f(1.0, 1.0, 1.0);
-		glTranslatef(1.48, -1.25, 0.2);
-		glRotatef(-20, 0.0, 0.0, 1.0);
-		glScalef(0.04, 0.09, 0.05);
-		drawFilledCube1();
-	glPopMatrix();
-	glPushMatrix();            //small sphere (circle bone)
-		glTranslatef(1.44, -1.36, 0.2);
-		drawSphere(0.04, 60, 60);
-	glPopMatrix();
-	glPushMatrix();
-		glColor3f(1.0, 1.0, 1.0);
-		glTranslatef(1.35, -1.45, 0.2);
-		glRotatef(-50, 0.0, 0.0, 1.0);
-		glScalef(0.04, 0.09, 0.05);
-		drawFilledCube1();
-	glPopMatrix();
-
-	//Middle Finger
-	glPushMatrix();
-		glColor3f(1.0, 1.0, 1.0);
-		glTranslatef(1.53, -1.0, 0.06);
-		glScalef(0.04, 0.09, 0.05);
-		drawFilledCube1();
-	glPopMatrix();
-	glPushMatrix();            //small sphere (circle bone)
-		glTranslatef(1.52, -1.12, 0.06);
-		drawSphere(0.04, 60, 60);
-	glPopMatrix();
-	glPushMatrix();
-		glColor3f(1.0, 1.0, 1.0);
-		glTranslatef(1.48, -1.25, 0.06);
-		glRotatef(-20, 0.0, 0.0, 1.0);
-		glScalef(0.04, 0.09, 0.05);
-		drawFilledCube1();
-	glPopMatrix();
-	glPushMatrix();            //small sphere (circle bone)
-		glTranslatef(1.44, -1.36, 0.06);
-		drawSphere(0.04, 60, 60);
-	glPopMatrix();
-	glPushMatrix();
-		glColor3f(1.0, 1.0, 1.0);
-		glTranslatef(1.35, -1.45, 0.06);
-		glRotatef(-50, 0.0, 0.0, 1.0);
-		glScalef(0.04, 0.09, 0.05);
-		drawFilledCube1();
-	glPopMatrix();
-
-	//Ring Finger
-	glPushMatrix();
-		glColor3f(1.0, 1.0, 1.0);
-		glTranslatef(1.53, -1.0, -0.08);
-		glScalef(0.04, 0.09, 0.05);
-		drawFilledCube1();
-	glPopMatrix();
-	glPushMatrix();            //small sphere (circle bone)
-		glTranslatef(1.52, -1.12, -0.08);
-		drawSphere(0.04, 60, 60);
-	glPopMatrix();
-	glPushMatrix();
-		glColor3f(1.0, 1.0, 1.0);
-		glTranslatef(1.48, -1.25, -0.08);
-		glRotatef(-20, 0.0, 0.0, 1.0);
-		glScalef(0.04, 0.09, 0.05);
-		drawFilledCube1();
-	glPopMatrix();
-	glPushMatrix();            //small sphere (circle bone)
-		glTranslatef(1.44, -1.36, -0.08);
-		drawSphere(0.04, 60, 60);
-	glPopMatrix();
-	glPushMatrix();
-		glColor3f(1.0, 1.0, 1.0);
-		glTranslatef(1.35, -1.45, -0.08);
-		glRotatef(-50, 0.0, 0.0, 1.0);
-		glScalef(0.04, 0.09, 0.05);
-		drawFilledCube1();
-	glPopMatrix();
-
-	//Pinky Finger
-	glPushMatrix();
-		glColor3f(1.0, 1.0, 1.0);
-		glTranslatef(1.53, -1.0, -0.22);
-		glScalef(0.04, 0.09, 0.05);
-		drawFilledCube1();
-	glPopMatrix();
-	glPushMatrix();            //small sphere (circle bone)
-		glTranslatef(1.52, -1.12, -0.22);
-		drawSphere(0.04, 60, 60);
-	glPopMatrix();
+	glTranslatef(1.52, -0.816, 0.345);
+	glRotatef(fingerAngle2, 0.0, 1.0, 0.0);
+	glTranslatef(-1.52, 0.816, -0.345);
+	{
+		glPushMatrix();            //small sphere (circle bone)
+			glTranslatef(1.52, -0.816, 0.345);
+			drawSphere(0.04, 60, 60);
+		glPopMatrix();
 		glPushMatrix();
-		glColor3f(1.0, 1.0, 1.0);
-		glTranslatef(1.48, -1.25, -0.22);
-		glRotatef(-20, 0.0, 0.0, 1.0);
-		glScalef(0.04, 0.09, 0.05);
-		drawFilledCube1();
+			glTranslatef(1.45, -0.92, 0.39);
+			glRotatef(-30, 0.0, 0.0, 1.0);
+			glRotatef(-20, 1.0, 0.0, 0.0);
+			glScalef(0.04, 0.09, 0.05);
+			drawFilledCube1();
+		glPopMatrix();
+	}
+	
 	glPopMatrix();
-	glPushMatrix();            //small sphere (circle bone)
-		glTranslatef(1.44, -1.36, -0.22);
-		drawSphere(0.04, 60, 60);
-	glPopMatrix();
+
+	//All 4 fingers
 	glPushMatrix();
-		glColor3f(1.0, 1.0, 1.0);
-		glTranslatef(1.35, -1.45, -0.22);
-		glRotatef(-50, 0.0, 0.0, 1.0);
-		glScalef(0.04, 0.09, 0.05);
-		drawFilledCube1();
+	glTranslatef(1.53, -1.0, 0.0);
+	glRotatef(fingerAngle1, 0.0, 0.0, 1.0);
+	glTranslatef(-1.53, 1.0, 0.0);
+	left4FingerPart1();
+	{
+		glPushMatrix();
+			glTranslatef(1.52, -1.12, 0.0);
+			glRotatef(fingerAngle2, 0.0, 0.0, 1.0);
+			glTranslatef(-1.52, 1.12, 0.0);
+			left4FingerPart2();
+			{
+				glPushMatrix();
+				glTranslatef(1.44, -1.36, 0.0);
+				glRotatef(fingerAngle2, 0.0, 0.0, 1.0);
+				glTranslatef(-1.44, 1.36, 0.0);
+				left4FingerPart3();
+				glPopMatrix();
+			}
+		glPopMatrix();
+	}
 	glPopMatrix();
 }
 
@@ -2415,6 +2500,151 @@ void drawRightElboxForearm()
 
 }
 
+void right4FingerPart1()
+{
+	//Index Finger
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(-1.53, -1.0, 0.2);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+
+	//Middle Finger
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(-1.53, -1.0, 0.06);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+
+	//Ring Finger
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(-1.53, -1.0, -0.08);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+
+	//Pinky Finger
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(-1.53, -1.0, -0.22);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+}
+
+void right4FingerPart2()
+{
+	//Index Finger
+	glPushMatrix();            //small sphere (circle bone)
+		glTranslatef(-1.52, -1.12, 0.2);
+		drawSphere(0.04, 60, 60);
+	glPopMatrix();
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(-1.48, -1.25, 0.2);
+		glRotatef(20, 0.0, 0.0, 1.0);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+
+	//Middle Finger
+	glPushMatrix();            //small sphere (circle bone)
+		glTranslatef(-1.52, -1.12, 0.06);
+		drawSphere(0.04, 60, 60);
+	glPopMatrix();
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(-1.48, -1.25, 0.06);
+		glRotatef(20, 0.0, 0.0, 1.0);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+
+	//Ring Finger
+	glPushMatrix();            //small sphere (circle bone)
+		glTranslatef(-1.52, -1.12, -0.08);
+		drawSphere(0.04, 60, 60);
+	glPopMatrix();
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(-1.48, -1.25, -0.08);
+		glRotatef(20, 0.0, 0.0, 1.0);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+
+	//Pinky Finger
+	glPushMatrix();            //small sphere (circle bone)
+		glTranslatef(-1.52, -1.12, -0.22);
+		drawSphere(0.04, 60, 60);
+	glPopMatrix();
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(-1.48, -1.25, -0.22);
+		glRotatef(20, 0.0, 0.0, 1.0);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+}
+
+void right4FingerPart3()
+{
+	//Index Finger
+	glPushMatrix();            //small sphere (circle bone)
+		glTranslatef(-1.44, -1.36, 0.2);
+		drawSphere(0.04, 60, 60);
+	glPopMatrix();
+		glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(-1.35, -1.45, 0.2);
+		glRotatef(50, 0.0, 0.0, 1.0);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+
+	//Middle Finger
+	glPushMatrix();            //small sphere (circle bone)
+		glTranslatef(-1.44, -1.36, 0.06);
+		drawSphere(0.04, 60, 60);
+	glPopMatrix();
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(-1.35, -1.45, 0.06);
+		glRotatef(50, 0.0, 0.0, 1.0);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+
+	//Ring Finger
+	glPushMatrix();            //small sphere (circle bone)
+		glTranslatef(-1.44, -1.36, -0.08);
+		drawSphere(0.04, 60, 60);
+	glPopMatrix();
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(-1.35, -1.45, -0.08);
+		glRotatef(50, 0.0, 0.0, 1.0);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+
+	//Pinky Finger
+	glPushMatrix();            //small sphere (circle bone)
+		glTranslatef(-1.44, -1.36, -0.22);
+		drawSphere(0.04, 60, 60);
+	glPopMatrix();
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(-1.35, -1.45, -0.22);
+		glRotatef(50, 0.0, 0.0, 1.0);
+		glScalef(0.04, 0.09, 0.05);
+		drawFilledCube1();
+	glPopMatrix();
+}
+
 void drawRightHandPalm()
 {
 //Inner part
@@ -2468,7 +2698,7 @@ void drawRightHandPalm()
 		drawFilledCube();
 	glPopMatrix();
 
-	//Finger
+//Finger
 	//Thumb
 	glPushMatrix();
 		glColor3f(1.0, 1.0, 1.0);
@@ -2477,136 +2707,49 @@ void drawRightHandPalm()
 		glScalef(0.04, 0.09, 0.05);
 		drawFilledCube1();
 	glPopMatrix();
-	glPushMatrix();            //small sphere (circle bone)
-		glTranslatef(-1.52, -0.816, 0.345);
-		drawSphere(0.04, 60, 60);
-	glPopMatrix();
+
 	glPushMatrix();
-		glTranslatef(-1.45, -0.92, 0.39);
-		glRotatef(30, 0.0, 0.0, 1.0);
-		glRotatef(-20, 1.0, 0.0, 0.0);
-		glScalef(0.04, 0.09, 0.05);
-		drawFilledCube1();
+	glTranslatef(-1.52, -0.816, 0.345);
+	glRotatef(fingerAngle3, 0.0, 1.0, 0.0);
+	glTranslatef(1.52, 0.816, -0.345);
+	{
+		glPushMatrix();            //small sphere (circle bone)
+			glTranslatef(-1.52, -0.816, 0.345);
+			drawSphere(0.04, 60, 60);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(-1.45, -0.92, 0.39);
+			glRotatef(30, 0.0, 0.0, 1.0);
+			glRotatef(-20, 1.0, 0.0, 0.0);
+			glScalef(0.04, 0.09, 0.05);
+			drawFilledCube1();
+		glPopMatrix();
+	}
+	
 	glPopMatrix();
 
-	//Index Finger
+	//All 4 fingers
 	glPushMatrix();
-		glColor3f(1.0, 1.0, 1.0);
-		glTranslatef(-1.53, -1.0, 0.2);
-		glScalef(0.04, 0.09, 0.05);
-		drawFilledCube1();
-	glPopMatrix();
-	glPushMatrix();            //small sphere (circle bone)
+	glTranslatef(-1.53, -1.0, 0.2);
+	glRotatef(fingerAngle3, 0.0, 0.0, 1.0);
+	glTranslatef(1.53, 1.0, -0.2);
+	right4FingerPart1();
+	{
+		glPushMatrix();
 		glTranslatef(-1.52, -1.12, 0.2);
-		drawSphere(0.04, 60, 60);
-	glPopMatrix();
-	glPushMatrix();
-		glColor3f(1.0, 1.0, 1.0);
-		glTranslatef(-1.48, -1.25, 0.2);
-		glRotatef(20, 0.0, 0.0, 1.0);
-		glScalef(0.04, 0.09, 0.05);
-		drawFilledCube1();
-	glPopMatrix();
-	glPushMatrix();            //small sphere (circle bone)
-		glTranslatef(-1.44, -1.36, 0.2);
-		drawSphere(0.04, 60, 60);
-	glPopMatrix();
-	glPushMatrix();
-		glColor3f(1.0, 1.0, 1.0);
-		glTranslatef(-1.35, -1.45, 0.2);
-		glRotatef(50, 0.0, 0.0, 1.0);
-		glScalef(0.04, 0.09, 0.05);
-		drawFilledCube1();
-	glPopMatrix();
-
-	//Middle Finger
-	glPushMatrix();
-		glColor3f(1.0, 1.0, 1.0);
-		glTranslatef(-1.53, -1.0, 0.06);
-		glScalef(0.04, 0.09, 0.05);
-		drawFilledCube1();
-	glPopMatrix();
-	glPushMatrix();            //small sphere (circle bone)
-		glTranslatef(-1.52, -1.12, 0.06);
-		drawSphere(0.04, 60, 60);
-	glPopMatrix();
-	glPushMatrix();
-		glColor3f(1.0, 1.0, 1.0);
-		glTranslatef(-1.48, -1.25, 0.06);
-		glRotatef(20, 0.0, 0.0, 1.0);
-		glScalef(0.04, 0.09, 0.05);
-		drawFilledCube1();
-	glPopMatrix();
-	glPushMatrix();            //small sphere (circle bone)
-		glTranslatef(-1.44, -1.36, 0.06);
-		drawSphere(0.04, 60, 60);
-	glPopMatrix();
-	glPushMatrix();
-		glColor3f(1.0, 1.0, 1.0);
-		glTranslatef(-1.35, -1.45, 0.06);
-		glRotatef(50, 0.0, 0.0, 1.0);
-		glScalef(0.04, 0.09, 0.05);
-		drawFilledCube1();
-	glPopMatrix();
-
-	//Ring Finger
-	glPushMatrix();
-		glColor3f(1.0, 1.0, 1.0);
-		glTranslatef(-1.53, -1.0, -0.08);
-		glScalef(0.04, 0.09, 0.05);
-		drawFilledCube1();
-	glPopMatrix();
-	glPushMatrix();            //small sphere (circle bone)
-		glTranslatef(-1.52, -1.12, -0.08);
-		drawSphere(0.04, 60, 60);
-	glPopMatrix();
-	glPushMatrix();
-		glColor3f(1.0, 1.0, 1.0);
-		glTranslatef(-1.48, -1.25, -0.08);
-		glRotatef(20, 0.0, 0.0, 1.0);
-		glScalef(0.04, 0.09, 0.05);
-		drawFilledCube1();
-	glPopMatrix();
-	glPushMatrix();            //small sphere (circle bone)
-		glTranslatef(-1.44, -1.36, -0.08);
-		drawSphere(0.04, 60, 60);
-	glPopMatrix();
-	glPushMatrix();
-		glColor3f(1.0, 1.0, 1.0);
-		glTranslatef(-1.35, -1.45, -0.08);
-		glRotatef(50, 0.0, 0.0, 1.0);
-		glScalef(0.04, 0.09, 0.05);
-		drawFilledCube1();
-	glPopMatrix();
-
-	//Pinky Finger
-	glPushMatrix();
-		glColor3f(1.0, 1.0, 1.0);
-		glTranslatef(-1.53, -1.0, -0.22);
-		glScalef(0.04, 0.09, 0.05);
-		drawFilledCube1();
-	glPopMatrix();
-	glPushMatrix();            //small sphere (circle bone)
-		glTranslatef(-1.52, -1.12, -0.22);
-		drawSphere(0.04, 60, 60);
-	glPopMatrix();
-	glPushMatrix();
-		glColor3f(1.0, 1.0, 1.0);
-		glTranslatef(-1.48, -1.25, -0.22);
-		glRotatef(20, 0.0, 0.0, 1.0);
-		glScalef(0.04, 0.09, 0.05);
-		drawFilledCube1();
-	glPopMatrix();
-	glPushMatrix();            //small sphere (circle bone)
-		glTranslatef(-1.44, -1.36, -0.22);
-		drawSphere(0.04, 60, 60);
-	glPopMatrix();
-	glPushMatrix();
-		glColor3f(1.0, 1.0, 1.0);
-		glTranslatef(-1.35, -1.45, -0.22);
-		glRotatef(50, 0.0, 0.0, 1.0);
-		glScalef(0.04, 0.09, 0.05);
-		drawFilledCube1();
+		glRotatef(fingerAngle4, 0.0, 0.0, 1.0);
+		glTranslatef(1.52, 1.12, -0.2);
+		right4FingerPart2();
+		{
+			glPushMatrix();
+			glTranslatef(-1.44, -1.36, 0.2);
+			glRotatef(fingerAngle4, 0.0, 0.0, 1.0);
+			glTranslatef(1.44, 1.36, -0.2);
+			right4FingerPart3();
+			glPopMatrix();
+		}
+		glPopMatrix();
+	}
 	glPopMatrix();
 }
 
@@ -3742,7 +3885,6 @@ void jaegerRobot()
 
 		}
 		glPopMatrix();
-
 
 	glPopMatrix();   //First push pop
 	//Testing Area
