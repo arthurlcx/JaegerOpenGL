@@ -43,11 +43,11 @@ bool firstWalk = true, leftFrontWalked = false, rightFrontWalked = false, leftBa
 
 float reactorRotateAngle = 0.0f;
 float cannonRotateAngle = 0.0f;
+float electricEffectMovement = 1.0f;
 
 float xPosition = 0.0f, yPosition = 0.0f, zPosition = 0.05f;
 
 float zoomLevel = -7.0f;
-float seaWaveMovement = 1.0f;
 
 
 float no_mat[] = { 0.0f, 0.0f, 0.0f, 1.0f };
@@ -68,6 +68,7 @@ bool weather = 0;
 float boneLength = 2.0f;
 
 bool textureOn = false;
+bool dayTime = true;
 
 
 //Ours
@@ -86,18 +87,26 @@ float fingerAngle1 = 0.0, fingerAngle2 = 0.0, fingerAngle3 = 0.0, fingerAngle4 =
 std::string armorTextureArray[] = { "textureImage/blue_armor.bmp", "textureImage/black_armor.bmp", "textureImage/camo_armor.bmp" };
 std::string innerTextureArray[] = { "textureImage/darkMetal_inner.bmp", "textureImage/whiteMetal_inner.bmp", "textureImage/greenMetal_inner.bmp" };
 std::string wingTextureArray[] = { "textureImage/wing1.bmp", "textureImage/wing2.bmp", "textureImage/wing3.bmp" };
-std::string environmentTopTextureArray[] = { "environmentTexture/Daylight Box_Top.bmp", "environmentTexture/cottoncandy_up.bmp", "environmentTexture/midnight-silence_up.bmp" };
-std::string environmentBottomTextureArray[] = { "environmentTexture/Daylight Box_Bottom.bmp" , "environmentTexture/cottoncandy_dn.bmp", "environmentTexture/midnight-silence_dn.bmp" };
-std::string environmentLeftTextureArray[] = { "environmentTexture/Daylight Box_Left.bmp" , "environmentTexture/cottoncandy_rt.bmp", "environmentTexture/midnight-silence_rt.bmp" };
-std::string environmentRightTextureArray[] = { "environmentTexture/Daylight Box_Right.bmp" , "environmentTexture/cottoncandy_lf.bmp", "environmentTexture/midnight-silence_lf.bmp" };
-std::string environmentFrontTextureArray[] = { "environmentTexture/Daylight Box_Back.bmp" , "environmentTexture/cottoncandy_bk.bmp", "environmentTexture/midnight-silence_bk.bmp" };
-std::string environmentBackTextureArray[] = { "environmentTexture/Daylight Box_Front.bmp" , "environmentTexture/cottoncandy_ft.bmp", "environmentTexture/midnight-silence_ft.bmp" };
+std::string environmentTopTextureArray[] = { "environmentTexture/majestic_up.bmp", "environmentTexture/criminal-impact_up.bmp", "environmentTexture/midnight-silence_up.bmp" };
+std::string environmentBottomTextureArray[] = { "environmentTexture/majestic_dn.bmp" , "environmentTexture/criminal-impact_dn.bmp", "environmentTexture/midnight-silence_dn.bmp" };
+std::string environmentLeftTextureArray[] = { "environmentTexture/majestic_rt.bmp" , "environmentTexture/criminal-impact_rt.bmp", "environmentTexture/midnight-silence_rt.bmp" };
+std::string environmentRightTextureArray[] = { "environmentTexture/majestic_lf.bmp" , "environmentTexture/criminal-impact_lf.bmp", "environmentTexture/midnight-silence_lf.bmp" };
+std::string environmentFrontTextureArray[] = { "environmentTexture/majestic_bk.bmp" , "environmentTexture/criminal-impact_bk.bmp", "environmentTexture/midnight-silence_bk.bmp" };
+std::string environmentBackTextureArray[] = { "environmentTexture/majestic_ft.bmp" , "environmentTexture/criminal-impact_ft.bmp", "environmentTexture/midnight-silence_ft.bmp" };
 int textureSetIndex = 0;
-int textureEnvironmentIndex = 1;
+int textureEnvironmentIndex = 0;
 
 GLuint texture = 0;
 BITMAP BMP;
 HBITMAP hBMP = NULL;
+
+//Lighting declaration - ambient, diffuse, specular
+GLfloat light_ambient[] = { 1.0, 1.0 ,1.0, 1.0 };
+GLfloat light_close[] = { 0.0, 0.0 ,0.0, 1.0 };
+GLfloat light_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
+GLfloat light_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+
+GLfloat light_position[] = { 0.2, 0.3, 0.2, 1.0 };
 
 LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -268,12 +277,14 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			}
 		}
 
-		else if (wParam == 0x31)
+		else if (wParam == 0x31)		// 1 key on/off ambient
 			ambientOn = !ambientOn;
-		else if (wParam == 0x32)
+		else if (wParam == 0x32)		// 2 key on/off diffuse light
 			diffuseOn = !diffuseOn;
-		else if (wParam == 0x33)
+		else if (wParam == 0x33)		// 1 key on/off specular light
 			specularOn = !specularOn;
+		else if (wParam == 0x30)		// 9 key toggle day/night
+			dayTime = !dayTime;
 		else if (wParam == VK_SPACE)
 		{
 			LeftHandPalmAngle = 0.0;
@@ -391,9 +402,9 @@ void drawCylinder(float base, float top, float height, float slices, float stack
 	GLUquadricObj *cylinder = NULL;
 	cylinder = gluNewQuadric();
 	gluQuadricDrawStyle(cylinder, GLU_FILL);
-	gluQuadricNormals(cylinder, GLU_SMOOTH);
 	gluQuadricTexture(cylinder, GLU_TRUE);
 	gluCylinder(cylinder, base, top, height, slices, stacks);    //gluCylinder(GLUquadric obj *, baseRadius,topRadius, height,slices, stacks);
+	gluDisk(cylinder, 0.0f, base, slices, stacks);
 	gluDeleteQuadric(cylinder);
 }
 
@@ -448,8 +459,10 @@ void drawFilledCubeT()
 
 void drawFilledCube()
 {
+
 	glBegin(GL_QUADS);
 	{
+		glNormal3f(0.0, 0.0, 1.0);
 		// Top Face
 		glColor3f(1.0, 1.0, 1.0);
 		glTexCoord2f(0, 0); glVertex3f(-1.0f, 1.0f, -1.0f);
@@ -540,6 +553,7 @@ void drawFilledCube1()
 
 void drawFilledTriangle()
 {
+
 	glBegin(GL_TRIANGLES);
 		glTexCoord2f(0, 1);  glVertex3f(0.0, 1.0, 0.0);
 		glTexCoord2f(0, 0);  glVertex3f(0.0, 0.0, 0.0);
@@ -576,6 +590,12 @@ void drawFilledTriangle()
 
 void drawCircle(float radius)
 {
+	GLfloat qaWhite[] = { 1.0, 1.0, 1.0, 1.0 };
+	glMaterialfv(GL_FRONT, GL_AMBIENT, qaWhite);
+	glMaterialfv(GL_FRONT, GL_DIFFUSE, qaWhite);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, qaWhite);
+	glMaterialf(GL_FRONT, GL_SHININESS, 60.0);
+
 	float xc = 0.0, yc = 0.0, xc2 = 0.0, yc2 = 0.0;
 	float angleC = 0.0;
 
@@ -1236,11 +1256,11 @@ void drawFrontArmour()
 	glPopMatrix();
 }
 
-void drawReactor() {
-	glPushMatrix();             //Ironman Reactor       (how to rotate automatically in glPushMatrix)
+void drawReactor() {       //Ironman Reactor       (how to rotate automatically in glPushMatrix)
+	glPushMatrix();
 		glColor3f(1.0, 1.0, 1.0);
 		glTranslatef(0.0, 2.1, 0.85);
-		glRotatef(reactor, 1.0, 1.0, 1.0);
+		glRotatef(reactorRotateAngle, 1.0, 1.0, 1.0);
 		drawSphere(0.3, 30, 30);
 	glPopMatrix();
 }
@@ -3819,6 +3839,39 @@ void environment() {
 	
 }
 
+void drawSunOrMoon() {
+	glPushMatrix();
+	glTranslatef(light_position[0], light_position[1], light_position[2]);
+		if (dayTime) {
+			loadBitmapImage("textureImage/sun.bmp");
+		}
+		else {
+			loadBitmapImage("textureImage/moon.bmp");
+		}
+		drawSphere(0.02, 30, 30);
+		endTexture();
+	glPopMatrix();
+}
+
+void electricEffect() {
+	glPushMatrix();
+		loadBitmapImage("textureImage/lightning.bmp");
+		glTranslatef(0.0, -1.0, 0.0);
+		glRotatef(90, 1.0, 0.0, 0.0);
+		GLUquadricObj *disk = NULL;
+		disk = gluNewQuadric();
+		gluQuadricTexture(disk, GLU_TRUE);    //gluCylinder(GLUquadric obj *, baseRadius,topRadius, height,slices, stacks);
+		
+		glPushMatrix();
+			glRotatef(electricEffectMovement, 0, 0, 1);
+			gluDisk(disk, 0.0f, 0.2, 30, 30);
+		glPopMatrix();
+		
+		gluDeleteQuadric(disk);
+		endTexture();
+	glPopMatrix();
+}
+
 void jaegerRobot()
 {
 //Body
@@ -3876,7 +3929,7 @@ void jaegerRobot()
 		endTexture();
 	glPopMatrix();
 
-// Reactor
+// Reactor shell
 	/*glPushMatrix();
 		glColor3f(1.0, 1.0, 1.0);
 		loadBitmapImage("textureImage/.bmp");
@@ -3994,15 +4047,15 @@ void jaegerRobot()
 }
 
 void initLighting() {
-	//Lighting - ambient, diffuse, specular
-	GLfloat light_ambient[] = { 1.0, 1.0 ,1.0, 1.0 };
-	GLfloat light_close[] = { 0.0, 0.0 ,0.0, 1.0 };
-	GLfloat light_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
-	GLfloat light_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-
-	GLfloat light_position[] = { x,y,z, 0.0 };
-
+	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
 	glEnable(GL_LIGHTING);
+
+	if (dayTime) {
+		glEnable(GL_LIGHT0);
+	}
+	else {
+		glDisable(GL_LIGHT0);
+	}
 
 	if (ambientOn) {
 		glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
@@ -4028,7 +4081,6 @@ void initLighting() {
 
 	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 
-	glEnable(GL_LIGHT0);
 }
 
 void display()
@@ -4039,7 +4091,7 @@ void display()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	//initLighting();
+	initLighting();
 
 	glTranslatef(0.0, 0.0, zoomLevel);
 
@@ -4051,9 +4103,22 @@ void display()
 
 	glRotatef(zRotated, 0.0, 0.0, 1.0);
 
+
+	GLfloat no_shininess[] = { 0.0f, 0.0f, 0.0f, 0.0f };
+	GLfloat mat_emission[] = { 0.5f, 0.5f, 0.5f, 0.0f };
+
+	glColor3f(0.0f, 0.0f, 0.0f);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+	glMaterialf(GL_FRONT, GL_SHININESS, 25.0);
+	glMaterialfv(GL_FRONT, GL_EMISSION, mat_emission);
+
 	jaegerRobot();
 
 	environment();
+
+	drawSunOrMoon();
+
+	electricEffect();
 
 }
 //--------------------------------------------------------------------
@@ -4112,6 +4177,20 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
+		}
+
+		if (reactorRotateAngle < 360) {
+			reactorRotateAngle += 30.0f;
+		}
+		else {
+			reactorRotateAngle = 0.0f;
+		}
+
+		if (electricEffectMovement < 360) {
+			electricEffectMovement += 0.000005f;
+		}
+		else {
+			electricEffectMovement = 0.0f;
 		}
 
 		display();
