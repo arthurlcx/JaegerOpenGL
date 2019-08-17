@@ -79,10 +79,8 @@ float RightHandWholeArmAnglez = 0.0, RightHandForearmAnglez = 0.0;
 
 float LeftLegThighAngle = 0.0, LeftLegKneeShinAngle = 0.0, LeftLegAnkleAngle = 0.0;
 float RightLegThighAngle = 0.0, RightLegKneeShinAngle = 0.0, RightLegAnkleAngle = 0.0;
-float LeftLegKneeShinAngle1 = 0.0, RightLegKneeShinAngle1;
 
-bool legMove = true;
-float robotMove = 0.0;
+float robotMoveFront = 0.0, robotMoveLeft = 0.0, robotMoveRight = 0.0;
 float fingerAngle1 = 0.0, fingerAngle2 = 0.0, fingerAngle3 = 0.0, fingerAngle4 = 0.0;
 
 int weaponTypeL = 0, weaponTypeR = 0, drillRotate = 0.5;
@@ -95,6 +93,13 @@ bool handShield = false;
 bool reactorFireball = false;
 float reactorFireballTranslate = 0.0;
 int fireballCount = 0;
+
+bool LeftLegUpFront = true, LeftLegDownFront = false;
+bool RightLegUpFront = false, RightLegDownFront = false;
+bool LeftLegUpBack = true, LeftLegDownBack = false;
+bool RightLegUpBack = false, RightLegDownBack = false;
+float robotUpperBodyTranslate = 0.0;
+float robotLeftLegMoveWithBody = 0.0, robotRightLegMoveWithBody;
 
 //Texture variable declaration
 std::string armorTextureArray[] = { "textureImage/blue_armor.bmp", "textureImage/black_armor.bmp", "textureImage/camo_armor.bmp" };
@@ -151,8 +156,6 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 	case WM_KEYDOWN:
 		if (wParam == VK_ESCAPE)
 			PostQuitMessage(0);
-		else if (wParam == VK_LEFT)
-			reactor += 100.0;
 		else if (wParam == 'P')               //LEFT WRIST MOVE UP
 		{
 			if (LeftHandPalmAngle <= 0 && LeftHandPalmAngle > -20)
@@ -274,59 +277,196 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			if (RightHandForearmAnglez >= 0)
 				handShield = false;
 		}
-		else if (wParam == 'Q')               //MOVE FORWARD
+		else if (wParam == VK_UP)               //MOVE FORWARD
 		{
-			if (legMove == true)
+			if (LeftLegUpFront == true)
 			{
-				if (LeftLegKneeShinAngle >= 0 && LeftLegKneeShinAngle < 0.8 && LeftLegThighAngle <= 0 && LeftLegThighAngle > -40)
+				if (LeftLegThighAngle <= 0 && LeftLegThighAngle > -20)
 				{
-					LeftLegKneeShinAngle += 0.09;
-					LeftLegKneeShinAngle1 += 0.1;
+					LeftLegThighAngle -= 0.5;
+					LeftLegKneeShinAngle += 0.5;
 
-					LeftLegThighAngle -= 5.0;
-					//RightLegThighAngle -= 5.0;
-				}
+					if (LeftLegThighAngle > -10) {
+						robotUpperBodyTranslate += 0.02;
+						robotLeftLegMoveWithBody += 0.04;
+					}
 
-				if (RightLegKneeShinAngle > 0 && RightLegKneeShinAngle <= 0.9 && RightLegThighAngle <= 0 && RightLegThighAngle >= -45)
-				{
-					RightLegKneeShinAngle -= 0.09;
-					RightLegKneeShinAngle1 -= 0.1;
+					RightLegThighAngle += 0.5;
 
-					//LeftLegThighAngle -= 5.0;
-					RightLegThighAngle += 5.0;
-				}
-
-				if (LeftLegThighAngle <= -40)
-				{
-					legMove = false;
-					robotMove += 0.4;
+					if (LeftLegThighAngle == -20)
+					{
+						LeftLegDownFront = true;
+						LeftLegUpFront = false;
+					}
 				}
 			}
-			else if (legMove == false)
+			else if (LeftLegDownFront == true)
 			{
-				if (LeftLegKneeShinAngle > 0 && LeftLegKneeShinAngle <= 1.0 && LeftLegThighAngle < 0 && LeftLegThighAngle >= -45)
+				if (LeftLegThighAngle < 0)
 				{
-					LeftLegKneeShinAngle -= 0.09;
-					LeftLegKneeShinAngle1 -= 0.1;
+					LeftLegThighAngle += 0.5;
+					LeftLegKneeShinAngle -= 0.5;
 
-					LeftLegThighAngle += 5.0;
-					//RightLegThighAngle += 5.0;
+					if (LeftLegThighAngle < -20)
+					{
+						robotUpperBodyTranslate += 0.02;
+						robotLeftLegMoveWithBody += 0.05;
+						robotRightLegMoveWithBody += 0.05;
+					}
+
+					RightLegThighAngle -= 0.5;
 				}
-
-				if (RightLegKneeShinAngle >= 0 && RightLegKneeShinAngle < 0.8 && RightLegThighAngle <= 0 && RightLegThighAngle >= -40)
+				if (LeftLegThighAngle == 0)
 				{
-					RightLegKneeShinAngle += 0.09;
-					RightLegKneeShinAngle1 += 0.1;
-
-					//LeftLegThighAngle -= 5.0;
-					RightLegThighAngle -= 5.0;
-				}
-				if (RightLegThighAngle < -40)
-				{
-					legMove = true;
-					robotMove += 0.4;
+					RightLegUpFront = true;
+					LeftLegDownFront = false;
 				}
 			}
+			else if (RightLegUpFront == true)
+			{
+				if (RightLegThighAngle <= 0 && RightLegThighAngle > -20)
+				{
+					RightLegThighAngle -= 0.5;
+					RightLegKneeShinAngle += 0.5;
+
+					if (RightLegThighAngle > -10) {
+						robotUpperBodyTranslate += 0.02;
+						robotRightLegMoveWithBody += 0.04;
+					}
+
+					LeftLegThighAngle += 0.5;
+
+					if (RightLegThighAngle == -20)
+					{
+						RightLegDownFront = true;
+						RightLegUpFront = false;
+					}
+				}
+			}
+			else if (RightLegDownFront == true)
+			{
+				if (RightLegThighAngle < 0)
+				{
+					RightLegThighAngle += 0.5;
+					RightLegKneeShinAngle -= 0.5;
+
+					if (RightLegThighAngle < -20)
+					{
+						robotUpperBodyTranslate += 0.02;
+						robotLeftLegMoveWithBody += 0.05;
+						robotRightLegMoveWithBody += 0.05;
+					}
+
+					LeftLegThighAngle -= 0.5;
+				}
+				if (LeftLegThighAngle == 0)
+				{
+					LeftLegUpFront = true;
+					RightLegDownFront = false;
+				}
+			}
+		}
+		else if (wParam == VK_DOWN)               //MOVE FORWARD
+		{
+			if (LeftLegUpBack == true)
+			{
+				if (LeftLegThighAngle >= 0 && LeftLegThighAngle < 20)
+				{
+					LeftLegThighAngle += 0.5;
+
+					if (LeftLegThighAngle < 10) 
+					{
+						robotUpperBodyTranslate -= 0.02;
+						robotLeftLegMoveWithBody -= 0.04;
+					}
+
+					RightLegThighAngle -= 0.5;
+					RightLegKneeShinAngle += 0.5;
+
+					if (LeftLegThighAngle == 20)
+					{
+						LeftLegDownBack = true;
+						LeftLegUpBack = false;
+					}
+				}
+			}
+			else if (LeftLegDownBack == true)
+			{
+				if (LeftLegThighAngle > 0)
+				{
+					LeftLegThighAngle -= 0.5;
+					
+
+					if (LeftLegThighAngle > 10)
+					{
+						robotUpperBodyTranslate -= 0.03;
+						robotLeftLegMoveWithBody -= 0.01;
+						robotRightLegMoveWithBody -= 0.053;
+					}
+
+					RightLegThighAngle += 0.5;
+					RightLegKneeShinAngle -= 0.5;
+				}
+				if (LeftLegThighAngle == 0)
+				{
+					RightLegUpBack = true;
+					LeftLegDownBack = false;
+				}
+			}
+			else if (RightLegUpBack == true)
+			{
+				if (RightLegThighAngle >= 0 && RightLegThighAngle < 20)
+				{
+					RightLegThighAngle += 0.5;
+					
+
+					if (RightLegThighAngle > 10) {
+						robotUpperBodyTranslate -= 0.04;
+						robotRightLegMoveWithBody -= 0.02;
+						robotLeftLegMoveWithBody -= 0.01;
+					}
+
+					LeftLegThighAngle -= 0.5;
+					LeftLegKneeShinAngle += 0.5;
+
+					if (RightLegThighAngle == 20)
+					{
+						RightLegDownBack = true;
+						RightLegUpBack = false;
+					}
+				}
+			}
+			else if (RightLegDownBack == true)
+			{
+				if (RightLegThighAngle > 0)
+				{
+					RightLegThighAngle -= 0.5;
+					
+
+					if (RightLegThighAngle > 10)
+					{
+						robotUpperBodyTranslate -= 0.02;
+						robotLeftLegMoveWithBody -= 0.05;
+						robotRightLegMoveWithBody -= 0.04;
+					}
+
+					LeftLegThighAngle += 0.5;
+					LeftLegKneeShinAngle -= 0.5;
+				}
+				if (LeftLegThighAngle == 0)
+				{
+					LeftLegUpBack = true;
+					RightLegDownBack = false;
+				}
+			}
+		}
+		else if (wParam == VK_LEFT)               //Robot move left
+		{
+			robotMoveLeft += 5.0;
+		}
+		else if (wParam == VK_RIGHT)               //Robot move right
+		{
+			robotMoveRight -= 5.0;
 		}
 		else if (wParam == 'W')               //ANKLE MOVE UP
 		{
@@ -470,11 +610,9 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			RightLegThighAngle = 0.0;
 			RightLegKneeShinAngle = 0.0;
 			RightLegAnkleAngle = 0.0;
-			LeftLegKneeShinAngle1 = 0.0;
-			RightLegKneeShinAngle1 = 0.0;
 
 			bool legMove = true;
-			robotMove = 0.0;
+			robotMoveFront = 0.0;
 			fingerAngle1 = 0.0;
 			fingerAngle2 = 0.0;
 			fingerAngle3 = 0.0;
@@ -507,8 +645,6 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		else if (wParam == VK_NUMPAD6) // numpad 1 for environemnt texture set 3
 			textureEnvironmentIndex = 2;
 		break;
-
-
 	default:
 		break;
 	}
@@ -4540,8 +4676,12 @@ void jaegerRobot()
 	glRotatef(90, 1.0, 0.0, 0.0);
 
 	glPushMatrix();  //First push pop
-	glTranslatef(0.0, 0.0, robotMove);
+	glRotatef(robotMoveRight, 0.0, 1.0, 0.0);
+	glRotatef(robotMoveLeft, 0.0, 1.0, 0.0);
+	glTranslatef(0.0, 0.0, robotMoveFront);
 
+	glPushMatrix();
+	glTranslatef(0.0, 0.0, robotUpperBodyTranslate);
 //Inner part of robot
 	glPushMatrix();
 		glColor3f(1.0, 1.0, 1.0);
@@ -4670,19 +4810,24 @@ void jaegerRobot()
 		glPopMatrix();
 	}
 	glPopMatrix();
-
+	glPopMatrix();
 //Leg part
 //Left
-		glPushMatrix();
-		glTranslatef(0.5, -1.0, 0.0);
-		glRotatef(LeftLegThighAngle, 1.0, 0.0, 0.0);
-		glTranslatef(-0.5, 1.0, 0.0);
-		drawLeftLegThigh();
-		glPopMatrix();
+	glPushMatrix();
+	glTranslatef(0.0, 0.0, robotLeftLegMoveWithBody);
+	glTranslatef(0.5, -1.0, 0.0);
+	glRotatef(LeftLegThighAngle, 1.0, 0.0, 0.0);
+	glTranslatef(-0.5, 1.0, 0.0);
+	drawLeftLegThigh();
+	{
+
 
 		glPushMatrix();
-		glTranslatef(0.0, 0.0, LeftLegKneeShinAngle1);
-		glTranslatef(0.0, LeftLegKneeShinAngle, 0.0);
+		glTranslatef(0.42, -2.57, 0.1);
+		glRotatef(LeftLegKneeShinAngle, 1.0, 0.0, 0.0);
+		glTranslatef(-0.42, 2.57, -0.1);
+		//glTranslatef(0.0, 0.0, LeftLegKneeShinAngle1);
+		//glTranslatef(0.0, LeftLegKneeShinAngle, 0.0);
 		drawLeftLegKneeShin();
 		{
 			glPushMatrix();
@@ -4693,18 +4838,21 @@ void jaegerRobot()
 			glPopMatrix();
 		}
 		glPopMatrix();
+	}
+	glPopMatrix();
 
 //Right
+	glPushMatrix();
+	glTranslatef(0.0, 0.0, robotRightLegMoveWithBody);
+	glTranslatef(0.5, -1.0, 0.0);
+	glRotatef(RightLegThighAngle, 1.0, 0.0, 0.0);
+	glTranslatef(-0.5, 1.0, 0.0);
+	drawRightLegThigh();
+	{
 		glPushMatrix();
-		glTranslatef(0.5, -1.0, 0.0);
-		glRotatef(RightLegThighAngle, 1.0, 0.0, 0.0);
-		glTranslatef(-0.5, 1.0, 0.0);
-		drawRightLegThigh();
-		glPopMatrix();
-
-		glPushMatrix();
-		glTranslatef(0.0, 0.0, RightLegKneeShinAngle1);
-		glTranslatef(0.0, RightLegKneeShinAngle, 0.0);
+		glTranslatef(-0.42, -2.57, 0.1);
+		glRotatef(RightLegKneeShinAngle, 1.0, 0.0, 0.0);
+		glTranslatef(0.42, 2.57, -0.1);
 		drawRightLegKneeShin();
 		{
 			glPushMatrix();
@@ -4716,6 +4864,8 @@ void jaegerRobot()
 
 		}
 		glPopMatrix();
+	}
+	glPopMatrix();
 
 	glPopMatrix();   //First push pop
 //	//Testing Area
