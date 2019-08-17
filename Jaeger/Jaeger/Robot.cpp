@@ -86,8 +86,15 @@ float robotMove = 0.0;
 float fingerAngle1 = 0.0, fingerAngle2 = 0.0, fingerAngle3 = 0.0, fingerAngle4 = 0.0;
 
 int weaponTypeL = 0, weaponTypeR = 0, drillRotate = 0.5;
+int backType = 0;
+float wingLeftTranslateDegree = 0.0, wingRightTranslateDegree = 0.0;
+float wingLeftRocketTranslateDegree = 0.0, wingRightRocketTranslateDegree = 0.0;
+bool robotExhaustJet = false;
 bool drawThorHammer = false;
 bool handShield = false;
+bool reactorFireball = false;
+float reactorFireballTranslate = 0.0;
+int fireballCount = 0;
 
 //Texture variable declaration
 std::string armorTextureArray[] = { "textureImage/blue_armor.bmp", "textureImage/black_armor.bmp", "textureImage/camo_armor.bmp" };
@@ -158,7 +165,7 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		}
 		else if (wParam == 'I')               //LEFT WHOLE ARM MOVE UP
 		{
-			if (LeftHandWholeArmAngle <= 0 && LeftHandWholeArmAngle > -100)
+			if (LeftHandWholeArmAngle <= 10 && LeftHandWholeArmAngle > -100)
 				LeftHandWholeArmAngle -= 5;
 		}
 		else if (wParam == 'U')              //LEFT WRIST MOVE DOWN
@@ -173,7 +180,7 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		}
 		else if (wParam == 'T')               //LEFT WHOLE ARM MOVE DOWN
 		{
-			if (LeftHandWholeArmAngle < 30 && LeftHandWholeArmAngle >= -100)
+			if (LeftHandWholeArmAngle < 10 && LeftHandWholeArmAngle >= -100)
 				LeftHandWholeArmAngle += 5;
 		}
 		else if (wParam == 'L')                //RIGHT WRIST MOVE UP
@@ -188,7 +195,7 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		}
 		else if (wParam == 'J')               //RIGHT WHOLE ARM MOVE UP
 		{
-			if (RightHandWholeArmAngle <= 0 && RightHandWholeArmAngle > -100)
+			if (RightHandWholeArmAngle <= 10 && RightHandWholeArmAngle > -100)
 				RightHandWholeArmAngle -= 5;
 		}
 		else if (wParam == 'H')               //RIGHT WRIST MOVE DOWN
@@ -203,7 +210,7 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		}
 		else if (wParam == 'F')                  //RIGHT WHOLE ARM MOVE DOWN
 		{
-			if (RightHandWholeArmAngle < 30 && RightHandWholeArmAngle >= -100)
+			if (RightHandWholeArmAngle < 10 && RightHandWholeArmAngle >= -100)
 				RightHandWholeArmAngle += 5;
 		}
 		else if (wParam == 'R')
@@ -393,15 +400,57 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			else
 				weaponTypeR = 0;
 		}
+		else if (wParam == VK_CAPITAL)
+		{
+			if (backType < 2)
+				backType += 1;
+			else
+				backType = 0;
+		}
+		else if (wParam == 'A')
+		{
+			if (robotExhaustJet == true)
+			{
+				if (wingLeftTranslateDegree >= -0.5 && wingLeftTranslateDegree < 2.7)
+					wingLeftTranslateDegree += 0.3;
+				if (wingLeftRocketTranslateDegree >= -0.5 && wingLeftRocketTranslateDegree < 0.5)
+					wingLeftRocketTranslateDegree += 0.05;
 
-		else if (wParam == 0x31)
-			ambientOn = !ambientOn;
-		else if (wParam == 0x32)		// 2 key on/off diffuse light
-			diffuseOn = !diffuseOn;
-		else if (wParam == 0x33)		// 1 key on/off specular light
-			specularOn = !specularOn;
-		else if (wParam == 0x30)		// 9 key toggle day/night
-			dayTime = !dayTime;
+				if (wingRightTranslateDegree <= 0.5 && wingRightTranslateDegree > -2.7)
+					wingRightTranslateDegree -= 0.3;
+				if (wingRightRocketTranslateDegree <= 0.5 && wingRightRocketTranslateDegree > -0.5)
+					wingRightRocketTranslateDegree -= 0.05;
+			}						
+		}
+		else if (wParam == 'S')
+		{
+			if (robotExhaustJet == true)
+			{
+				if (wingLeftTranslateDegree > 0 && wingLeftTranslateDegree <= 3.5)
+					wingLeftTranslateDegree -= 0.3;
+				if (wingLeftRocketTranslateDegree > 0 && wingLeftRocketTranslateDegree <= 0.6)
+					wingLeftRocketTranslateDegree -= 0.05;
+
+				if (wingRightTranslateDegree < 0 && wingRightTranslateDegree >= -3.5)
+					wingRightTranslateDegree += 0.3;
+				if (wingRightRocketTranslateDegree < 0 && wingRightRocketTranslateDegree > -0.6)
+					wingRightRocketTranslateDegree += 0.05;
+			}
+		}
+		else if (wParam == VK_TAB)
+		{
+			if (fireballCount == 0)
+			{
+				reactorFireball = true;
+				fireballCount += 1;
+			}
+			else if(fireballCount == 1)
+			{
+				reactorFireball = false;
+				fireballCount -= 1;
+			}
+			
+		}
 		else if (wParam == VK_SPACE)
 		{
 			LeftHandPalmAngle = 0.0;
@@ -437,7 +486,14 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			bool drawThorHammer = false;
 			bool handShield = false;
 		}
-
+		else if (wParam == 0x31)
+			ambientOn = !ambientOn;
+		else if (wParam == 0x32)		// 2 key on/off diffuse light
+			diffuseOn = !diffuseOn;
+		else if (wParam == 0x33)		// 1 key on/off specular light
+			specularOn = !specularOn;
+		else if (wParam == 0x30)		// 9 key toggle day/night
+			dayTime = !dayTime;
 		else if (wParam == VK_NUMPAD1) // numpad 1 for texture set 1
 			textureSetIndex = 0;
 		else if (wParam == VK_NUMPAD2) // numpad 1 for texture set 2
@@ -1403,7 +1459,16 @@ void drawReactor() {       //Ironman Reactor       (how to rotate automatically 
 		glColor3f(1.0, 1.0, 1.0);
 		glTranslatef(0.0, 2.1, 0.85);
 		glRotatef(reactorRotateAngle, 1.0, 1.0, 1.0);
-		drawSphere(0.3, 30, 30);
+		drawSphere(0.4, 30, 30);
+	glPopMatrix();
+}
+
+void drawReactorFireball()
+{
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(0.0, 2.1, 0.85);
+		drawSphere(0.2, 30, 30);
 	glPopMatrix();
 }
 
@@ -4055,197 +4120,294 @@ void drawRightLegAnkle()
 }
 
 
-void drawBackWing()
+void drawBackWing(int backType)
 {
-//Left side
-	glPushMatrix();          // Piece stick to body
-		glTranslatef(0.5, 1.9, -0.65);
-		glScalef(0.3, 0.7, 0.03);
-		drawFilledCube();
-	glPopMatrix();
-//1
-	glPushMatrix();           //Cube piece
-		glTranslatef(0.8, 1.5, -0.7);
-		glScalef(0.5, 0.6, 0.02);
-		drawFilledCube();
-	glPopMatrix();
-	glPushMatrix();           //Top Triangle piece
-		glTranslatef(1.3, 2.1, -0.72);
-		glRotatef(180, 0.0, 1.0, 0.0);
-		glScalef(1.0, 1.1, 0.4);
-		drawFilledTriangle();
-	glPopMatrix();
-//2
-	glPushMatrix();           //Cube piece
-		glTranslatef(1.8, 2.6, -0.7);
-		glScalef(0.5, 0.6, 0.02);
-		drawFilledCube();
-	glPopMatrix();
-	glPushMatrix();           //Bottom Triangle piece
-		glTranslatef(1.3, 2.0, -0.72);
-		glRotatef(180, 1.0, 0.0, 0.0);
-		glScalef(1.0, 2.1, 0.4);
-		drawFilledTriangle();
-	glPopMatrix();
+	switch (backType)
+	{
+		case 0:
+			robotExhaustJet = false;			
+			break;
+		case 1:
+		//Robot wings
+		//Left side
+			glPushMatrix();          // Piece stick to body
+				glTranslatef(0.5, 1.9, -0.65);
+				glScalef(0.3, 0.7, 0.03);
+				drawFilledCube();
+			glPopMatrix();
+			//1
+			glPushMatrix();           //Cube piece
+				glTranslatef(0.8, 1.5, -0.7);
+				glScalef(0.5, 0.6, 0.02);
+				drawFilledCube();
+			glPopMatrix();
+			glPushMatrix();           //Top Triangle piece
+				glTranslatef(1.3, 2.1, -0.72);
+				glRotatef(180, 0.0, 1.0, 0.0);
+				glScalef(1.0, 1.1, 0.4);
+				drawFilledTriangle();
+			glPopMatrix();
+			//2
+			glPushMatrix();           //Cube piece
+				glTranslatef(1.8, 2.6, -0.7);
+				glScalef(0.5, 0.6, 0.02);
+				drawFilledCube();
+			glPopMatrix();
+			glPushMatrix();           //Bottom Triangle piece
+				glTranslatef(1.3, 2.0, -0.72);
+				glRotatef(180, 1.0, 0.0, 0.0);
+				glScalef(1.0, 2.1, 0.4);
+				drawFilledTriangle();
+			glPopMatrix();
 
-//3  (wings) (face down)
-	glPushMatrix();          //first
-		glTranslatef(3.18, 2.1, -0.7);
-		glRotatef(-40, 0.0, 0.0, 1.0);
-		glScalef(1.5, 0.2, 0.02);
-		drawFilledCube();
-	glPopMatrix();
-	glPushMatrix();          //second
-		glTranslatef(2.95, 1.75, -0.7);
-		glRotatef(-40, 0.0, 0.0, 1.0);
-		glScalef(1.40, 0.2, 0.02);
-		drawFilledCube();
-	glPopMatrix();
-	glPushMatrix();          //third
-		glTranslatef(2.72, 1.4, -0.7);
-		glRotatef(-40, 0.0, 0.0, 1.0);
-		glScalef(1.3, 0.2, 0.02);
-		drawFilledCube();
-	glPopMatrix();
-	glPushMatrix();          //fourth
-		glTranslatef(2.49, 1.05, -0.7);
-		glRotatef(-40, 0.0, 0.0, 1.0);
-		glScalef(1.2, 0.2, 0.02);
-		drawFilledCube();
-	glPopMatrix();
-	glPushMatrix();          //fifth
-		glTranslatef(2.2, 0.75, -0.7);
-		glRotatef(-40, 0.0, 0.0, 1.0);
-		glScalef(1.1, 0.2, 0.02);
-		drawFilledCube();
-	glPopMatrix();
+			//3  (wings) (face down)
+			glPushMatrix();          //first
+				glTranslatef(3.18, 2.1, -0.7);
+				glRotatef(-40, 0.0, 0.0, 1.0);
+				glScalef(1.5, 0.2, 0.02);
+				drawFilledCube();
+			glPopMatrix();
+			glPushMatrix();          //second
+				glTranslatef(2.95, 1.75, -0.7);
+				glRotatef(-40, 0.0, 0.0, 1.0);
+				glScalef(1.40, 0.2, 0.02);
+				drawFilledCube();
+			glPopMatrix();
+			glPushMatrix();          //third
+				glTranslatef(2.72, 1.4, -0.7);
+				glRotatef(-40, 0.0, 0.0, 1.0);
+				glScalef(1.3, 0.2, 0.02);
+				drawFilledCube();
+			glPopMatrix();
+			glPushMatrix();          //fourth
+				glTranslatef(2.49, 1.05, -0.7);
+				glRotatef(-40, 0.0, 0.0, 1.0);
+				glScalef(1.2, 0.2, 0.02);
+				drawFilledCube();
+			glPopMatrix();
+			glPushMatrix();          //fifth
+				glTranslatef(2.2, 0.75, -0.7);
+				glRotatef(-40, 0.0, 0.0, 1.0);
+				glScalef(1.1, 0.2, 0.02);
+				drawFilledCube();
+			glPopMatrix();
 
-//3  (wings) (face up)
-	glPushMatrix();          //first
-		glTranslatef(2.0, 3.9, -0.7);
-		glRotatef(60, 0.0, 0.0, 1.0);
-		glScalef(1.5, 0.25, 0.02);
-		drawFilledCube();
-	glPopMatrix();
-	glPushMatrix();          //second
-		glTranslatef(2.2, 3.5, -0.7);
-		glRotatef(54, 0.0, 0.0, 1.0);
-		glScalef(1.4, 0.25, 0.02);
-		drawFilledCube();
-	glPopMatrix();
-	glPushMatrix();          //third
-		glTranslatef(2.4, 3.1, -0.7);
-		glRotatef(50, 0.0, 0.0, 1.0);
-		glScalef(1.3, 0.25, 0.02);
-		drawFilledCube();
-	glPopMatrix();
-	glPushMatrix();          //fourth
-		glTranslatef(2.6, 2.7, -0.7);
-		glRotatef(46, 0.0, 0.0, 1.0);
-		glScalef(1.2, 0.25, 0.02);
-		drawFilledCube();
-	glPopMatrix();
-	glPushMatrix();          //fifth
-		glTranslatef(2.8, 2.3, -0.7);
-		glRotatef(40, 0.0, 0.0, 1.0);
-		glScalef(1.1, 0.25, 0.02);
-		drawFilledCube();
-	glPopMatrix();
+			//3  (wings) (face up)
+			glPushMatrix();          //first
+				glTranslatef(2.0, 3.9, -0.7);
+				glRotatef(60, 0.0, 0.0, 1.0);
+				glScalef(1.5, 0.25, 0.02);
+				drawFilledCube();
+			glPopMatrix();
+			glPushMatrix();          //second
+				glTranslatef(2.2, 3.5, -0.7);
+				glRotatef(54, 0.0, 0.0, 1.0);
+				glScalef(1.4, 0.25, 0.02);
+				drawFilledCube();
+			glPopMatrix();
+			glPushMatrix();          //third
+				glTranslatef(2.4, 3.1, -0.7);
+				glRotatef(50, 0.0, 0.0, 1.0);
+				glScalef(1.3, 0.25, 0.02);
+				drawFilledCube();
+			glPopMatrix();
+			glPushMatrix();          //fourth
+				glTranslatef(2.6, 2.7, -0.7);
+				glRotatef(46, 0.0, 0.0, 1.0);
+				glScalef(1.2, 0.25, 0.02);
+				drawFilledCube();
+			glPopMatrix();
+			glPushMatrix();          //fifth
+				glTranslatef(2.8, 2.3, -0.7);
+				glRotatef(40, 0.0, 0.0, 1.0);
+				glScalef(1.1, 0.25, 0.02);
+				drawFilledCube();
+			glPopMatrix();
 
-//Right side
-	glPushMatrix();          // Piece stick to body
-		glTranslatef(-0.5, 1.9, -0.65);
-		glScalef(0.3, 0.7, 0.03);
-		drawFilledCube();
-	glPopMatrix();
-//1
-	glPushMatrix();           //Cube piece
-		glTranslatef(-0.8, 1.5, -0.7);
-		glScalef(0.5, 0.6, 0.02);
-		drawFilledCube();
-	glPopMatrix();
-	glPushMatrix();           //Triangle piece
-		glTranslatef(-1.3, 2.1, -0.68);
-		glScalef(1.0, 1.1, 0.4);
-		drawFilledTriangle();
-	glPopMatrix();
-//2
-	glPushMatrix();           //Cube piece
-		glTranslatef(-1.8, 2.6, -0.7);
-		glScalef(0.5, 0.6, 0.02);
-		drawFilledCube();
-	glPopMatrix();
-	glPushMatrix();           //Bottom Triangle piece
-		glTranslatef(-1.3, 2.0, -0.68);
-		glRotatef(180, 0.0, 1.0, 0.0);
-		glRotatef(180, 1.0, 0.0, 0.0);
-		glScalef(1.0, 2.1, 0.4);
-		drawFilledTriangle();
-	glPopMatrix();
+		//Right side
+			glPushMatrix();          // Piece stick to body
+				glTranslatef(-0.5, 1.9, -0.65);
+				glScalef(0.3, 0.7, 0.03);
+				drawFilledCube();
+			glPopMatrix();
+			//1
+			glPushMatrix();           //Cube piece
+				glTranslatef(-0.8, 1.5, -0.7);
+				glScalef(0.5, 0.6, 0.02);
+				drawFilledCube();
+			glPopMatrix();
+			glPushMatrix();           //Triangle piece
+				glTranslatef(-1.3, 2.1, -0.68);
+				glScalef(1.0, 1.1, 0.4);
+				drawFilledTriangle();
+			glPopMatrix();
+			//2
+			glPushMatrix();           //Cube piece
+				glTranslatef(-1.8, 2.6, -0.7);
+				glScalef(0.5, 0.6, 0.02);
+				drawFilledCube();
+			glPopMatrix();
+			glPushMatrix();           //Bottom Triangle piece
+				glTranslatef(-1.3, 2.0, -0.68);
+				glRotatef(180, 0.0, 1.0, 0.0);
+				glRotatef(180, 1.0, 0.0, 0.0);
+				glScalef(1.0, 2.1, 0.4);
+				drawFilledTriangle();
+			glPopMatrix();
 
-//3  (wings) (face down)
-	glPushMatrix();          //first
-		glTranslatef(-3.18, 2.1, -0.7);
-		glRotatef(40, 0.0, 0.0, 1.0);
-		glScalef(1.5, 0.2, 0.02);
-		drawFilledCube();
-	glPopMatrix();
-	glPushMatrix();          //second
-		glTranslatef(-2.95, 1.75, -0.7);
-		glRotatef(40, 0.0, 0.0, 1.0);
-		glScalef(1.40, 0.2, 0.02);
-		drawFilledCube();
-	glPopMatrix();
-	glPushMatrix();          //third
-		glTranslatef(-2.72, 1.4, -0.7);
-		glRotatef(40, 0.0, 0.0, 1.0);
-		glScalef(1.3, 0.2, 0.02);
-		drawFilledCube();
-	glPopMatrix();
-	glPushMatrix();          //fourth
-		glTranslatef(-2.49, 1.05, -0.7);
-		glRotatef(40, 0.0, 0.0, 1.0);
-		glScalef(1.2, 0.2, 0.02);
-		drawFilledCube();
-	glPopMatrix();
-	glPushMatrix();          //fifth
-		glTranslatef(-2.2, 0.75, -0.7);
-		glRotatef(40, 0.0, 0.0, 1.0);
-		glScalef(1.1, 0.2, 0.02);
-		drawFilledCube();
-	glPopMatrix();
+			//3  (wings) (face down)
+			glPushMatrix();          //first
+				glTranslatef(-3.18, 2.1, -0.7);
+				glRotatef(40, 0.0, 0.0, 1.0);
+				glScalef(1.5, 0.2, 0.02);
+				drawFilledCube();
+			glPopMatrix();
+			glPushMatrix();          //second
+				glTranslatef(-2.95, 1.75, -0.7);
+				glRotatef(40, 0.0, 0.0, 1.0);
+				glScalef(1.40, 0.2, 0.02);
+				drawFilledCube();
+			glPopMatrix();
+			glPushMatrix();          //third
+				glTranslatef(-2.72, 1.4, -0.7);
+				glRotatef(40, 0.0, 0.0, 1.0);
+				glScalef(1.3, 0.2, 0.02);
+				drawFilledCube();
+			glPopMatrix();
+			glPushMatrix();          //fourth
+				glTranslatef(-2.49, 1.05, -0.7);
+				glRotatef(40, 0.0, 0.0, 1.0);
+				glScalef(1.2, 0.2, 0.02);
+				drawFilledCube();
+			glPopMatrix();
+			glPushMatrix();          //fifth
+				glTranslatef(-2.2, 0.75, -0.7);
+				glRotatef(40, 0.0, 0.0, 1.0);
+				glScalef(1.1, 0.2, 0.02);
+				drawFilledCube();
+			glPopMatrix();
 
-//3  (wings) (face up)
-	glPushMatrix();          //first
-		glTranslatef(-2.0, 3.9, -0.7);
-		glRotatef(-60, 0.0, 0.0, 1.0);
-		glScalef(1.5, 0.25, 0.02);
-		drawFilledCube();
-	glPopMatrix();
-	glPushMatrix();          //second
-		glTranslatef(-2.2, 3.5, -0.7);
-		glRotatef(-54, 0.0, 0.0, 1.0);
-		glScalef(1.4, 0.25, 0.02);
-		drawFilledCube();
-	glPopMatrix();
-	glPushMatrix();          //third
-		glTranslatef(-2.4, 3.1, -0.7);
-		glRotatef(-50, 0.0, 0.0, 1.0);
-		glScalef(1.3, 0.25, 0.02);
-		drawFilledCube();
-	glPopMatrix();
-	glPushMatrix();          //fourth
-		glTranslatef(-2.6, 2.7, -0.7);
-		glRotatef(-46, 0.0, 0.0, 1.0);
-		glScalef(1.2, 0.25, 0.02);
-		drawFilledCube();
-	glPopMatrix();
-	glPushMatrix();          //fifth
-		glTranslatef(-2.8, 2.3, -0.7);
-		glRotatef(-40, 0.0, 0.0, 1.0);
-		glScalef(1.1, 0.25, 0.02);
-		drawFilledCube();
-	glPopMatrix();
+			//3  (wings) (face up)
+			glPushMatrix();          //first
+				glTranslatef(-2.0, 3.9, -0.7);
+				glRotatef(-60, 0.0, 0.0, 1.0);
+				glScalef(1.5, 0.25, 0.02);
+				drawFilledCube();
+			glPopMatrix();
+			glPushMatrix();          //second
+				glTranslatef(-2.2, 3.5, -0.7);
+				glRotatef(-54, 0.0, 0.0, 1.0);
+				glScalef(1.4, 0.25, 0.02);
+				drawFilledCube();
+			glPopMatrix();
+			glPushMatrix();          //third
+				glTranslatef(-2.4, 3.1, -0.7);
+				glRotatef(-50, 0.0, 0.0, 1.0);
+				glScalef(1.3, 0.25, 0.02);
+				drawFilledCube();
+			glPopMatrix();
+			glPushMatrix();          //fourth
+				glTranslatef(-2.6, 2.7, -0.7);
+				glRotatef(-46, 0.0, 0.0, 1.0);
+				glScalef(1.2, 0.25, 0.02);
+				drawFilledCube();
+			glPopMatrix();
+			glPushMatrix();          //fifth
+				glTranslatef(-2.8, 2.3, -0.7);
+				glRotatef(-40, 0.0, 0.0, 1.0);
+				glScalef(1.1, 0.25, 0.02);
+				drawFilledCube();
+			glPopMatrix();
+			break;
+		case 2:
+		//Robot exhaust jet
+		//Middle
+			//Inside two stick to body cube
+			glPushMatrix();
+				glTranslatef(0.45, 1.5, -0.6);
+				glScalef(0.2, 0.9, 0.2);
+				drawFilledCube();
+			glPopMatrix();
+			glPushMatrix();
+				glTranslatef(-0.45, 1.5, -0.6);
+				glScalef(0.2, 0.9, 0.2);
+				drawFilledCube();
+			glPopMatrix();
+
+			glPushMatrix();        //Middle box
+				glTranslatef(0.0, 1.8, -1.0);
+				glScalef(1.0, 1.1, 0.3);
+				drawFilledCube();
+			glPopMatrix();
+
+			//Left wings
+			robotExhaustJet = true;
+
+			glPushMatrix();
+			glTranslatef(wingLeftTranslateDegree, 0.0, 0.0);
+			{
+				//Left wings
+				glPushMatrix();
+				glTranslatef(0.0, 2.5, -1.0);
+				glScalef(2.0, 0.4, 0.1);
+				drawFilledCube();
+				glPopMatrix();
+				glPushMatrix();
+				glTranslatef(-2.0, 2.1, -1.1);
+				glRotatef(180, 1.0, 0.0, 0.0);
+				glScalef(3.6, 1.2, 2.0);
+				drawFilledTriangle();
+				glPopMatrix();
+			}
+			glPopMatrix();
+
+			glPushMatrix();              //Rocket
+			glTranslatef(wingLeftRocketTranslateDegree, 0.0, 0.0);
+			{
+
+				glPushMatrix();
+				glTranslatef(0.0, 0.8, -1.0);
+				glRotatef(90, 1.0, 0.0, 0.0);
+				glScalef(1.5, 1.0, 1.0);
+				drawCylinder(0.15, 0.30, 1.0, 50, 50);
+				glPopMatrix();
+			}
+			glPopMatrix();
+
+				//Right wings
+			glPushMatrix();
+			glTranslatef(wingRightTranslateDegree, 0.0, 0.0);
+			{
+				glPushMatrix();
+				glTranslatef(0.0, 2.5, -1.0);
+				glScalef(2.0, 0.4, 0.1);
+				drawFilledCube();
+				glPopMatrix();
+				glPushMatrix();
+				glTranslatef(2.0, 2.1, -0.9);
+				glRotatef(180, 0.0, 1.0, 0.0);
+				glRotatef(180, 1.0, 0.0, 0.0);
+				glScalef(3.6, 1.2, 2.0);
+				drawFilledTriangle();
+				glPopMatrix();
+			}
+			glPopMatrix();
+
+			glPushMatrix();              //Rocket
+			glTranslatef(wingRightRocketTranslateDegree, 0.0, 0.0);
+			{
+				glPushMatrix();
+				glTranslatef(0.0, 0.8, -1.0);
+				glRotatef(90, 1.0, 0.0, 0.0);
+				glScalef(1.5, 1.0, 1.0);
+				drawCylinder(0.15, 0.30, 1.0, 50, 50);
+				glPopMatrix();
+			}
+			glPopMatrix();
+			break;
+		default:
+			break;
+	}
 }
 
 void environment() {
@@ -4408,7 +4570,7 @@ void jaegerRobot()
 	glPushMatrix();
 		glColor3f(1.0, 1.0, 1.0);
 		loadBitmapImage(wingTextureArray[textureSetIndex].data());
-		drawBackWing();
+		drawBackWing(backType);
 		endTexture();
 	glPopMatrix();
 
@@ -4427,6 +4589,17 @@ void jaegerRobot()
 		drawReactor();
 		endTexture();
 	glPopMatrix();
+
+	//Fireball
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		loadBitmapImage("textureImage/reactor.bmp");
+		glTranslatef(0.0, 0.0, reactorFireballTranslate);
+		drawReactorFireball();
+		endTexture();
+	glPopMatrix();
+
+	
 
 // Reactor shell
 	/*glPushMatrix();
@@ -4695,6 +4868,17 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 		else {
 			electricEffectMovement = 0.0f;
 		}
+
+		if (reactorFireball == true)
+		{
+			reactorFireballTranslate += 0.08;
+		}
+		else if (reactorFireball == false)
+		{
+			reactorFireballTranslate = 0.0;
+		}
+			
+			
 
 		display();
 
