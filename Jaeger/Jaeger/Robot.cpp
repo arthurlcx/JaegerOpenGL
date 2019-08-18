@@ -2684,11 +2684,23 @@ void drawLeftElbowForearm()
 	}
 	if (handShield == false)
 	{
-		glPushMatrix();
-		glTranslatef(2.0, 0.0, 0.0);
-		glRotatef(90, 0.0, 1.0, 0.0);
-		drawGluDisk(0.0, 1.3, 30, 30);
-		glPopMatrix();
+		if (drawThorHammer) {
+			glPushMatrix();
+			loadBitmapImage("textureImage/capShield.bmp");
+			glTranslatef(1.90, 0.0, 0.0);
+			glRotatef(90, 0.0, 1.0, 0.0);
+			drawGluDisk(0.0, 1.3, 30, 30);
+			endTexture();
+			glPopMatrix();
+
+			glPushMatrix();
+			loadBitmapImage("textureImage/capShieldInner.bmp");
+			glTranslatef(1.89, 0.0, 0.0);
+			glRotatef(90, 0.0, 1.0, 0.0);
+			drawGluDisk(0.0, 1.3, 30, 30);
+			endTexture();
+			glPopMatrix();
+		}
 	}
 }
 
@@ -5142,6 +5154,7 @@ void display()
 		textureSetIndex = 3;
 		textureReactorIndex = 1;
 		textureEnvironmentIndex = 3;
+	
 	}
 
 }
