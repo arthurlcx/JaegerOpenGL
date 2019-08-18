@@ -600,6 +600,7 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			}
 
 		}
+		
 		else if (wParam == VK_SPACE)
 		{
 			LeftHandPalmAngle = 0.0;
@@ -948,6 +949,16 @@ void drawCircle(float radius)
 		glVertex2f(xc2, yc2);
 	}
 	glEnd();
+}
+
+void drawGluDisk(float innerRadius, float outerRadius, float slices, float loops)
+{
+	GLUquadricObj *disk = NULL;
+	disk = gluNewQuadric();
+	gluQuadricTexture(disk, GLU_TRUE);
+	gluQuadricDrawStyle(disk, GLU_FILL);
+	gluDisk(disk, innerRadius, outerRadius, slices, loops);
+	gluDeleteQuadric(disk);
 }
 
 void drawInnerRobotPart()
@@ -2671,8 +2682,14 @@ void drawLeftElbowForearm()
 		drawLeftShield();
 		glPopMatrix();
 	}
-
-
+	if (handShield == false)
+	{
+		glPushMatrix();
+		glTranslatef(2.0, 0.0, 0.0);
+		glRotatef(90, 0.0, 1.0, 0.0);
+		drawGluDisk(0.0, 1.3, 30, 30);
+		glPopMatrix();
+	}
 }
 
 void left4FingerPart1()
