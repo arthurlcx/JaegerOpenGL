@@ -44,6 +44,7 @@ bool firstWalk = true, leftFrontWalked = false, rightFrontWalked = false, leftBa
 float reactorRotateAngle = 0.0f;
 float cannonRotateAngle = 0.0f;
 float electricEffectMovement = 1.0f;
+float doctorStrangeChakaraRotate = 0.0f;
 
 float xPosition = 0.0f, yPosition = 0.0f, zPosition = 0.05f;
 
@@ -680,10 +681,7 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			drillRotate = 0.5;
 			drawThorHammer = false;
 			handShield = false;
-
-			textureSetIndex = 0;
-			textureReactorIndex = 0;
-			textureEnvironmentIndex = 0;
+			drawDSCircle = false;
 		}
 		else if (wParam == 0x31)		// 1 key on/off ambient light
 			ambientOn = !ambientOn;
@@ -2753,23 +2751,33 @@ void drawLeftElbowForearm()
 	}
 	if (drawDSCircle == true)
 	{
-		glPushMatrix();
-		glTranslatef(1.7, -1.7, 0.0);
-		glRotatef(90, 1.0, 0.0, 0.0);
-		drawGluDisk(0.0, 1.2, 30, 30);
-		glPopMatrix();
-
+		
+		loadBitmapImage("textureImage/doctorStrangeBig.bmp");
 		glPushMatrix();
 		glTranslatef(1.7, -1.75, 0.0);
+		glRotatef(doctorStrangeChakaraRotate, 0.0, 1.0, 0.0);
 		glRotatef(90, 1.0, 0.0, 0.0);
 		drawGluDisk(0.0, 1.6, 30, 30);
 		glPopMatrix();
+		endTexture();
 
+		loadBitmapImage("textureImage/doctorStrangeSmall.bmp");
 		glPushMatrix();
-		glTranslatef(1.7, -1.80, 0.0);
+		glTranslatef(1.7, -1.7, 0.0);
+		glRotatef(-doctorStrangeChakaraRotate, 0.0, 1.0, 0.0);
 		glRotatef(90, 1.0, 0.0, 0.0);
 		drawGluDisk(0.0, 1.2, 30, 30);
 		glPopMatrix();
+		glPopMatrix();
+
+
+		glPushMatrix();
+		glTranslatef(1.7, -1.80, 0.0);
+		glRotatef(-doctorStrangeChakaraRotate, 0.0, 1.0, 0.0);
+		glRotatef(90, 1.0, 0.0, 0.0);
+		drawGluDisk(0.0, 1.2, 30, 30);
+		glPopMatrix();
+		endTexture();
 	}
 }
 
@@ -5322,6 +5330,13 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 		}
 		else {
 			gunBarrelRotate = 0.0f;
+		}
+
+		if (doctorStrangeChakaraRotate < 360) {
+			doctorStrangeChakaraRotate += 5.0f;
+		}
+		else {
+			doctorStrangeChakaraRotate = 0.0f;
 		}
 
 
