@@ -653,35 +653,65 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		}
 		else if (wParam == VK_SPACE)
 		{
-			LeftHandPalmAngle = 0.0;
-			LeftHandForearmAngle = 0.0;
-			LeftHandWholeArmAngle = 0.0;
-			LeftHandWholeArmAnglez = 0.0;
-			LeftHandForearmAnglez = 0.0;
-			RightHandPalmAngle = 0.0;
-			RightHandForearmAngle = 0.0;
-			RightHandWholeArmAngle = 0.0;
-			RightHandWholeArmAnglez = 0.0;
-			RightHandForearmAnglez = 0.0;
+		LeftHandPalmAngle = 0.0;
+		LeftHandForearmAngle = 0.0;
+		LeftHandWholeArmAngle = 0.0;
+		LeftHandWholeArmAnglez = 0.0;
+		LeftHandForearmAnglez = 0.0;
+		RightHandPalmAngle = 0.0;
+		RightHandForearmAngle = 0.0;
+		RightHandWholeArmAngle = 0.0;
+		RightHandWholeArmAnglez = 0.0;
+		RightHandForearmAnglez = 0.0;
+		leftWristRotatey = 0.0;
+		leftArmRotateDS = false;
+		leftWristRotateyDS = false;
+		leftWristRotatezDS = false;
+		leftHandPalmRotatez = false;
+		drawDSCircle = false;
 
-			LeftLegThighAngle = 0.0;
-			LeftLegKneeShinAngle = 0.0;
-			LeftLegAnkleAngle = 0.0;
-			RightLegThighAngle = 0.0;
-			RightLegKneeShinAngle = 0.0;
-			RightLegAnkleAngle = 0.0;
+		LeftLegThighAngle = 0.0;
+		LeftLegKneeShinAngle = 0.0;
+		LeftLegAnkleAngle = 0.0;
+		RightLegThighAngle = 0.0;
+		RightLegKneeShinAngle = 0.0;
+		RightLegAnkleAngle = 0.0;
 
-			fingerAngle1 = 0.0;
-			fingerAngle2 = 0.0;
-			fingerAngle3 = 0.0;
-			fingerAngle4 = 0.0;
+		robotMoveFront = 0.0;
+		robotMoveLeft = 0.0;
+		robotMoveRight = 0.0;
+		fingerAngle1 = 0.0;
+		fingerAngle2 = 0.0;
+		fingerAngle3 = 0.0;
+		fingerAngle4 = 0.0;
 
-			weaponTypeL = 0;
-			weaponTypeR = 0;
-			drillRotate = 0.5;
-			drawThorHammer = false;
-			handShield = false;
-			drawDSCircle = false;
+		weaponTypeL = 0;
+		weaponTypeR = 0;
+		drillRotate = 0.0;
+		gunBarrelRotate = 0.0;
+		backType = 0;
+		wingLeftTranslateDegree = 0.0;
+		wingRightTranslateDegree = 0.0;
+		wingLeftRocketTranslateDegree = 0.0;
+		wingRightRocketTranslateDegree = 0.0;
+		robotExhaustJet = false;
+		drawThorHammer = false;
+		handShield = false;
+		reactorFireball = false;
+		reactorFireballTranslate = 0.0;
+		fireballCount = 0;
+
+		LeftLegUpFront = true;
+		LeftLegDownFront = false;
+		RightLegUpFront = false;
+		RightLegDownFront = false;
+		LeftLegUpBack = true;
+		LeftLegDownBack = false;
+		RightLegUpBack = false;
+		RightLegDownBack = false;
+		robotUpperBodyTranslate = 0.0;
+		robotLeftLegMoveWithBody = 0.0;
+		robotRightLegMoveWithBody = 0.0;
 		}
 		else if (wParam == 0x31)		// 1 key on/off ambient light
 			ambientOn = !ambientOn;
@@ -2262,13 +2292,16 @@ void drawLeftShield()
 		endTexture();
 	glPopMatrix();
 
-	glPushMatrix();         // steep cube inside
-		glTranslatef(-0.1, 0.3, 0.0);
-		glRotatef(10, 1.0, 0.0, 0.0);
-		glScalef(0.3, 0.4, 0.1);
-		//drawFilledCubeT();
+	glPushMatrix();        //Side piece
+		loadBitmapImage(shield4Array[textureReactorIndex].data());
+		glTranslatef(0.85, 0.0, -0.17);
+		glRotatef(20, 0.0, 1.0, 0.0);
+		glScalef(0.5, 1.5, 0.05);
+		drawFilledCubeT();
+		endTexture();
 	glPopMatrix();
 
+	loadBitmapImage("textureImage/metalShield.bmp");
 	glPushMatrix();        //Top cube piece
 		glTranslatef(-0.1, 1.83, -0.195);
 		glRotatef(-30, 1.0, 0.0, 0.0);
@@ -2289,15 +2322,6 @@ void drawLeftShield()
 	drawFilledCubeT();
 	glPopMatrix();
 
-	glPushMatrix();        //Side piece
-		loadBitmapImage(shield4Array[textureReactorIndex].data());
-		glTranslatef(0.85, 0.0, -0.17);
-		glRotatef(20, 0.0, 1.0 ,0.0);
-		glScalef(0.5, 1.5, 0.05);
-		drawFilledCubeT();
-		endTexture();
-	glPopMatrix();
-
 	glPushMatrix();
 	glTranslatef(0.68, 1.805, -0.35);
 	glRotatef(20, 0.0, 1.0, 0.0);
@@ -2306,6 +2330,7 @@ void drawLeftShield()
 	drawFilledCubeT();
 
 	glPopMatrix();
+	endTexture();
 }
 
 void drawRightShield()
@@ -2317,13 +2342,16 @@ void drawRightShield()
 		endTexture();
 	glPopMatrix();
 
-	glPushMatrix();         // steep cube inside
-		glTranslatef(0.1, 0.3, 0.0);
-		glRotatef(10, 1.0, 0.0, 0.0);
-		glScalef(0.3, 0.4, 0.1);
-		//drawFilledCubeT();
+	glPushMatrix();        //Side piece
+		loadBitmapImage(shield1Array[textureReactorIndex].data());
+		glTranslatef(-0.85, 0.0, -0.17);
+		glRotatef(-20, 0.0, 1.0, 0.0);
+		glScalef(0.5, 1.5, 0.05);
+		drawFilledCubeT();
+		endTexture();
 	glPopMatrix();
 
+	loadBitmapImage("textureImage/metalShield.bmp");
 	glPushMatrix();        //Top cube piece
 		glTranslatef(0.1, 1.83, -0.195);
 		glRotatef(-30, 1.0, 0.0, 0.0);
@@ -2346,15 +2374,6 @@ void drawRightShield()
 	drawFilledCubeT();
 	glPopMatrix();
 
-	glPushMatrix();        //Side piece
-		loadBitmapImage(shield1Array[textureReactorIndex].data());
-		glTranslatef(-0.85, 0.0, -0.17);
-		glRotatef(-20, 0.0, 1.0, 0.0);
-		glScalef(0.5, 1.5, 0.05);
-		drawFilledCubeT();
-		endTexture();
-	glPopMatrix();
-
 	glPushMatrix();
 		glTranslatef(-0.68, 1.805, -0.35);
 		glRotatef(-20, 0.0, 1.0, 0.0);
@@ -2362,6 +2381,7 @@ void drawRightShield()
 		glScalef(0.4, 0.4, 0.05);
 		drawFilledCubeT();
 	glPopMatrix();
+	endTexture();
 }
 
 
@@ -4833,6 +4853,25 @@ void drawBackWing(int backType)
 	}
 }
 
+void drawThunder()
+{
+	float value[] = { 0.0f, 0.5f, 1.0f };
+	glPushMatrix();
+		glLineWidth(10);
+		glBegin(GL_TRIANGLE_STRIP);
+		glTexCoord2f(0, 0); glVertex2f(2, 8);
+		glTexCoord2f(1, 0); glVertex2f(-1, 7);
+		glTexCoord2f(1, 1); glVertex2f(0, 1);
+		glTexCoord2f(0, 1); glVertex2f(-3, -3);
+		glTexCoord2f(0, 0); glVertex2f(2, 1);
+		glTexCoord2f(1, 0); glVertex2f(-1, -3);
+		glTexCoord2f(0, 1); glVertex2f(-4, -16);
+		glTexCoord2f(0, 0); glVertex2f(2, -3);
+		glTexCoord2f(0, 1); glVertex2f(1, -5);
+		glEnd();
+	glPopMatrix();
+}
+
 void electricEffect() {
 	glPushMatrix();
 	loadBitmapImage("textureImage/lightning.bmp");
@@ -4850,6 +4889,68 @@ void electricEffect() {
 	gluDeleteQuadric(disk);
 	endTexture();
 	glPopMatrix();
+
+	//front thunder
+	loadBitmapImage("textureImage/thunder.bmp");
+	glPushMatrix();               //First thunder 
+	glColor3f(0.0, 1.0, 1.0);
+	glTranslatef(-0.22, -0.2, -0.05);
+	glRotatef(2, 0.0, 0.0, 1.0);
+	glRotatef(210, 0.0, 1.0, 0.0);
+	glScalef(0.01, 0.05, 0.0);
+	drawThunder();
+	glPopMatrix();
+	
+
+	glPushMatrix();               //Second thunder 
+	glColor3f(0.0, 1.0, 1.0);
+	glTranslatef(-0.16, -0.2, -0.08);
+	glRotatef(2, 0.0, 0.0, 1.0);
+	glRotatef(190, 0.0, 1.0, 0.0);
+	glScalef(0.01, 0.05, 0.0);
+	drawThunder();
+	glPopMatrix();
+	
+
+	glPushMatrix();               //Third thunder 
+	glColor3f(0.0, 1.0, 1.0);
+	glTranslatef(-0.07, -0.2, -0.1);
+	glRotatef(2, 0.0, 0.0, 1.0);
+	glRotatef(180, 0.0, 1.0, 0.0);
+	glScalef(0.01, 0.05, 0.0);
+	drawThunder();
+	glPopMatrix();
+	
+
+	glPushMatrix();               //Fourth thunder 
+	glColor3f(0.0, 1.0, 1.0);
+	glTranslatef(0.07, -0.2, -0.1);
+	glRotatef(-2, 0.0, 0.0, 1.0);
+	glScalef(0.01, 0.05, 0.0);
+	drawThunder();
+	glPopMatrix();
+	
+
+	glPushMatrix();               //Fifth thunder 
+	glColor3f(0.0, 1.0, 1.0);
+	glTranslatef(0.16, -0.2, -0.08);
+	glRotatef(-10, 0.0, 1.0, 0.0);
+	glRotatef(-2, 0.0, 0.0, 1.0);
+	glScalef(0.01, 0.05, 0.0);
+	drawThunder();
+	glPopMatrix();
+
+
+	glPushMatrix();               //Sixth thunder 
+	glColor3f(0.0, 1.0, 1.0);
+	glTranslatef(0.22, -0.2, -0.05);
+	glRotatef(-30, 0.0, 1.0, 0.0);
+	glRotatef(-2, 0.0, 0.0, 1.0);
+	glScalef(0.01, 0.05, 0.0);
+	drawThunder();
+	glPopMatrix();
+	endTexture();
+
 }
 
 void environment() {
@@ -5219,7 +5320,7 @@ void display()
 
 	glColor3f(0.0f, 0.0f, 0.0f);
 	glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-	glMaterialf(GL_FRONT, GL_SHININESS, 25.0);
+	glMaterialf(GL_FRONT, GL_SHININESS, 30.0);
 	glMaterialfv(GL_FRONT, GL_EMISSION, mat_emission);
 
 	jaegerRobot();
