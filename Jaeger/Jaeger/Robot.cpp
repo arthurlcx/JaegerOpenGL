@@ -104,6 +104,7 @@ bool LeftLegUpBack = true, LeftLegDownBack = false;
 bool RightLegUpBack = false, RightLegDownBack = false;
 float robotUpperBodyTranslate = 0.0;
 float robotLeftLegMoveWithBody = 0.0, robotRightLegMoveWithBody;
+float manyRobotTranslate = 0.0;
 
 //Texture variable declaration
 std::string armorTextureArray[] = { "textureImage/blue_armor.bmp", "textureImage/black_armor.bmp", "textureImage/camo_armor.bmp", "textureImage/ironMan_armor.bmp" };
@@ -651,6 +652,10 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 				LeftHandWholeArmAngle += 5;
 			}		
 		}
+		else if (wParam == VK_END)
+		{
+			manyRobotTranslate += 0.5;
+		}
 		else if (wParam == VK_SPACE)
 		{
 		LeftHandPalmAngle = 0.0;
@@ -712,6 +717,7 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		robotUpperBodyTranslate = 0.0;
 		robotLeftLegMoveWithBody = 0.0;
 		robotRightLegMoveWithBody = 0.0;
+		manyRobotTranslate = 0.0;
 		}
 		else if (wParam == 0x31)		// 1 key on/off ambient light
 			ambientOn = !ambientOn;
@@ -5257,6 +5263,41 @@ void jaegerRobot()
 
 }
 
+void manyJaegerRobot()
+{
+	glPushMatrix();
+		glTranslatef(0.0, 0.0, manyRobotTranslate);
+		glTranslatef(1.0, 6.0, -35.0);
+		glRotatef(-70, 1.0, 0.0, 0.0);
+		glScalef(0.5, 0.5, 0.5);
+		jaegerRobot();
+	glPopMatrix();
+
+	glPushMatrix();
+		glTranslatef(0.0, 0.0, manyRobotTranslate);
+		glTranslatef(5.0, 5.0, -35.0);
+		glRotatef(-60, 1.0, 0.0, 0.0);
+		glScalef(0.5, 0.5, 0.5);
+		jaegerRobot();
+	glPopMatrix();
+
+	glPushMatrix();
+		glTranslatef(0.0, 0.0, manyRobotTranslate);
+		glTranslatef(-3.0, 2.0, -35.0);
+		glRotatef(-60, 1.0, 0.0, 0.0);
+		glScalef(0.6, 0.6, 0.6);
+		jaegerRobot();
+	glPopMatrix();
+
+	glPushMatrix();
+		glTranslatef(0.0, 0.0, manyRobotTranslate);
+		glTranslatef(-6.0, 6.0, -35.0);
+		glRotatef(-60, 1.0, 0.0, 0.0);
+		glScalef(1.2, 1.2, 1.2);
+		jaegerRobot();
+	glPopMatrix();
+}
+
 void initLighting() {
 	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
 	glEnable(GL_LIGHTING);
@@ -5324,6 +5365,7 @@ void display()
 	glMaterialfv(GL_FRONT, GL_EMISSION, mat_emission);
 
 	jaegerRobot();
+	manyJaegerRobot();
 
 	environment();
 
@@ -5334,7 +5376,6 @@ void display()
 		textureSetIndex = 3;
 		textureReactorIndex = 1;
 		textureEnvironmentIndex = 3;
-	
 	}
 
 }
@@ -5452,19 +5493,3 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 	return true;
 }
 //--------------------------------------------------------------------
-
-
-//Tips
-//Object
-//Move objects in -ve z direction, or move camera in +ve z direction
-
-//Color
-
-//Texture
-
-
-
-//Cautions
-// 1. Rememeber to remove the color in drawFilledCube
-// 2. How to rotate automatically in glPushMatrix for ironman reactor
-//3. slow down robot moving speed
