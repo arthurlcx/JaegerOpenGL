@@ -76,6 +76,9 @@ float LeftHandPalmAngle = 0.0, LeftHandForearmAngle = 0.0, LeftHandWholeArmAngle
 float LeftHandWholeArmAnglez = 0.0, LeftHandForearmAnglez = 0.0;
 float RightHandPalmAngle = 0.0, RightHandForearmAngle = 0.0, RightHandWholeArmAngle = 0.0;
 float RightHandWholeArmAnglez = 0.0, RightHandForearmAnglez = 0.0;
+float leftWristRotatey = 0.0;
+bool leftArmRotateDS = false, leftWristRotateyDS = false, leftWristRotatezDS = false, leftHandPalmRotatez = false;
+bool drawDSCircle = false;
 
 float LeftLegThighAngle = 0.0, LeftLegKneeShinAngle = 0.0, LeftLegAnkleAngle = 0.0;
 float RightLegThighAngle = 0.0, RightLegKneeShinAngle = 0.0, RightLegAnkleAngle = 0.0;
@@ -491,8 +494,6 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			if (RightLegAnkleAngle < 0 && RightLegAnkleAngle >= -10)
 				RightLegAnkleAngle += 5;
 		}
-
-
 		else if (wParam == 'M')               //Finger left close
 		{
 			if (fingerAngle1 <= 0 && fingerAngle1 > -50)
@@ -534,7 +535,6 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 					drawThorHammer = false;
 			}
 		}
-
 		else if (wParam == 'Z')                //LEFT HAND SWITCH WEAPONS
 		{
 			if (weaponTypeL >= 0 & weaponTypeL < 4)
@@ -598,9 +598,58 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 				reactorFireball = false;
 				fireballCount -= 1;
 			}
-
 		}
-		
+		else if (wParam == VK_OEM_4)               //draw doctor strange circle
+		{
+			if (LeftHandWholeArmAngle <= 0 && LeftHandWholeArmAngle > -95)
+			{
+				LeftHandWholeArmAngle -= 5;
+				
+				if (LeftHandWholeArmAngle == -90)
+					leftArmRotateDS = true;
+			}			
+			else if (leftArmRotateDS == true && leftWristRotatey > -90)
+			{
+				leftWristRotatey -= 15;
+
+				if (leftWristRotatey == -90)
+					leftWristRotateyDS = true;
+			}
+			else if (leftWristRotateyDS == true && LeftHandPalmAngle < 30)
+			{
+				LeftHandPalmAngle += 5;
+
+				if (LeftHandPalmAngle == 30)
+					leftHandPalmRotatez = true;
+			}
+			else if (leftHandPalmRotatez == true)
+			{
+				drawDSCircle = true;
+			}
+		}
+		else if (wParam == VK_OEM_6)               //draw doctor strange circle
+		{
+			drawDSCircle = false;
+
+			if (drawDSCircle == false && LeftHandPalmAngle >0)
+			{
+				LeftHandPalmAngle -= 5;
+
+				if (LeftHandPalmAngle == 0)
+					leftHandPalmRotatez = true;
+			}
+			else if (leftHandPalmRotatez == true && leftWristRotatey < 0)
+			{
+				leftWristRotatey += 15;
+
+				if (leftWristRotatey == 0)
+					leftWristRotateyDS = true;
+			}
+			else if (leftWristRotateyDS == true && LeftHandWholeArmAngle < 0)
+			{
+				LeftHandWholeArmAngle += 5;
+			}		
+		}
 		else if (wParam == VK_SPACE)
 		{
 			LeftHandPalmAngle = 0.0;
@@ -2702,6 +2751,26 @@ void drawLeftElbowForearm()
 			glPopMatrix();
 		}
 	}
+	if (drawDSCircle == true)
+	{
+		glPushMatrix();
+		glTranslatef(1.7, -1.7, 0.0);
+		glRotatef(90, 1.0, 0.0, 0.0);
+		drawGluDisk(0.0, 1.2, 30, 30);
+		glPopMatrix();
+
+		glPushMatrix();
+		glTranslatef(1.7, -1.75, 0.0);
+		glRotatef(90, 1.0, 0.0, 0.0);
+		drawGluDisk(0.0, 1.6, 30, 30);
+		glPopMatrix();
+
+		glPushMatrix();
+		glTranslatef(1.7, -1.80, 0.0);
+		glRotatef(90, 1.0, 0.0, 0.0);
+		drawGluDisk(0.0, 1.2, 30, 30);
+		glPopMatrix();
+	}
 }
 
 void left4FingerPart1()
@@ -3368,7 +3437,6 @@ void drawRightElboxForearm()
 		drawRightShield();
 		glPopMatrix();
 	}
-
 }
 
 void right4FingerPart1()
@@ -4983,7 +5051,10 @@ void jaegerRobot()
 		drawLeftElbowForearm();
 		{
 			glPushMatrix();
-			glRotatef(LeftHandPalmAngle, 1.0, 0.0, 0.0);
+			glTranslatef(1.55, -0.20, -0.0);
+			glRotatef(leftWristRotatey, 0.0, 1.0, 0.0);
+			glRotatef(LeftHandPalmAngle, 0.0, 0.0, 1.0);
+			glTranslatef(-1.55, 0.20, 0.0);
 			drawLeftHandPalm();
 			glPopMatrix();
 		}
