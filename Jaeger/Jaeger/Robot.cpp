@@ -83,7 +83,7 @@ float RightLegThighAngle = 0.0, RightLegKneeShinAngle = 0.0, RightLegAnkleAngle 
 float robotMoveFront = 0.0, robotMoveLeft = 0.0, robotMoveRight = 0.0;
 float fingerAngle1 = 0.0, fingerAngle2 = 0.0, fingerAngle3 = 0.0, fingerAngle4 = 0.0;
 
-int weaponTypeL = 0, weaponTypeR = 0, drillRotate = 0.5;
+int weaponTypeL = 0, weaponTypeR = 0, drillRotate = 0.0, gunBarrelRotate = 0.0;
 int backType = 0;
 float wingLeftTranslateDegree = 0.0, wingRightTranslateDegree = 0.0;
 float wingLeftRocketTranslateDegree = 0.0, wingRightRocketTranslateDegree = 0.0;
@@ -102,16 +102,25 @@ float robotUpperBodyTranslate = 0.0;
 float robotLeftLegMoveWithBody = 0.0, robotRightLegMoveWithBody;
 
 //Texture variable declaration
-std::string armorTextureArray[] = { "textureImage/blue_armor.bmp", "textureImage/black_armor.bmp", "textureImage/camo_armor.bmp" };
-std::string innerTextureArray[] = { "textureImage/darkMetal_inner.bmp", "textureImage/whiteMetal_inner.bmp", "textureImage/greenMetal_inner.bmp" };
-std::string wingTextureArray[] = { "textureImage/wing1.bmp", "textureImage/wing2.bmp", "textureImage/wing3.bmp" };
-std::string environmentTopTextureArray[] = { "environmentTexture/majestic_up.bmp", "environmentTexture/criminal-impact_up.bmp", "environmentTexture/midnight-silence_up.bmp" };
-std::string environmentBottomTextureArray[] = { "environmentTexture/majestic_dn.bmp" , "environmentTexture/criminal-impact_dn.bmp", "environmentTexture/midnight-silence_dn.bmp" };
-std::string environmentLeftTextureArray[] = { "environmentTexture/majestic_rt.bmp" , "environmentTexture/criminal-impact_rt.bmp", "environmentTexture/midnight-silence_rt.bmp" };
-std::string environmentRightTextureArray[] = { "environmentTexture/majestic_lf.bmp" , "environmentTexture/criminal-impact_lf.bmp", "environmentTexture/midnight-silence_lf.bmp" };
-std::string environmentFrontTextureArray[] = { "environmentTexture/majestic_bk.bmp" , "environmentTexture/criminal-impact_bk.bmp", "environmentTexture/midnight-silence_bk.bmp" };
-std::string environmentBackTextureArray[] = { "environmentTexture/majestic_ft.bmp" , "environmentTexture/criminal-impact_ft.bmp", "environmentTexture/midnight-silence_ft.bmp" };
+std::string armorTextureArray[] = { "textureImage/blue_armor.bmp", "textureImage/black_armor.bmp", "textureImage/camo_armor.bmp", "textureImage/ironMan_armor.bmp" };
+std::string innerTextureArray[] = { "textureImage/darkMetal_inner.bmp", "textureImage/whiteMetal_inner.bmp", "textureImage/greenMetal_inner.bmp", "textureImage/ironMan_inner.bmp" };
+std::string wingTextureArray[] = { "textureImage/wing1.bmp", "textureImage/wing2.bmp", "textureImage/wing3.bmp", "textureImage/ironMan_wing.bmp" };
+std::string wingSecTextureArray[] = { "textureImage/wingSec1.bmp", "textureImage/wingSec2.bmp", "textureImage/wingSec3.bmp", "textureImage/ironMan_wingSec2.bmp" };
+std::string reactorTextureArray[] = { "textureImage/reactor.bmp", "textureImage/ironMan_reactor.bmp" };
+
+std::string shield1Array[] = { "textureImage/shield1.bmp", "textureImage/capShield1.bmp" };
+std::string shield2Array[] = { "textureImage/shield2.bmp", "textureImage/capShield2.bmp" };
+std::string shield3Array[] = { "textureImage/shield3.bmp", "textureImage/capShield3.bmp" };
+std::string shield4Array[] = { "textureImage/shield4.bmp", "textureImage/capShield4.bmp" };
+
+std::string environmentTopTextureArray[] = { "environmentTexture/majestic_up.bmp", "environmentTexture/criminal-impact_up.bmp", "environmentTexture/midnight-silence_up.bmp", "environmentTexture/darkskies_up.bmp" };
+std::string environmentBottomTextureArray[] = { "environmentTexture/majestic_dn.bmp" , "environmentTexture/criminal-impact_dn.bmp", "environmentTexture/midnight-silence_dn.bmp", "environmentTexture/darkskies_dn.bmp" };
+std::string environmentLeftTextureArray[] = { "environmentTexture/majestic_rt.bmp" , "environmentTexture/criminal-impact_rt.bmp", "environmentTexture/midnight-silence_rt.bmp", "environmentTexture/darkskies_rt.bmp" };
+std::string environmentRightTextureArray[] = { "environmentTexture/majestic_lf.bmp" , "environmentTexture/criminal-impact_lf.bmp", "environmentTexture/midnight-silence_lf.bmp", "environmentTexture/darkskies_lf.bmp" };
+std::string environmentFrontTextureArray[] = { "environmentTexture/majestic_bk.bmp" , "environmentTexture/criminal-impact_bk.bmp", "environmentTexture/midnight-silence_bk.bmp", "environmentTexture/darkskies_bk.bmp" };
+std::string environmentBackTextureArray[] = { "environmentTexture/majestic_ft.bmp" , "environmentTexture/criminal-impact_ft.bmp", "environmentTexture/midnight-silence_ft.bmp", "environmentTexture/darkskies_ft.bmp" };
 int textureSetIndex = 0;
+int textureReactorIndex = 0;
 int textureEnvironmentIndex = 0;
 
 GLuint texture = 0;
@@ -374,7 +383,7 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 				{
 					LeftLegThighAngle += 0.5;
 
-					if (LeftLegThighAngle < 10) 
+					if (LeftLegThighAngle < 10)
 					{
 						robotUpperBodyTranslate -= 0.02;
 						robotLeftLegMoveWithBody -= 0.04;
@@ -395,7 +404,7 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 				if (LeftLegThighAngle > 0)
 				{
 					LeftLegThighAngle -= 0.5;
-					
+
 
 					if (LeftLegThighAngle > 10)
 					{
@@ -418,7 +427,7 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 				if (RightLegThighAngle >= 0 && RightLegThighAngle < 20)
 				{
 					RightLegThighAngle += 0.5;
-					
+
 
 					if (RightLegThighAngle > 10) {
 						robotUpperBodyTranslate -= 0.04;
@@ -441,7 +450,7 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 				if (RightLegThighAngle > 0)
 				{
 					RightLegThighAngle -= 0.5;
-					
+
 
 					if (RightLegThighAngle > 10)
 					{
@@ -560,7 +569,7 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 					wingRightTranslateDegree -= 0.3;
 				if (wingRightRocketTranslateDegree <= 0.5 && wingRightRocketTranslateDegree > -0.5)
 					wingRightRocketTranslateDegree -= 0.05;
-			}						
+			}
 		}
 		else if (wParam == 'S')
 		{
@@ -589,7 +598,7 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 				reactorFireball = false;
 				fireballCount -= 1;
 			}
-			
+
 		}
 		else if (wParam == VK_SPACE)
 		{
@@ -611,8 +620,8 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			RightLegKneeShinAngle = 0.0;
 			RightLegAnkleAngle = 0.0;
 
-			bool legMove = true;
-			robotMoveFront = 0.0;
+			legMove = true;
+			robotMove = 0.0;
 			fingerAngle1 = 0.0;
 			fingerAngle2 = 0.0;
 			fingerAngle3 = 0.0;
@@ -621,28 +630,31 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			weaponTypeL = 0;
 			weaponTypeR = 0;
 			drillRotate = 0.5;
-			bool drawThorHammer = false;
-			bool handShield = false;
+			drawThorHammer = false;
+			handShield = false;
+
+			textureSetIndex = 0;
+			textureReactorIndex = 0;
 		}
-		else if (wParam == 0x31)
+		else if (wParam == 0x31)		// 1 key on/off ambient light
 			ambientOn = !ambientOn;
 		else if (wParam == 0x32)		// 2 key on/off diffuse light
 			diffuseOn = !diffuseOn;
-		else if (wParam == 0x33)		// 1 key on/off specular light
+		else if (wParam == 0x33)		// 3 key on/off specular light
 			specularOn = !specularOn;
 		else if (wParam == 0x30)		// 9 key toggle day/night
 			dayTime = !dayTime;
 		else if (wParam == VK_NUMPAD1) // numpad 1 for texture set 1
 			textureSetIndex = 0;
-		else if (wParam == VK_NUMPAD2) // numpad 1 for texture set 2
+		else if (wParam == VK_NUMPAD2) // numpad 2 for texture set 2
 			textureSetIndex = 1;
-		else if (wParam == VK_NUMPAD3) // numpad 1 for texture set 3
+		else if (wParam == VK_NUMPAD3) // numpad 3 for texture set 3
 			textureSetIndex = 2;
-		else if (wParam == VK_NUMPAD4) // numpad 1 for environemnt texture set 1
+		else if (wParam == VK_NUMPAD4) // numpad 4 for environemnt texture set 1
 			textureEnvironmentIndex = 0;
-		else if (wParam == VK_NUMPAD5) // numpad 1 for environemnt texture set 2
+		else if (wParam == VK_NUMPAD5) // numpad 5 for environemnt texture set 2
 			textureEnvironmentIndex = 1;
-		else if (wParam == VK_NUMPAD6) // numpad 1 for environemnt texture set 3
+		else if (wParam == VK_NUMPAD6) // numpad 6 for environemnt texture set 3
 			textureEnvironmentIndex = 2;
 		break;
 	default:
@@ -924,17 +936,10 @@ void drawFilledTriangle()
 
 void drawCircle(float radius)
 {
-	GLfloat qaWhite[] = { 1.0, 1.0, 1.0, 1.0 };
-	glMaterialfv(GL_FRONT, GL_AMBIENT, qaWhite);
-	glMaterialfv(GL_FRONT, GL_DIFFUSE, qaWhite);
-	glMaterialfv(GL_FRONT, GL_SPECULAR, qaWhite);
-	glMaterialf(GL_FRONT, GL_SHININESS, 60.0);
-
 	float xc = 0.0, yc = 0.0, xc2 = 0.0, yc2 = 0.0;
 	float angleC = 0.0;
 
 	glBegin(GL_TRIANGLE_FAN);
-	glColor3f(1.0, 1.0, 0.0);
 	glVertex2f(xc, yc);
 
 	for (angleC - 0.1; angleC <= 360; angleC += 0.2)
@@ -1909,6 +1914,93 @@ void drawFrontBelly()
 	glPopMatrix();
 }
 
+void drawThorHammerHead() {
+	glPushMatrix();
+	loadBitmapImage("textureImage/thorFaceFront.bmp");
+	glBegin(GL_QUADS);
+	{
+		// Top Face
+		glTexCoord2f(0, 0); glVertex3f(-1.0f, 1.0f, -1.0f);
+		glTexCoord2f(1, 0); glVertex3f(1.0f, 1.0f, -1.0f);
+		glTexCoord2f(1, 1); glVertex3f(1.0f, 1.0f, 1.0f);
+		glTexCoord2f(0, 1); glVertex3f(-1.0f, 1.0f, 1.0f);
+	}
+	glEnd();
+	endTexture();
+	glPopMatrix();
+
+	glPushMatrix();
+	loadBitmapImage("textureImage/thorFaceRight.bmp");
+	glBegin(GL_QUADS);
+	{
+		// Left Face
+		glTexCoord2f(1, 1); glVertex3f(-1.0f, 1.0f, -1.0f);
+		glTexCoord2f(0, 1); glVertex3f(-1.0f, 1.0f, 1.0f);
+		glTexCoord2f(0, 0); glVertex3f(-1.0f, -1.0f, 1.0f);
+		glTexCoord2f(1, 0); glVertex3f(-1.0f, -1.0f, -1.0f);
+	}
+	glEnd();
+	endTexture();
+	glPopMatrix();
+
+	glPushMatrix();
+	loadBitmapImage("textureImage/thorFaceTop.bmp");
+	glBegin(GL_QUADS);
+	{
+		// Back Face
+		glTexCoord2f(0, 0); glVertex3f(-1.0f, -1.0f, -1.0f);
+		glTexCoord2f(1, 0); glVertex3f(1.0f, -1.0f, -1.0f);
+		glTexCoord2f(1, 1); glVertex3f(1.0f, 1.0f, -1.0f);
+		glTexCoord2f(0, 1); glVertex3f(-1.0f, 1.0f, -1.0f);
+
+	}
+	glEnd();
+	endTexture();
+	glPopMatrix();
+
+	glPushMatrix();
+	loadBitmapImage("textureImage/thorFaceLeft.bmp");
+	glBegin(GL_QUADS);
+	{
+		// Right Face
+		glTexCoord2f(1, 1); glVertex3f(1.0f, 1.0f, 1.0f);
+		glTexCoord2f(0, 1); glVertex3f(1.0f, 1.0f, -1.0f);
+		glTexCoord2f(0, 0); glVertex3f(1.0f, -1.0f, -1.0f);
+		glTexCoord2f(1, 0); glVertex3f(1.0f, -1.0f, 1.0f);
+	}
+	glEnd();
+	endTexture();
+	glPopMatrix();
+
+	glPushMatrix();
+	loadBitmapImage("textureImage/thorFaceFront.bmp");
+	glBegin(GL_QUADS);
+	{
+		// Bottom Face
+		glTexCoord2f(0, 0); glVertex3f(-1.0f, -1.0f, 1.0f);
+		glTexCoord2f(1, 0); glVertex3f(1.0f, -1.0f, 1.0f);
+		glTexCoord2f(1, 1); glVertex3f(1.0f, -1.0f, -1.0f);
+		glTexCoord2f(0, 1); glVertex3f(-1.0f, -1.0f, -1.0f);
+	}
+	glEnd();
+	endTexture();
+	glPopMatrix();
+
+	glPushMatrix();
+	loadBitmapImage("textureImage/thorFaceTop.bmp");
+	glBegin(GL_QUADS);
+	{
+		// Front Face
+		glTexCoord2f(1, 1); glVertex3f(-1.0f, 1.0f, 1.0f);
+		glTexCoord2f(0, 1); glVertex3f(1.0f, 1.0f, 1.0f);
+		glTexCoord2f(0, 0); glVertex3f(1.0f, -1.0f, 1.0f);
+		glTexCoord2f(1, 0); glVertex3f(-1.0f, -1.0f, 1.0f);
+	}
+	glEnd();
+	endTexture();
+	glPopMatrix();
+}
+
 void drawWeapon(int weaponType)
 {
 	switch (weaponType)
@@ -1916,11 +2008,12 @@ void drawWeapon(int weaponType)
 	case 1:
 		//Drill hand
 		glPushMatrix();
-		glColor3f(1.0, 1.0, 0.0);
+			loadBitmapImage("textureImage/drill.bmp");
 			glTranslatef(0.0, -0.6, 0.0);
-			glRotatef(drillRotate, 1.0, 0.0, 0.0);
+			glRotatef(drillRotate, 0.0, 1.0, 0.0);
 			glRotatef(90, 1.0, 0.0, 0.0);
-			drawCylinder(0.3, 0.0, 1.4, 20, 10);
+			drawCylinder(0.4, 0.0, 2.5, 20, 10);
+			endTexture();
 		glPopMatrix();
 		break;
 
@@ -1928,47 +2021,59 @@ void drawWeapon(int weaponType)
 		//Bullet hand
 
 		glPushMatrix();      //Box
+			loadBitmapImage("textureImage/gunBody.bmp");
 			glScalef(0.3, 0.43, 0.3);
 			drawFilledCubeT();
+			endTexture();
 		glPopMatrix();
 
-		glPushMatrix();        //Bullet
-			glTranslatef(0.2, -1.0, 0.2);
-			glRotatef(-90, 1.0, 0.0, 0.0);
-			drawCylinder(0.1, 0.1, 0.6, 30, 30);
-		glPopMatrix();
-		glPushMatrix();        //Bullet
-			glTranslatef(-0.2, -1.0, 0.2);
-			glRotatef(-90, 1.0, 0.0, 0.0);
-			drawCylinder(0.1, 0.1, 0.6, 30, 30);
-		glPopMatrix();
-		glPushMatrix();        //Bullet
-			glTranslatef(0.2, -1.0, -0.2);
-			glRotatef(-90, 1.0, 0.0, 0.0);
-			drawCylinder(0.1, 0.1, 0.6, 30, 30);
-		glPopMatrix();
-		glPushMatrix();        //Bullet
-			glTranslatef(-0.2, -1.0, -0.2);
-			glRotatef(-90, 1.0, 0.0, 0.0);
-			drawCylinder(0.1, 0.1, 0.6, 30, 30);
+		glPushMatrix();
+			glRotatef(gunBarrelRotate, 0.0, 1.0, 0.0);
+			loadBitmapImage("textureImage/gunBarrel.bmp");
+			glPushMatrix();        //Bullet
+				glTranslatef(0.15, -1.9, 0.15);
+				glRotatef(-90, 1.0, 0.0, 0.0);
+				drawCylinder(0.08, 0.08, 1.5, 30, 30);
+			glPopMatrix();
+			glPushMatrix();        //Bullet
+				glTranslatef(-0.15, -1.9, 0.15);
+				glRotatef(-90, 1.0, 0.0, 0.0);
+				drawCylinder(0.08, 0.08, 1.5, 30, 30);
+			glPopMatrix();
+			glPushMatrix();        //Bullet
+				glTranslatef(0.15, -1.9, -0.15);
+				glRotatef(-90, 1.0, 0.0, 0.0);
+				drawCylinder(0.08, 0.08, 1.5, 30, 30);
+			glPopMatrix();
+			glPushMatrix();        //Bullet
+				glTranslatef(-0.15, -1.9, -0.15);
+				glRotatef(-90, 1.0, 0.0, 0.0);
+				drawCylinder(0.08, 0.08, 1.5, 30, 30);
+			glPopMatrix();
+			endTexture();
 		glPopMatrix();
 		break;
 
 	case 3:
 		//Laser gun
 		glPushMatrix();
-			glColor3f(0.0, 1.0, 1.0);
+			loadBitmapImage("textureImage/canonBody.bmp");
 			glScalef(0.6, 1.2, 0.6);
 			drawSphere(0.6, 20, 20);
+			endTexture();
 		glPopMatrix();
 		glPushMatrix();
+			loadBitmapImage("textureImage/canonBarrel.bmp");
 			glRotatef(90, 1.0, 0.0, 0.0);
 			drawCylinder(0.30, 0.30, 0.85, 50, 50);
+			endTexture();
 		glPopMatrix();
 		glPushMatrix();
+			loadBitmapImage("textureImage/canonHole.bmp");
 			glTranslatef(0.0, -0.8, 0.0);
 			glRotatef(90, 1.0, 0.0, 0.0);
 			drawCircle(0.3);
+			endTexture();
 		glPopMatrix();
 		break;
 
@@ -1976,19 +2081,26 @@ void drawWeapon(int weaponType)
 		//Sword
 
 		glPushMatrix();      //Box
+			loadBitmapImage("textureImage/swordHandle.bmp");
 			glScalef(0.4, 0.3, 0.3);
 			drawFilledCubeT();
+			endTexture();
 		glPopMatrix();
 		glPushMatrix();      //Long piece
+			loadBitmapImage("textureImage/swordSteel.bmp");
 			glTranslatef(1.5, 0.0, 0.0);
 			glScalef(1.2, 0.26, 0.06);
 			drawFilledCube();
+			endTexture();
 		glPopMatrix();
+
+		loadBitmapImage("textureImage/swordEdge.bmp");
 		glPushMatrix();        //Sharp side triangle
 			glTranslatef(2.7, 0.26, 0.055);
 			glRotatef(-90, 0.0, 0.0, 1.0);
 			glScalef(0.8, 0.8, 1.1);
 			drawFilledTriangle();
+
 		glPopMatrix();
 		glPushMatrix();      //Under cube piece
 			glTranslatef(2.4, -0.4, 0.0);
@@ -2015,36 +2127,6 @@ void drawWeapon(int weaponType)
 			drawFilledCubeT();
 		glPopMatrix();
 
-		glPushMatrix();           //steep piece
-			glTranslatef(1.82, 0.35, 0.0);
-			glRotatef(30, 0.0, 0.0, 1.0);
-			glScalef(0.2, 0.02, 0.1);
-			drawFilledCubeT();
-		glPopMatrix();
-		glPushMatrix();           //horizontal piece
-			glTranslatef(2.3, 0.44, 0.0);
-			glScalef(0.30, 0.02, 0.1);
-			drawFilledCubeT();
-		glPopMatrix();
-
-		glPushMatrix();           //second thick long cube
-			glTranslatef(2.3, 0.26, 0.1);
-			glScalef(0.3, 0.2, 0.04);
-			drawFilledCubeT();
-		glPopMatrix();
-		glPushMatrix();
-			glTranslatef(2.3, 0.26, -0.1);
-			glScalef(0.3, 0.2, 0.04);
-			drawFilledCubeT();
-		glPopMatrix();
-
-		glPushMatrix();
-			glTranslatef(2.75, 0.35, 0.0);
-			glRotatef(-30, 0.0, 0.0, 1.0);
-			glScalef(0.2, 0.02, 0.1);
-			drawFilledCubeT();
-		glPopMatrix();
-
 		glPushMatrix();        //front Sharp side triangle (small)
 			glTranslatef(2.6, 0.26, 0.14);
 			glRotatef(-90, 0.0, 0.0, 1.0);
@@ -2057,16 +2139,57 @@ void drawWeapon(int weaponType)
 			glScalef(0.2, 0.5, 0.8);
 			drawFilledTriangle();
 		glPopMatrix();
+		endTexture();
+
+		loadBitmapImage("textureImage/swordTopThin.bmp");
+		glPushMatrix();           //steep piece
+			glTranslatef(1.82, 0.35, 0.0);
+			glRotatef(30, 0.0, 0.0, 1.0);
+			glScalef(0.2, 0.02, 0.1);
+			drawFilledCubeT();
+		glPopMatrix();
+
+		glPushMatrix();
+			glTranslatef(2.75, 0.35, 0.0);
+			glRotatef(-30, 0.0, 0.0, 1.0);
+			glScalef(0.2, 0.02, 0.1);
+			drawFilledCubeT();
+		glPopMatrix();
+		endTexture();
+
+		loadBitmapImage("textureImage/swordTopFat.bmp");
+		glPushMatrix();           //second thick long cube
+			glTranslatef(2.3, 0.26, 0.1);
+			glScalef(0.3, 0.2, 0.04);
+			drawFilledCubeT();
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(2.3, 0.26, -0.1);
+			glScalef(0.3, 0.2, 0.04);
+			drawFilledCubeT();
+		glPopMatrix();
+
+		glPushMatrix();           //horizontal piece
+			glTranslatef(2.3, 0.44, 0.0);
+			glScalef(0.30, 0.02, 0.1);
+			drawFilledCubeT();
+		glPopMatrix();
+		endTexture();
+
 		break;
 	case 5:
 		glPushMatrix();
-			glTranslatef(-1.5, -0.9, -0.2);
-			drawCylinder(0.1, 0.1, 0.85, 50, 50);
+			loadBitmapImage("textureImage/thorHandle.bmp");
+			glTranslatef(-1.5, -0.9, -0.9);
+			drawCylinder(0.1, 0.1, 1.5, 50, 50);
+			endTexture();
 		glPopMatrix();
 		glPushMatrix();
 			glTranslatef(-1.5, -0.9, 1.0);
-			glScalef(0.3, 0.5, 0.3);
-			drawFilledCube();
+			glScalef(0.5, 0.8, 0.5);
+
+			drawThorHammerHead();
+
 		glPopMatrix();
 	default:
 		break;
@@ -2076,15 +2199,17 @@ void drawWeapon(int weaponType)
 void drawLeftShield()
 {
 	glPushMatrix();          //Front long piece
+		loadBitmapImage(shield3Array[textureReactorIndex].data());
 		glScalef(0.4, 1.5, 0.05);
 		drawFilledCubeT();
+		endTexture();
 	glPopMatrix();
 
 	glPushMatrix();         // steep cube inside
 		glTranslatef(-0.1, 0.3, 0.0);
 		glRotatef(10, 1.0, 0.0, 0.0);
 		glScalef(0.3, 0.4, 0.1);
-		drawFilledCubeT();
+		//drawFilledCubeT();
 	glPopMatrix();
 
 	glPushMatrix();        //Top cube piece
@@ -2108,32 +2233,38 @@ void drawLeftShield()
 	glPopMatrix();
 
 	glPushMatrix();        //Side piece
-	glTranslatef(0.85, 0.0, -0.17);
-	glRotatef(20, 0.0, 1.0 ,0.0);
-	glScalef(0.5, 1.5, 0.05);
-	drawFilledCubeT();
+		loadBitmapImage(shield4Array[textureReactorIndex].data());
+		glTranslatef(0.85, 0.0, -0.17);
+		glRotatef(20, 0.0, 1.0 ,0.0);
+		glScalef(0.5, 1.5, 0.05);
+		drawFilledCubeT();
+		endTexture();
 	glPopMatrix();
+
 	glPushMatrix();
 	glTranslatef(0.68, 1.805, -0.35);
 	glRotatef(20, 0.0, 1.0, 0.0);
 	glRotatef(-36, 1.0, 0.0, 0.0);
 	glScalef(0.4, 0.4, 0.05);
 	drawFilledCubeT();
+
 	glPopMatrix();
 }
 
 void drawRightShield()
 {
 	glPushMatrix();          //Front long piece
+		loadBitmapImage(shield2Array[textureReactorIndex].data());
 		glScalef(-0.4, 1.5, 0.05);
 		drawFilledCubeT();
+		endTexture();
 	glPopMatrix();
 
 	glPushMatrix();         // steep cube inside
 		glTranslatef(0.1, 0.3, 0.0);
 		glRotatef(10, 1.0, 0.0, 0.0);
 		glScalef(0.3, 0.4, 0.1);
-		drawFilledCubeT();
+		//drawFilledCubeT();
 	glPopMatrix();
 
 	glPushMatrix();        //Top cube piece
@@ -2159,17 +2290,20 @@ void drawRightShield()
 	glPopMatrix();
 
 	glPushMatrix();        //Side piece
-	glTranslatef(-0.85, 0.0, -0.17);
-	glRotatef(-20, 0.0, 1.0, 0.0);
-	glScalef(0.5, 1.5, 0.05);
-	drawFilledCubeT();
+		loadBitmapImage(shield1Array[textureReactorIndex].data());
+		glTranslatef(-0.85, 0.0, -0.17);
+		glRotatef(-20, 0.0, 1.0, 0.0);
+		glScalef(0.5, 1.5, 0.05);
+		drawFilledCubeT();
+		endTexture();
 	glPopMatrix();
+
 	glPushMatrix();
-	glTranslatef(-0.68, 1.805, -0.35);
-	glRotatef(-20, 0.0, 1.0, 0.0);
-	glRotatef(-36, 1.0, 0.0, 0.0);
-	glScalef(0.4, 0.4, 0.05);
-	drawFilledCubeT();
+		glTranslatef(-0.68, 1.805, -0.35);
+		glRotatef(-20, 0.0, 1.0, 0.0);
+		glRotatef(-36, 1.0, 0.0, 0.0);
+		glScalef(0.4, 0.4, 0.05);
+		drawFilledCubeT();
 	glPopMatrix();
 }
 
@@ -2474,16 +2608,6 @@ void drawLeftElbowForearm()
 		drawFilledCube();
 		glPopMatrix();
 
-		if (handShield == true)
-		{
-			glPushMatrix();        //Left hand Shield
-			glTranslatef(2.02, 0.6, 0.0);
-			glRotatef(90, 0.0, 1.0, 0.0);
-			glRotatef(190, 0.0, 0.0, 1.0);
-			drawLeftShield();
-			glPopMatrix();
-		}
-
 
 		//Between Outside and back y steep piece (forearm)
 		glPushMatrix();
@@ -2537,6 +2661,17 @@ void drawLeftElbowForearm()
 
 	endTexture();
 	glPopMatrix();
+
+	//Left Shield
+	if (handShield == true)
+	{
+		glPushMatrix();        //Left hand Shield
+		glTranslatef(2.02, 0.6, 0.0);
+		glRotatef(90, 0.0, 1.0, 0.0);
+		glRotatef(190, 0.0, 0.0, 1.0);
+		drawLeftShield();
+		glPopMatrix();
+	}
 
 
 }
@@ -2689,18 +2824,22 @@ void left4FingerPart3()
 void drawLeftHandPalm()
 {
 	//Inner part
-	glPushMatrix();            //cylinder between forearm and palm (wrist)
-	glColor3f(0.0, 0.0, 0.0);
-	glTranslatef(1.55, -0.20, -0.0);
-	glScalef(1.0, 1.0, 1.5);
-	glRotatef(90, 1.0, 0.0, 0.0);
-	drawCylinder(0.14, 0.08, 0.3, 50, 50);
-	glPopMatrix();
+	glPushMatrix();
+		loadBitmapImage(innerTextureArray[textureSetIndex].data());
+		glPushMatrix();            //cylinder between forearm and palm (wrist)
+		glColor3f(0.0, 0.0, 0.0);
+		glTranslatef(1.55, -0.20, -0.0);
+		glScalef(1.0, 1.0, 1.5);
+		glRotatef(90, 1.0, 0.0, 0.0);
+		drawCylinder(0.14, 0.08, 0.3, 50, 50);
+		glPopMatrix();
 
-	glPushMatrix();           //Palm
-	glTranslatef(1.55, -0.7, 0.0);
-	glScalef(0.05, 0.2, 0.2);
-	drawFilledCube1();
+		glPushMatrix();           //Palm
+		glTranslatef(1.55, -0.7, 0.0);
+		glScalef(0.05, 0.2, 0.2);
+		drawFilledCube1();
+		glPopMatrix();
+		endTexture();
 	glPopMatrix();
 
 
@@ -2708,93 +2847,101 @@ void drawLeftHandPalm()
 	{
 		case 0:
 			//Wrist
-			glPushMatrix();       //Front piece
-				glTranslatef(1.55, -0.4, 0.25);
-				glScalef(0.15, 0.09, 0.015);
-				drawFilledCube();
-			glPopMatrix();
-
-			glPushMatrix();       //Outside piece
-				glTranslatef(1.7, -0.4, 0.0);
-				glScalef(0.015, 0.09, 0.24);
-				drawFilledCube();
-			glPopMatrix();
-
-			glPushMatrix();       //Back piece
-				glTranslatef(1.55, -0.4, -0.25);
-				glScalef(0.15, 0.09, 0.015);
-				drawFilledCube();
-			glPopMatrix();
-
-			glPushMatrix();       //Inside piece
-				glTranslatef(1.4, -0.4, 0.0);
-				glScalef(0.015, 0.09, 0.24);
-				drawFilledCube();
-			glPopMatrix();
-
-			//Palm
-			glPushMatrix();        //Outside
-				glTranslatef(1.6, -0.7, 0.0);
-				glScalef(0.03, 0.22, 0.25);
-				drawFilledCube();
-			glPopMatrix();
-			glPushMatrix();        //Inside
-				glTranslatef(1.47, -0.7, 0.0);
-				glScalef(0.03, 0.22, 0.25);
-				drawFilledCube();
-			glPopMatrix();
-
-			//Finger
-				//Thumb
 			glPushMatrix();
-				glColor3f(1.0, 1.0, 1.0);
-				glTranslatef(1.53, -0.7, 0.28);
-				glRotatef(-30, 1.0, 0.0, 0.0);
-				glScalef(0.04, 0.09, 0.05);
-				drawFilledCube1();
+				loadBitmapImage(innerTextureArray[textureSetIndex].data());
+				glPushMatrix();       //Front piece
+					glTranslatef(1.55, -0.4, 0.25);
+					glScalef(0.15, 0.09, 0.015);
+					drawFilledCube();
+				glPopMatrix();
+
+				glPushMatrix();       //Outside piece
+					glTranslatef(1.7, -0.4, 0.0);
+					glScalef(0.015, 0.09, 0.24);
+					drawFilledCube();
+				glPopMatrix();
+
+				glPushMatrix();       //Back piece
+					glTranslatef(1.55, -0.4, -0.25);
+					glScalef(0.15, 0.09, 0.015);
+					drawFilledCube();
+				glPopMatrix();
+
+				glPushMatrix();       //Inside piece
+					glTranslatef(1.4, -0.4, 0.0);
+					glScalef(0.015, 0.09, 0.24);
+					drawFilledCube();
+				glPopMatrix();
+			endTexture();
 			glPopMatrix();
 
 			glPushMatrix();
-				glTranslatef(1.52, -0.816, 0.345);
-				glRotatef(fingerAngle2, 0.0, 1.0, 0.0);
-				glTranslatef(-1.52, 0.816, -0.345);
-				{
-					glPushMatrix();            //small sphere (circle bone)
-						glTranslatef(1.52, -0.816, 0.345);
-						drawSphere(0.04, 60, 60);
-					glPopMatrix();
-					glPushMatrix();
-						glTranslatef(1.45, -0.92, 0.39);
-						glRotatef(-30, 0.0, 0.0, 1.0);
-						glRotatef(-20, 1.0, 0.0, 0.0);
-						glScalef(0.04, 0.09, 0.05);
-						drawFilledCube1();
-					glPopMatrix();
-				}
-			glPopMatrix();
+				loadBitmapImage(innerTextureArray[textureSetIndex].data());
+				//Palm
+				glPushMatrix();        //Outside
+					glTranslatef(1.6, -0.7, 0.0);
+					glScalef(0.03, 0.22, 0.25);
+					drawFilledCube();
+				glPopMatrix();
+				glPushMatrix();        //Inside
+					glTranslatef(1.47, -0.7, 0.0);
+					glScalef(0.03, 0.22, 0.25);
+					drawFilledCube();
+				glPopMatrix();
 
-			//All 4 fingers
-			glPushMatrix();
-				glTranslatef(1.53, -1.0, 0.0);
-				glRotatef(fingerAngle1, 0.0, 0.0, 1.0);
-				glTranslatef(-1.53, 1.0, 0.0);
-				left4FingerPart1();
-				{
-					glPushMatrix();
-						glTranslatef(1.52, -1.12, 0.0);
-						glRotatef(fingerAngle2, 0.0, 0.0, 1.0);
-						glTranslatef(-1.52, 1.12, 0.0);
-						left4FingerPart2();
-						{
-							glPushMatrix();
-								glTranslatef(1.44, -1.36, 0.0);
-								glRotatef(fingerAngle2, 0.0, 0.0, 1.0);
-								glTranslatef(-1.44, 1.36, 0.0);
-								left4FingerPart3();
-							glPopMatrix();
-						}
-					glPopMatrix();
-				}
+				//Finger
+					//Thumb
+				glPushMatrix();
+					glColor3f(1.0, 1.0, 1.0);
+					glTranslatef(1.53, -0.7, 0.28);
+					glRotatef(-30, 1.0, 0.0, 0.0);
+					glScalef(0.04, 0.09, 0.05);
+					drawFilledCube1();
+				glPopMatrix();
+
+				glPushMatrix();
+					glTranslatef(1.52, -0.816, 0.345);
+					glRotatef(fingerAngle2, 0.0, 1.0, 0.0);
+					glTranslatef(-1.52, 0.816, -0.345);
+					{
+						glPushMatrix();            //small sphere (circle bone)
+							glTranslatef(1.52, -0.816, 0.345);
+							drawSphere(0.04, 60, 60);
+						glPopMatrix();
+						glPushMatrix();
+							glTranslatef(1.45, -0.92, 0.39);
+							glRotatef(-30, 0.0, 0.0, 1.0);
+							glRotatef(-20, 1.0, 0.0, 0.0);
+							glScalef(0.04, 0.09, 0.05);
+							drawFilledCube1();
+						glPopMatrix();
+					}
+				glPopMatrix();
+
+				//All 4 fingers
+				glPushMatrix();
+					glTranslatef(1.53, -1.0, 0.0);
+					glRotatef(fingerAngle1, 0.0, 0.0, 1.0);
+					glTranslatef(-1.53, 1.0, 0.0);
+					left4FingerPart1();
+					{
+						glPushMatrix();
+							glTranslatef(1.52, -1.12, 0.0);
+							glRotatef(fingerAngle2, 0.0, 0.0, 1.0);
+							glTranslatef(-1.52, 1.12, 0.0);
+							left4FingerPart2();
+							{
+								glPushMatrix();
+									glTranslatef(1.44, -1.36, 0.0);
+									glRotatef(fingerAngle2, 0.0, 0.0, 1.0);
+									glTranslatef(-1.44, 1.36, 0.0);
+									left4FingerPart3();
+								glPopMatrix();
+							}
+						glPopMatrix();
+					}
+				glPopMatrix();
+				endTexture();
 			glPopMatrix();
 
 
@@ -3129,16 +3276,6 @@ void drawRightElboxForearm()
 		drawFilledCube();
 		glPopMatrix();
 
-		if (handShield == true)
-		{
-			glPushMatrix();        //Right hand Shield
-			glTranslatef(-2.02, 0.6, 0.0);
-			glRotatef(-90, 0.0, 1.0, 0.0);
-			glRotatef(170, 0.0, 0.0, 1.0);
-			drawRightShield();
-			glPopMatrix();
-		}
-
 
 		//Between Outside and back y steep piece (forearm)
 		glPushMatrix();
@@ -3192,6 +3329,17 @@ void drawRightElboxForearm()
 
 	endTexture();
 	glPopMatrix();
+
+	//Right Shield
+	if (handShield == true)
+	{
+		glPushMatrix();        //Right hand Shield
+		glTranslatef(-2.02, 0.6, 0.0);
+		glRotatef(-90, 0.0, 1.0, 0.0);
+		glRotatef(170, 0.0, 0.0, 1.0);
+		drawRightShield();
+		glPopMatrix();
+	}
 
 }
 
@@ -3342,114 +3490,129 @@ void right4FingerPart3()
 
 void drawRightHandPalm()
 {
-//Inner part
-	glPushMatrix();            //cylinder between forearm and palm (wrist)
-	glColor3f(0.0, 0.0, 0.0);
-		glTranslatef(-1.55, -0.20, -0.0);
-		glScalef(1.0, 1.0, 1.5);
-		glRotatef(90, 1.0, 0.0, 0.0);
-		drawCylinder(0.14, 0.08, 0.3, 50, 50);
-	glPopMatrix();
-	glPushMatrix();           //Palm
-		glTranslatef(-1.55, -0.7, 0.0);
-		glScalef(0.05, 0.2, 0.2);
-		drawFilledCube1();
+	glPushMatrix();
+		loadBitmapImage(innerTextureArray[textureSetIndex].data());
+	//Inner part
+		glPushMatrix();            //cylinder between forearm and palm (wrist)
+		glColor3f(0.0, 0.0, 0.0);
+			glTranslatef(-1.55, -0.20, -0.0);
+			glScalef(1.0, 1.0, 1.5);
+			glRotatef(90, 1.0, 0.0, 0.0);
+			drawCylinder(0.14, 0.08, 0.3, 50, 50);
+		glPopMatrix();
+		glPushMatrix();           //Palm
+			glTranslatef(-1.55, -0.7, 0.0);
+			glScalef(0.05, 0.2, 0.2);
+			drawFilledCube1();
+		glPopMatrix();
+		endTexture();
 	glPopMatrix();
 
 	switch (weaponTypeR)
 	{
 		case 0:
-			if (drawThorHammer == true)
+			if (drawThorHammer == true) {
 				drawWeapon(5);
-			//Wrist
-			glPushMatrix();       //Front piece
-				glTranslatef(-1.55, -0.4, 0.25);
-				glScalef(0.15, 0.09, 0.015);
-				drawFilledCube();
-			glPopMatrix();
+			}
 
-			glPushMatrix();       //Outside piece
-				glTranslatef(-1.7, -0.4, 0.0);
-				glScalef(0.015, 0.09, 0.24);
-				drawFilledCube();
-			glPopMatrix();
-
-			glPushMatrix();       //Back piece
-				glTranslatef(-1.55, -0.4, -0.25);
-				glScalef(0.15, 0.09, 0.015);
-				drawFilledCube();
-			glPopMatrix();
-
-			glPushMatrix();       //Inside piece
-				glTranslatef(-1.4, -0.4, 0.0);
-				glScalef(0.015, 0.09, 0.24);
-				drawFilledCube();
-			glPopMatrix();
-
-			//Palm
-			glPushMatrix();        //Outside
-				glTranslatef(-1.6, -0.7, 0.0);
-				glScalef(0.03, 0.22, 0.25);
-				drawFilledCube();
-			glPopMatrix();
-			glPushMatrix();        //Inside
-				glTranslatef(-1.47, -0.7, 0.0);
-				glScalef(0.03, 0.22, 0.25);
-				drawFilledCube();
-			glPopMatrix();
-
-			//Finger
-				//Thumb
 			glPushMatrix();
-				glColor3f(1.0, 1.0, 1.0);
-				glTranslatef(-1.53, -0.7, 0.28);
-				glRotatef(-30, 1.0, 0.0, 0.0);
-				glScalef(0.04, 0.09, 0.05);
-				drawFilledCube1();
+			loadBitmapImage(innerTextureArray[textureSetIndex].data());
+				//Wrist
+				glPushMatrix();       //Front piece
+					glTranslatef(-1.55, -0.4, 0.25);
+					glScalef(0.15, 0.09, 0.015);
+					drawFilledCube();
+				glPopMatrix();
+
+				glPushMatrix();       //Outside piece
+					glTranslatef(-1.7, -0.4, 0.0);
+					glScalef(0.015, 0.09, 0.24);
+					drawFilledCube();
+				glPopMatrix();
+
+				glPushMatrix();       //Back piece
+					glTranslatef(-1.55, -0.4, -0.25);
+					glScalef(0.15, 0.09, 0.015);
+					drawFilledCube();
+				glPopMatrix();
+
+				glPushMatrix();       //Inside piece
+					glTranslatef(-1.4, -0.4, 0.0);
+					glScalef(0.015, 0.09, 0.24);
+					drawFilledCube();
+				glPopMatrix();
+				endTexture();
 			glPopMatrix();
 
 			glPushMatrix();
-				glTranslatef(-1.52, -0.816, 0.345);
-				glRotatef(fingerAngle3, 0.0, 1.0, 0.0);
-				glTranslatef(1.52, 0.816, -0.345);
-				{
-					glPushMatrix();            //small sphere (circle bone)
-						glTranslatef(-1.52, -0.816, 0.345);
-						drawSphere(0.04, 60, 60);
-					glPopMatrix();
-					glPushMatrix();
-						glTranslatef(-1.45, -0.92, 0.39);
-						glRotatef(30, 0.0, 0.0, 1.0);
-						glRotatef(-20, 1.0, 0.0, 0.0);
-						glScalef(0.04, 0.09, 0.05);
-						drawFilledCube1();
-					glPopMatrix();
-				}
+				loadBitmapImage(innerTextureArray[textureSetIndex].data());
+				//Palm
+				glPushMatrix();        //Outside
+					glTranslatef(-1.6, -0.7, 0.0);
+					glScalef(0.03, 0.22, 0.25);
+					drawFilledCube();
+				glPopMatrix();
+				glPushMatrix();        //Inside
+					glTranslatef(-1.47, -0.7, 0.0);
+					glScalef(0.03, 0.22, 0.25);
+					drawFilledCube();
+				glPopMatrix();
+
+				//Finger
+					//Thumb
+				glPushMatrix();
+					glColor3f(1.0, 1.0, 1.0);
+					glTranslatef(-1.53, -0.7, 0.28);
+					glRotatef(-30, 1.0, 0.0, 0.0);
+					glScalef(0.04, 0.09, 0.05);
+					drawFilledCube1();
+				glPopMatrix();
+
+				glPushMatrix();
+					glTranslatef(-1.52, -0.816, 0.345);
+					glRotatef(fingerAngle3, 0.0, 1.0, 0.0);
+					glTranslatef(1.52, 0.816, -0.345);
+					{
+						glPushMatrix();            //small sphere (circle bone)
+							glTranslatef(-1.52, -0.816, 0.345);
+							drawSphere(0.04, 60, 60);
+						glPopMatrix();
+						glPushMatrix();
+							glTranslatef(-1.45, -0.92, 0.39);
+							glRotatef(30, 0.0, 0.0, 1.0);
+							glRotatef(-20, 1.0, 0.0, 0.0);
+							glScalef(0.04, 0.09, 0.05);
+							drawFilledCube1();
+						glPopMatrix();
+					}
+				glPopMatrix();
+
+				//All 4 fingers
+				glPushMatrix();
+					glTranslatef(-1.53, -1.0, 0.2);
+					glRotatef(fingerAngle3, 0.0, 0.0, 1.0);
+					glTranslatef(1.53, 1.0, -0.2);
+					right4FingerPart1();
+					{
+						glPushMatrix();
+							glTranslatef(-1.52, -1.12, 0.2);
+							glRotatef(fingerAngle4, 0.0, 0.0, 1.0);
+							glTranslatef(1.52, 1.12, -0.2);
+							right4FingerPart2();
+							{
+								glPushMatrix();
+									glTranslatef(-1.44, -1.36, 0.2);
+									glRotatef(fingerAngle4, 0.0, 0.0, 1.0);
+									glTranslatef(1.44, 1.36, -0.2);
+									right4FingerPart3();
+								glPopMatrix();
+							}
+						glPopMatrix();
+					}
+				glPopMatrix();
+				endTexture();
 			glPopMatrix();
 
-			//All 4 fingers
-			glPushMatrix();
-				glTranslatef(-1.53, -1.0, 0.2);
-				glRotatef(fingerAngle3, 0.0, 0.0, 1.0);
-				glTranslatef(1.53, 1.0, -0.2);
-				right4FingerPart1();
-				{
-					glPushMatrix();
-						glTranslatef(-1.52, -1.12, 0.2);
-						glRotatef(fingerAngle4, 0.0, 0.0, 1.0);
-						glTranslatef(1.52, 1.12, -0.2);
-						right4FingerPart2();
-						{
-							glPushMatrix();
-								glTranslatef(-1.44, -1.36, 0.2);
-								glRotatef(fingerAngle4, 0.0, 0.0, 1.0);
-								glTranslatef(1.44, 1.36, -0.2);
-								right4FingerPart3();
-							glPopMatrix();
-						}
-					glPopMatrix();
-				}
-			glPopMatrix();
 			break;
 		case 1:
 			glPushMatrix();
@@ -4261,11 +4424,12 @@ void drawBackWing(int backType)
 	switch (backType)
 	{
 		case 0:
-			robotExhaustJet = false;			
+			robotExhaustJet = false;
 			break;
 		case 1:
 		//Robot wings
 		//Left side
+			loadBitmapImage(wingSecTextureArray[textureSetIndex].data());
 			glPushMatrix();          // Piece stick to body
 				glTranslatef(0.5, 1.9, -0.65);
 				glScalef(0.3, 0.7, 0.03);
@@ -4295,7 +4459,9 @@ void drawBackWing(int backType)
 				glScalef(1.0, 2.1, 0.4);
 				drawFilledTriangle();
 			glPopMatrix();
+			endTexture();
 
+			loadBitmapImage(wingTextureArray[textureSetIndex].data());
 			//3  (wings) (face down)
 			glPushMatrix();          //first
 				glTranslatef(3.18, 2.1, -0.7);
@@ -4359,8 +4525,11 @@ void drawBackWing(int backType)
 				glScalef(1.1, 0.25, 0.02);
 				drawFilledCube();
 			glPopMatrix();
+			endTexture();
+
 
 		//Right side
+			loadBitmapImage(wingSecTextureArray[textureSetIndex].data());
 			glPushMatrix();          // Piece stick to body
 				glTranslatef(-0.5, 1.9, -0.65);
 				glScalef(0.3, 0.7, 0.03);
@@ -4390,8 +4559,10 @@ void drawBackWing(int backType)
 				glScalef(1.0, 2.1, 0.4);
 				drawFilledTriangle();
 			glPopMatrix();
+			endTexture();
 
 			//3  (wings) (face down)
+			loadBitmapImage(wingTextureArray[textureSetIndex].data());
 			glPushMatrix();          //first
 				glTranslatef(-3.18, 2.1, -0.7);
 				glRotatef(40, 0.0, 0.0, 1.0);
@@ -4454,16 +4625,19 @@ void drawBackWing(int backType)
 				glScalef(1.1, 0.25, 0.02);
 				drawFilledCube();
 			glPopMatrix();
+			endTexture();
 			break;
 		case 2:
 		//Robot exhaust jet
 		//Middle
 			//Inside two stick to body cube
+			loadBitmapImage(wingSecTextureArray[textureSetIndex].data());
 			glPushMatrix();
 				glTranslatef(0.45, 1.5, -0.6);
 				glScalef(0.2, 0.9, 0.2);
 				drawFilledCube();
 			glPopMatrix();
+
 			glPushMatrix();
 				glTranslatef(-0.45, 1.5, -0.6);
 				glScalef(0.2, 0.9, 0.2);
@@ -4475,11 +4649,13 @@ void drawBackWing(int backType)
 				glScalef(1.0, 1.1, 0.3);
 				drawFilledCube();
 			glPopMatrix();
+			endTexture();
 
 			//Left wings
 			robotExhaustJet = true;
 
 			glPushMatrix();
+			loadBitmapImage(wingTextureArray[textureSetIndex].data());
 			glTranslatef(wingLeftTranslateDegree, 0.0, 0.0);
 			{
 				//Left wings
@@ -4495,9 +4671,11 @@ void drawBackWing(int backType)
 				drawFilledTriangle();
 				glPopMatrix();
 			}
+			endTexture();
 			glPopMatrix();
 
 			glPushMatrix();              //Rocket
+			loadBitmapImage("textureImage/rocket.bmp");
 			glTranslatef(wingLeftRocketTranslateDegree, 0.0, 0.0);
 			{
 
@@ -4508,10 +4686,12 @@ void drawBackWing(int backType)
 				drawCylinder(0.15, 0.30, 1.0, 50, 50);
 				glPopMatrix();
 			}
+			endTexture();
 			glPopMatrix();
 
 				//Right wings
 			glPushMatrix();
+			loadBitmapImage(wingTextureArray[textureSetIndex].data());
 			glTranslatef(wingRightTranslateDegree, 0.0, 0.0);
 			{
 				glPushMatrix();
@@ -4527,9 +4707,11 @@ void drawBackWing(int backType)
 				drawFilledTriangle();
 				glPopMatrix();
 			}
+			endTexture();
 			glPopMatrix();
 
 			glPushMatrix();              //Rocket
+			loadBitmapImage("textureImage/rocket.bmp");
 			glTranslatef(wingRightRocketTranslateDegree, 0.0, 0.0);
 			{
 				glPushMatrix();
@@ -4539,11 +4721,31 @@ void drawBackWing(int backType)
 				drawCylinder(0.15, 0.30, 1.0, 50, 50);
 				glPopMatrix();
 			}
+			endTexture();
 			glPopMatrix();
 			break;
 		default:
 			break;
 	}
+}
+
+void electricEffect() {
+	glPushMatrix();
+	loadBitmapImage("textureImage/lightning.bmp");
+	glTranslatef(0.0, -1.0, 0.0);
+	glRotatef(90, 1.0, 0.0, 0.0);
+	GLUquadricObj *disk = NULL;
+	disk = gluNewQuadric();
+	gluQuadricTexture(disk, GLU_TRUE);    //gluCylinder(GLUquadric obj *, baseRadius,topRadius, height,slices, stacks);
+
+	glPushMatrix();
+	glRotatef(electricEffectMovement, 0, 0, 1);
+	gluDisk(disk, 0.0f, 0.2, 30, 30);
+	glPopMatrix();
+
+	gluDeleteQuadric(disk);
+	endTexture();
+	glPopMatrix();
 }
 
 void environment() {
@@ -4650,25 +4852,6 @@ void drawSunOrMoon() {
 	glPopMatrix();
 }
 
-void electricEffect() {
-	glPushMatrix();
-		loadBitmapImage("textureImage/lightning.bmp");
-		glTranslatef(0.0, -1.0, 0.0);
-		glRotatef(90, 1.0, 0.0, 0.0);
-		GLUquadricObj *disk = NULL;
-		disk = gluNewQuadric();
-		gluQuadricTexture(disk, GLU_TRUE);    //gluCylinder(GLUquadric obj *, baseRadius,topRadius, height,slices, stacks);
-
-		glPushMatrix();
-			glRotatef(electricEffectMovement, 0, 0, 1);
-			gluDisk(disk, 0.0f, 0.2, 30, 30);
-		glPopMatrix();
-
-		gluDeleteQuadric(disk);
-		endTexture();
-	glPopMatrix();
-}
-
 void jaegerRobot()
 {
 //Body
@@ -4709,9 +4892,7 @@ void jaegerRobot()
 //Back wing or Exhaust
 	glPushMatrix();
 		glColor3f(1.0, 1.0, 1.0);
-		loadBitmapImage(wingTextureArray[textureSetIndex].data());
 		drawBackWing(backType);
-		endTexture();
 	glPopMatrix();
 
 // Armor part
@@ -4725,7 +4906,7 @@ void jaegerRobot()
 // Reactor
 	glPushMatrix();
 		glColor3f(1.0, 1.0, 1.0);
-		loadBitmapImage("textureImage/reactor.bmp");
+		loadBitmapImage(reactorTextureArray[textureReactorIndex].data()	);
 		drawReactor();
 		endTexture();
 	glPopMatrix();
@@ -4733,13 +4914,13 @@ void jaegerRobot()
 	//Fireball
 	glPushMatrix();
 		glColor3f(1.0, 1.0, 1.0);
-		loadBitmapImage("textureImage/reactor.bmp");
+		loadBitmapImage(reactorTextureArray[textureReactorIndex].data());
 		glTranslatef(0.0, 0.0, reactorFireballTranslate);
 		drawReactorFireball();
 		endTexture();
 	glPopMatrix();
 
-	
+
 
 // Reactor shell
 	/*glPushMatrix();
@@ -4774,10 +4955,8 @@ void jaegerRobot()
 		drawLeftElbowForearm();
 		{
 			glPushMatrix();
-			loadBitmapImage(innerTextureArray[textureSetIndex].data());
 			glRotatef(LeftHandPalmAngle, 1.0, 0.0, 0.0);
 			drawLeftHandPalm();
-			endTexture();
 			glPopMatrix();
 		}
 		glPopMatrix();
@@ -4801,10 +4980,8 @@ void jaegerRobot()
 
 		{
 			glPushMatrix();
-			loadBitmapImage(innerTextureArray[textureSetIndex].data());
 			glRotatef(RightHandPalmAngle, 1.0, 0.0, 0.0);
 			drawRightHandPalm();
-			endTexture();
 			glPopMatrix();
 		}
 		glPopMatrix();
@@ -4944,7 +5121,16 @@ void display()
 
 	drawSunOrMoon();
 
-	electricEffect();
+	if (drawThorHammer == true) {
+		electricEffect();
+		textureSetIndex = 3;
+		textureReactorIndex = 1;
+		textureEnvironmentIndex = 3;
+	}
+	else {
+		textureSetIndex = 0;
+		textureReactorIndex = 0;
+	}
 
 }
 //--------------------------------------------------------------------
@@ -5027,8 +5213,22 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 		{
 			reactorFireballTranslate = 0.0;
 		}
-			
-			
+
+		if (drillRotate < 360) {
+			drillRotate += 50.0f;
+		}
+		else {
+			drillRotate = 0.0f;
+		}
+
+		if (gunBarrelRotate < 360) {
+			gunBarrelRotate += 100.0f;
+		}
+		else {
+			gunBarrelRotate = 0.0f;
+		}
+
+
 
 		display();
 
