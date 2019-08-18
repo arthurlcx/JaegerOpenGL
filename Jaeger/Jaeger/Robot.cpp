@@ -97,6 +97,7 @@ bool handShield = false;
 bool reactorFireball = false;
 float reactorFireballTranslate = 0.0;
 int fireballCount = 0;
+bool endGame = false;
 
 bool LeftLegUpFront = true, LeftLegDownFront = false;
 bool RightLegUpFront = false, RightLegDownFront = false;
@@ -654,7 +655,7 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		}
 		else if (wParam == VK_END)
 		{
-			manyRobotTranslate += 0.5;
+			endGame = true;
 		}
 		else if (wParam == VK_SPACE)
 		{
@@ -705,6 +706,7 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		reactorFireball = false;
 		reactorFireballTranslate = 0.0;
 		fireballCount = 0;
+		endGame = false;
 
 		LeftLegUpFront = true;
 		LeftLegDownFront = false;
@@ -5365,7 +5367,10 @@ void display()
 	glMaterialfv(GL_FRONT, GL_EMISSION, mat_emission);
 
 	jaegerRobot();
-	manyJaegerRobot();
+
+	if (endGame) {
+		manyJaegerRobot();
+	}
 
 	environment();
 
@@ -5479,6 +5484,13 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 		}
 		else {
 			doctorStrangeChakaraRotate = 0.0f;
+		}
+
+		if (manyRobotTranslate < 50) {
+			manyRobotTranslate += 2.0f;
+		}
+		else {
+			manyRobotTranslate = 0.0f;
 		}
 
 
