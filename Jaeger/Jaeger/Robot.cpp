@@ -620,8 +620,8 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			RightLegKneeShinAngle = 0.0;
 			RightLegAnkleAngle = 0.0;
 
-			legMove = true;
-			robotMove = 0.0;
+			//bool legMove = true;
+			//int robotMove = 0.0;
 			fingerAngle1 = 0.0;
 			fingerAngle2 = 0.0;
 			fingerAngle3 = 0.0;
@@ -635,6 +635,7 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 
 			textureSetIndex = 0;
 			textureReactorIndex = 0;
+			textureEnvironmentIndex = 0;
 		}
 		else if (wParam == 0x31)		// 1 key on/off ambient light
 			ambientOn = !ambientOn;
@@ -5127,10 +5128,6 @@ void display()
 		textureReactorIndex = 1;
 		textureEnvironmentIndex = 3;
 	}
-	else {
-		textureSetIndex = 0;
-		textureReactorIndex = 0;
-	}
 
 }
 //--------------------------------------------------------------------
@@ -5207,7 +5204,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 
 		if (reactorFireball == true)
 		{
-			reactorFireballTranslate += 0.08;
+			reactorFireballTranslate += 0.3;
 		}
 		else if (reactorFireball == false)
 		{
