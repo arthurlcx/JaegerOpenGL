@@ -108,10 +108,10 @@ std::string wingTextureArray[] = { "textureImage/wing1.bmp", "textureImage/wing2
 std::string wingSecTextureArray[] = { "textureImage/wingSec1.bmp", "textureImage/wingSec2.bmp", "textureImage/wingSec3.bmp", "textureImage/ironMan_wingSec2.bmp" };
 std::string reactorTextureArray[] = { "textureImage/reactor.bmp", "textureImage/ironMan_reactor.bmp" };
 
-std::string shield1Array[] = { "textureImage/shield1.bmp", "textureImage/capShield1.bmp" };
-std::string shield2Array[] = { "textureImage/shield2.bmp", "textureImage/capShield2.bmp" };
-std::string shield3Array[] = { "textureImage/shield3.bmp", "textureImage/capShield3.bmp" };
-std::string shield4Array[] = { "textureImage/shield4.bmp", "textureImage/capShield4.bmp" };
+std::string shield1Array[] = { "textureImage/shield1.bmp", "textureImage/avengerShield1.bmp" };
+std::string shield2Array[] = { "textureImage/shield2.bmp", "textureImage/avengerShield2.bmp" };
+std::string shield3Array[] = { "textureImage/shield3.bmp", "textureImage/avengerShield3.bmp" };
+std::string shield4Array[] = { "textureImage/shield4.bmp", "textureImage/avengerShield4.bmp" };
 
 std::string environmentTopTextureArray[] = { "environmentTexture/majestic_up.bmp", "environmentTexture/criminal-impact_up.bmp", "environmentTexture/midnight-silence_up.bmp", "environmentTexture/darkskies_up.bmp" };
 std::string environmentBottomTextureArray[] = { "environmentTexture/majestic_dn.bmp" , "environmentTexture/criminal-impact_dn.bmp", "environmentTexture/midnight-silence_dn.bmp", "environmentTexture/darkskies_dn.bmp" };
@@ -620,8 +620,6 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			RightLegKneeShinAngle = 0.0;
 			RightLegAnkleAngle = 0.0;
 
-			//bool legMove = true;
-			//int robotMove = 0.0;
 			fingerAngle1 = 0.0;
 			fingerAngle2 = 0.0;
 			fingerAngle3 = 0.0;
