@@ -12,39 +12,18 @@
 #define WINDOW_TITLE "Jaeger"
 #define M_PI 3.1415926535897932384626433832795
 
+
+// SOUND EFFECT
 float rho = 1.0;
 float factor = 0.3;
 
 float reactor = 1.0;
-
-// mouse movement
+// MOUSE MOVEMENT
 float lastX = 0.0f, lastY = 0.0f;
 
 float xRotated = 1.0f, yRotated = 1.0f, zRotated = -30.0f;
 
 float x = 0.0f, y = 0.0f, z = 7.0f;
-
-float radius = 1.0f;
-float angle = 0.01f;
-float baseRadius = 0.1f;
-int slices = 20, stacks = 20;
-
-float headAngle1 = 180.0f;
-
-float fingersAngle = 150.0f;
-float leftLegAngle1 = 180.0f, leftLegAngle2 = 180.0f, leftLegAngle3 = 180.0f;
-float rightLegAngle1 = 180.0f, rightLegAngle2 = 180.0f, rightLegAngle3 = 180.0f;
-float leftArmAngle1 = 180.0f, leftArmAngle2 = 180.0f, leftArmAngle3 = 180.0f;
-float rightArmAngle1 = 180.0f, rightArmAngle2 = 180.0f, rightArmAngle3 = 180.0f;
-
-float bodyJointAngle = 0.0f, upperBodyJointAngle = 0.0f, hipsJointAngle = 1.0f;
-
-float leftLegAxis[3][3] = { { 1.0f,0.0f,0.0f },{ 1.0f,0.0f,0.0f },{ 1.0f,0.0f,0.0f } };
-float rightLegAxis[3][3] = { { 1.0f,0.0f,0.0f },{ 1.0f,0.0f,0.0f },{ 1.0f,0.0f,0.0f } };
-
-float movingDirection = 0.0f;
-bool leftFrontMax = false, rightFrontMax = false, leftBackMax = false, rightBackMax = false;
-bool firstWalk = true, leftFrontWalked = false, rightFrontWalked = false, leftBackWalked = false, rightBackWalked = true;
 
 float reactorRotateAngle = 0.0f;
 float cannonRotateAngle = 0.0f;
@@ -52,10 +31,7 @@ float electricEffectMovement = 1.0f;
 float doctorStrangeChakaraRotate = 0.0f;
 float teleportRingRotate = 0.0f;
 
-float xPosition = 0.0f, yPosition = 0.0f, zPosition = 0.05f;
-
 float zoomLevel = -7.0f;
-
 
 float no_mat[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 float mat_ambient[] = { 0.7f, 0.7f, 0.7f, 1.0f };
@@ -69,16 +45,8 @@ bool ambientOn = 1;
 bool diffuseOn = 1;
 bool specularOn = 1;
 
-bool weather = 0;
-
-
-float boneLength = 2.0f;
-
-bool textureOn = false;
 bool dayTime = true;
 
-
-//Ours
 float LeftHandPalmAngle = 0.0, LeftHandForearmAngle = 0.0, LeftHandWholeArmAngle = 0.0;
 float LeftHandWholeArmAnglez = 0.0, LeftHandForearmAnglez = 0.0;
 float RightHandPalmAngle = 0.0, RightHandForearmAngle = 0.0, RightHandWholeArmAngle = 0.0;
@@ -103,6 +71,7 @@ bool handShield = false;
 bool reactorFireball = false;
 float reactorFireballTranslate = 0.0;
 float reactorFireballScale = 0.2;
+float thunderCount = 0.0;
 bool reactorFireballTS = false;
 int fireballCount = 0;
 float diskScaleEG1 = 0.0, diskScaleEG2 = 0.0;
@@ -547,6 +516,7 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 				if (fingerAngle3 < 50)
 					drawThorHammer = false;
 			}
+			thunderCount = 0.0;
 		}
 		else if (wParam == 'Z')                //LEFT HAND SWITCH WEAPONS
 		{
@@ -670,73 +640,95 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		}
 		else if (wParam == VK_SPACE)
 		{
-		LeftHandPalmAngle = 0.0;
-		LeftHandForearmAngle = 0.0;
-		LeftHandWholeArmAngle = 0.0;
-		LeftHandWholeArmAnglez = 0.0;
-		LeftHandForearmAnglez = 0.0;
-		RightHandPalmAngle = 0.0;
-		RightHandForearmAngle = 0.0;
-		RightHandWholeArmAngle = 0.0;
-		RightHandWholeArmAnglez = 0.0;
-		RightHandForearmAnglez = 0.0;
-		leftWristRotatey = 0.0;
-		leftWristRotatez = 0.0;
-		leftArmRotateDS = false;
-		leftWristRotateyDS = false;
-		leftWristRotatezDS = false;
-		leftHandPalmRotatez = false;
-		drawDSCircle = false;
+			rho = 1.0;
+			factor = 0.3;
+			reactor = 1.0;
+			lastX = 0.0f;
+			lastY = 0.0f;
+			x = 0.0f, y = 0.0f, z = 7.0f;
 
-		LeftLegThighAngle = 0.0;
-		LeftLegKneeShinAngle = 0.0;
-		LeftLegAnkleAngle = 0.0;
-		RightLegThighAngle = 0.0;
-		RightLegKneeShinAngle = 0.0;
-		RightLegAnkleAngle = 0.0;
+			reactorRotateAngle = 0.0f;
+			cannonRotateAngle = 0.0f;
+			electricEffectMovement = 1.0f;
+			doctorStrangeChakaraRotate = 0.0f;
+			teleportRingRotate = 0.0f;
 
-		robotMoveFront = 0.0;
-		robotMoveLeft = 0.0;
-		robotMoveRight = 0.0;
-		fingerAngle1 = 0.0;
-		fingerAngle2 = 0.0;
-		fingerAngle3 = 0.0;
-		fingerAngle4 = 0.0;
+			lightOn = 0;
+			ambientOn = 1;
+			diffuseOn = 1;
+			specularOn = 1;
 
-		weaponTypeL = 0;
-		weaponTypeR = 0;
-		drillRotate = 0.0;
-		gunBarrelRotate = 0.0;
-		backType = 0;
-		wingLeftTranslateDegree = 0.0;
-		wingRightTranslateDegree = 0.0;
-		wingLeftRocketTranslateDegree = 0.0;
-		wingRightRocketTranslateDegree = 0.0;
-		robotExhaustJet = false;
-		drawThorHammer = false;
-		handShield = false;
-		reactorFireball = false;
-		reactorFireballTranslate = 0.0;
-		reactorFireballScale = 0.2;
-		fireballCount = 0;
-		endGame = false;
+			dayTime = true;
 
-		LeftLegUpFront = true;
-		LeftLegDownFront = false;
-		RightLegUpFront = false;
-		RightLegDownFront = false;
-		LeftLegUpBack = true;
-		LeftLegDownBack = false;
-		RightLegUpBack = false;
-		RightLegDownBack = false;
-		robotUpperBodyTranslate = 0.0;
-		robotLeftLegMoveWithBody = 0.0;
-		robotRightLegMoveWithBody = 0.0;
-		manyRobotTranslate = 0.0;
+			LeftHandPalmAngle = 0.0;
+			LeftHandForearmAngle = 0.0;
+			LeftHandWholeArmAngle = 0.0;
+			LeftHandWholeArmAnglez = 0.0;
+			LeftHandForearmAnglez = 0.0;
+			RightHandPalmAngle = 0.0;
+			RightHandForearmAngle = 0.0;
+			RightHandWholeArmAngle = 0.0;
+			RightHandWholeArmAnglez = 0.0;
+			RightHandForearmAnglez = 0.0;
+			leftWristRotatey = 0.0;
+			leftWristRotatez = 0.0;
+			leftArmRotateDS = false;
+			leftWristRotateyDS = false;
+			leftWristRotatezDS = false;
+			leftHandPalmRotatez = false;
+			LeftLegThighAngle = 0.0;
+			LeftLegKneeShinAngle = 0.0;
+			LeftLegAnkleAngle = 0.0;
+			RightLegThighAngle = 0.0;
+			RightLegKneeShinAngle = 0.0;
+			RightLegAnkleAngle = 0.0;
 
-		diskScaleEG1 = 0.0, diskScaleEG2 = 0.0;
-		circleComplete = false;
-		endGame = false;
+			robotMoveFront = 0.0;
+			robotMoveLeft = 0.0;
+			robotMoveRight = 0.0;
+
+			fingerAngle1 = 0.0;
+			fingerAngle2 = 0.0;
+			fingerAngle3 = 0.0;
+			fingerAngle4 = 0.0;
+
+			drawDSCircle = false;
+			weaponTypeL = 0;
+			weaponTypeR = 0;
+			drillRotate = 0.0;
+			gunBarrelRotate = 0.0;
+
+			backType = 0;
+			wingLeftTranslateDegree = 0.0;
+			wingRightTranslateDegree = 0.0;
+			wingLeftRocketTranslateDegree = 0.0;
+			wingRightRocketTranslateDegree = 0.0;
+			robotExhaustJet = false;
+
+			drawThorHammer = false;
+			handShield = false;
+			reactorFireball = false;
+			reactorFireballTranslate = 0.0;
+			reactorFireballScale = 0.2;
+			thunderCount = 0.0;
+			reactorFireballTS = false;
+			fireballCount = 0;
+			diskScaleEG1 = 0.0;
+			diskScaleEG2 = 0.0;
+			circleComplete = false;
+			endGame = false;
+
+			LeftLegUpFront = true;
+			LeftLegDownFront = false;
+			RightLegUpFront = false;
+			RightLegDownFront = false;
+			LeftLegUpBack = true;
+			LeftLegDownBack = false;
+			RightLegUpBack = false;
+			RightLegDownBack = false;
+			robotUpperBodyTranslate = 0.0;
+			robotLeftLegMoveWithBody = 0.0, robotRightLegMoveWithBody;
+			manyRobotTranslate = 0.0;
 		}
 		else if (wParam == 0x31)		// 1 key on/off ambient light
 			ambientOn = !ambientOn;
@@ -3900,6 +3892,11 @@ void drawLeftLegKneeShin()
 			drawFilledCube();
 		glPopMatrix();
 
+		glPushMatrix();        //On top rocket semisphere
+			glTranslatef(0.7, -3.2, 0.6);
+			glScalef(0.25, 0.35, 0.3);
+			semiSphere();
+		glPopMatrix();
 	endTexture();
 	glPopMatrix();
 
@@ -4286,6 +4283,12 @@ void drawRightLegKneeShin()
 			drawFilledCube();
 		glPopMatrix();
 
+		glPushMatrix();        //On top rocket semisphere
+			glTranslatef(-0.7, -3.2, 0.6);
+			glScalef(0.25, 0.35, 0.3);
+			semiSphere();
+		glPopMatrix();
+
 	endTexture();
 	glPopMatrix();
 
@@ -4373,6 +4376,7 @@ void drawRightLegKneeShin()
 			glScalef(0.02, 0.75, 0.3);
 			drawFilledCube();
 		glPopMatrix();
+
 		glPushMatrix();          //Right behind rocket
 			glTranslatef(-0.9, -3.6, -0.42);
 			glRotatef(90, 1.0, 0.0, 0.0);
@@ -4847,66 +4851,70 @@ void electricEffect() {
 	glPopMatrix();
 
 	//front thunder
-	loadBitmapImage("textureImage/thunder.bmp");
-	glPushMatrix();               //First thunder 
-	glColor3f(0.0, 1.0, 1.0);
-	glTranslatef(-0.22, -0.2, -0.05);
-	glRotatef(2, 0.0, 0.0, 1.0);
-	glRotatef(210, 0.0, 1.0, 0.0);
-	glScalef(0.01, 0.05, 0.0);
-	drawThunder();
-	glPopMatrix();
-	
-
-	glPushMatrix();               //Second thunder 
-	glColor3f(0.0, 1.0, 1.0);
-	glTranslatef(-0.16, -0.2, -0.08);
-	glRotatef(2, 0.0, 0.0, 1.0);
-	glRotatef(190, 0.0, 1.0, 0.0);
-	glScalef(0.01, 0.05, 0.0);
-	drawThunder();
-	glPopMatrix();
-	
-
-	glPushMatrix();               //Third thunder 
-	glColor3f(0.0, 1.0, 1.0);
-	glTranslatef(-0.07, -0.2, -0.1);
-	glRotatef(2, 0.0, 0.0, 1.0);
-	glRotatef(180, 0.0, 1.0, 0.0);
-	glScalef(0.01, 0.05, 0.0);
-	drawThunder();
-	glPopMatrix();
-	
-
-	glPushMatrix();               //Fourth thunder 
-	glColor3f(0.0, 1.0, 1.0);
-	glTranslatef(0.07, -0.2, -0.1);
-	glRotatef(-2, 0.0, 0.0, 1.0);
-	glScalef(0.01, 0.05, 0.0);
-	drawThunder();
-	glPopMatrix();
-	
-
-	glPushMatrix();               //Fifth thunder 
-	glColor3f(0.0, 1.0, 1.0);
-	glTranslatef(0.16, -0.2, -0.08);
-	glRotatef(-10, 0.0, 1.0, 0.0);
-	glRotatef(-2, 0.0, 0.0, 1.0);
-	glScalef(0.01, 0.05, 0.0);
-	drawThunder();
-	glPopMatrix();
+	if (thunderCount < 1)
+	{
+		loadBitmapImage("textureImage/thunder.bmp");
+		glPushMatrix();               //First thunder 
+		glColor3f(0.0, 1.0, 1.0);
+		glTranslatef(-0.22, -0.2, -0.05);
+		glRotatef(2, 0.0, 0.0, 1.0);
+		glRotatef(210, 0.0, 1.0, 0.0);
+		glScalef(0.01, 0.05, 0.0);
+		drawThunder();
+		glPopMatrix();
 
 
-	glPushMatrix();               //Sixth thunder 
-	glColor3f(0.0, 1.0, 1.0);
-	glTranslatef(0.22, -0.2, -0.05);
-	glRotatef(-30, 0.0, 1.0, 0.0);
-	glRotatef(-2, 0.0, 0.0, 1.0);
-	glScalef(0.01, 0.05, 0.0);
-	drawThunder();
-	glPopMatrix();
-	endTexture();
+		glPushMatrix();               //Second thunder 
+		glColor3f(0.0, 1.0, 1.0);
+		glTranslatef(-0.16, -0.2, -0.08);
+		glRotatef(2, 0.0, 0.0, 1.0);
+		glRotatef(190, 0.0, 1.0, 0.0);
+		glScalef(0.01, 0.05, 0.0);
+		drawThunder();
+		glPopMatrix();
 
+
+		glPushMatrix();               //Third thunder 
+		glColor3f(0.0, 1.0, 1.0);
+		glTranslatef(-0.07, -0.2, -0.1);
+		glRotatef(2, 0.0, 0.0, 1.0);
+		glRotatef(180, 0.0, 1.0, 0.0);
+		glScalef(0.01, 0.05, 0.0);
+		drawThunder();
+		glPopMatrix();
+
+
+		glPushMatrix();               //Fourth thunder 
+		glColor3f(0.0, 1.0, 1.0);
+		glTranslatef(0.07, -0.2, -0.1);
+		glRotatef(-2, 0.0, 0.0, 1.0);
+		glScalef(0.01, 0.05, 0.0);
+		drawThunder();
+		glPopMatrix();
+
+
+		glPushMatrix();               //Fifth thunder 
+		glColor3f(0.0, 1.0, 1.0);
+		glTranslatef(0.16, -0.2, -0.08);
+		glRotatef(-10, 0.0, 1.0, 0.0);
+		glRotatef(-2, 0.0, 0.0, 1.0);
+		glScalef(0.01, 0.05, 0.0);
+		drawThunder();
+		glPopMatrix();
+
+
+		glPushMatrix();               //Sixth thunder 
+		glColor3f(0.0, 1.0, 1.0);
+		glTranslatef(0.22, -0.2, -0.05);
+		glRotatef(-30, 0.0, 1.0, 0.0);
+		glRotatef(-2, 0.0, 0.0, 1.0);
+		glScalef(0.01, 0.05, 0.0);
+		drawThunder();
+		glPopMatrix();
+		endTexture();
+
+		thunderCount += 0.5;
+	}
 }
 
 void environment() {
@@ -5451,15 +5459,15 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 
 		if (reactorFireball == true)
 		{
-			if (reactorFireballTranslate < 18)
+			if (reactorFireballTranslate < 20)
 			{
 				reactorFireballTranslate += 0.5;
 			}
-			else if (reactorFireballTranslate == 18)
+			else if (reactorFireballTranslate == 20)
 			{
-				if (reactorFireballScale < 7)
+				if (reactorFireballScale < 9)
 				{
-					reactorFireballScale += 0.3;
+					reactorFireballScale += 0.8;
 				}
 			}			
 		}
