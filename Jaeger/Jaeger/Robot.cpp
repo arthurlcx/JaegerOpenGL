@@ -494,6 +494,8 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 				if (fingerAngle3 >= 50)
 				{
 					drawThorHammer = true;
+					PlaySound(TEXT("hammerFX.wav"), NULL, SND_FILENAME | SND_ASYNC);
+
 				}
 			}
 		}
@@ -4851,68 +4853,69 @@ void electricEffect() {
 	glPopMatrix();
 
 	//front thunder
-	if (thunderCount < 1)
+	if (thunderCount < 9)
 	{
-		loadBitmapImage("textureImage/thunder.bmp");
-		glPushMatrix();               //First thunder 
-		glColor3f(0.0, 1.0, 1.0);
-		glTranslatef(-0.22, -0.2, -0.05);
-		glRotatef(2, 0.0, 0.0, 1.0);
-		glRotatef(210, 0.0, 1.0, 0.0);
-		glScalef(0.01, 0.05, 0.0);
-		drawThunder();
-		glPopMatrix();
+		if (thunderCount > 5){
+			loadBitmapImage("textureImage/thunder.bmp");
+			glPushMatrix();               //First thunder 
+			glColor3f(0.0, 1.0, 1.0);
+			glTranslatef(-0.22, -0.2, -0.05);
+			glRotatef(2, 0.0, 0.0, 1.0);
+			glRotatef(210, 0.0, 1.0, 0.0);
+			glScalef(0.01, 0.05, 0.0);
+			drawThunder();
+			glPopMatrix();
 
 
-		glPushMatrix();               //Second thunder 
-		glColor3f(0.0, 1.0, 1.0);
-		glTranslatef(-0.16, -0.2, -0.08);
-		glRotatef(2, 0.0, 0.0, 1.0);
-		glRotatef(190, 0.0, 1.0, 0.0);
-		glScalef(0.01, 0.05, 0.0);
-		drawThunder();
-		glPopMatrix();
+			glPushMatrix();               //Second thunder 
+			glColor3f(0.0, 1.0, 1.0);
+			glTranslatef(-0.16, -0.2, -0.08);
+			glRotatef(2, 0.0, 0.0, 1.0);
+			glRotatef(190, 0.0, 1.0, 0.0);
+			glScalef(0.01, 0.05, 0.0);
+			drawThunder();
+			glPopMatrix();
 
 
-		glPushMatrix();               //Third thunder 
-		glColor3f(0.0, 1.0, 1.0);
-		glTranslatef(-0.07, -0.2, -0.1);
-		glRotatef(2, 0.0, 0.0, 1.0);
-		glRotatef(180, 0.0, 1.0, 0.0);
-		glScalef(0.01, 0.05, 0.0);
-		drawThunder();
-		glPopMatrix();
+			glPushMatrix();               //Third thunder 
+			glColor3f(0.0, 1.0, 1.0);
+			glTranslatef(-0.07, -0.2, -0.1);
+			glRotatef(2, 0.0, 0.0, 1.0);
+			glRotatef(180, 0.0, 1.0, 0.0);
+			glScalef(0.01, 0.05, 0.0);
+			drawThunder();
+			glPopMatrix();
 
 
-		glPushMatrix();               //Fourth thunder 
-		glColor3f(0.0, 1.0, 1.0);
-		glTranslatef(0.07, -0.2, -0.1);
-		glRotatef(-2, 0.0, 0.0, 1.0);
-		glScalef(0.01, 0.05, 0.0);
-		drawThunder();
-		glPopMatrix();
+			glPushMatrix();               //Fourth thunder 
+			glColor3f(0.0, 1.0, 1.0);
+			glTranslatef(0.07, -0.2, -0.1);
+			glRotatef(-2, 0.0, 0.0, 1.0);
+			glScalef(0.01, 0.05, 0.0);
+			drawThunder();
+			glPopMatrix();
 
 
-		glPushMatrix();               //Fifth thunder 
-		glColor3f(0.0, 1.0, 1.0);
-		glTranslatef(0.16, -0.2, -0.08);
-		glRotatef(-10, 0.0, 1.0, 0.0);
-		glRotatef(-2, 0.0, 0.0, 1.0);
-		glScalef(0.01, 0.05, 0.0);
-		drawThunder();
-		glPopMatrix();
+			glPushMatrix();               //Fifth thunder 
+			glColor3f(0.0, 1.0, 1.0);
+			glTranslatef(0.16, -0.2, -0.08);
+			glRotatef(-10, 0.0, 1.0, 0.0);
+			glRotatef(-2, 0.0, 0.0, 1.0);
+			glScalef(0.01, 0.05, 0.0);
+			drawThunder();
+			glPopMatrix();
 
 
-		glPushMatrix();               //Sixth thunder 
-		glColor3f(0.0, 1.0, 1.0);
-		glTranslatef(0.22, -0.2, -0.05);
-		glRotatef(-30, 0.0, 1.0, 0.0);
-		glRotatef(-2, 0.0, 0.0, 1.0);
-		glScalef(0.01, 0.05, 0.0);
-		drawThunder();
-		glPopMatrix();
-		endTexture();
-
+			glPushMatrix();               //Sixth thunder 
+			glColor3f(0.0, 1.0, 1.0);
+			glTranslatef(0.22, -0.2, -0.05);
+			glRotatef(-30, 0.0, 1.0, 0.0);
+			glRotatef(-2, 0.0, 0.0, 1.0);
+			glScalef(0.01, 0.05, 0.0);
+			drawThunder();
+			glPopMatrix();
+			endTexture();
+		}
 		thunderCount += 0.5;
 	}
 }
