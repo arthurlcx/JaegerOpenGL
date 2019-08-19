@@ -77,7 +77,7 @@ float LeftHandPalmAngle = 0.0, LeftHandForearmAngle = 0.0, LeftHandWholeArmAngle
 float LeftHandWholeArmAnglez = 0.0, LeftHandForearmAnglez = 0.0;
 float RightHandPalmAngle = 0.0, RightHandForearmAngle = 0.0, RightHandWholeArmAngle = 0.0;
 float RightHandWholeArmAnglez = 0.0, RightHandForearmAnglez = 0.0;
-float leftWristRotatey = 0.0;
+float leftWristRotatey = 0.0, leftWristRotatez = 0.0;
 bool leftArmRotateDS = false, leftWristRotateyDS = false, leftWristRotatezDS = false, leftHandPalmRotatez = false;
 bool drawDSCircle = false;
 
@@ -96,6 +96,8 @@ bool drawThorHammer = false;
 bool handShield = false;
 bool reactorFireball = false;
 float reactorFireballTranslate = 0.0;
+float reactorFireballScale = 0.2;
+bool reactorFireballTS = false;
 int fireballCount = 0;
 bool endGame = false;
 
@@ -618,11 +620,11 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 				if (leftWristRotatey == -90)
 					leftWristRotateyDS = true;
 			}
-			else if (leftWristRotateyDS == true && LeftHandPalmAngle < 30)
+			else if (leftWristRotateyDS == true && leftWristRotatez < 30)
 			{
-				LeftHandPalmAngle += 5;
+				leftWristRotatez += 5;
 
-				if (LeftHandPalmAngle == 30)
+				if (leftWristRotatez == 30)
 					leftHandPalmRotatez = true;
 			}
 			else if (leftHandPalmRotatez == true)
@@ -670,6 +672,7 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		RightHandWholeArmAnglez = 0.0;
 		RightHandForearmAnglez = 0.0;
 		leftWristRotatey = 0.0;
+		leftWristRotatez = 0.0;
 		leftArmRotateDS = false;
 		leftWristRotateyDS = false;
 		leftWristRotatezDS = false;
@@ -705,6 +708,7 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		handShield = false;
 		reactorFireball = false;
 		reactorFireballTranslate = 0.0;
+		reactorFireballScale = 0.2;
 		fireballCount = 0;
 		endGame = false;
 
@@ -1699,12 +1703,12 @@ void drawReactor() {       //Ironman Reactor       (how to rotate automatically 
 	glPopMatrix();
 }
 
-void drawReactorFireball()
+void drawReactorFireball(float reactorFireballScale)
 {
 	glPushMatrix();
 		glColor3f(1.0, 1.0, 1.0);
 		glTranslatef(0.0, 2.1, 0.85);
-		drawSphere(0.2, 30, 30);
+		drawSphere(reactorFireballScale, 30, 30);
 	glPopMatrix();
 }
 
@@ -5125,14 +5129,13 @@ void jaegerRobot()
 	glPopMatrix();
 
 	//Fireball
-	glPushMatrix();
+		glPushMatrix();
 		glColor3f(1.0, 1.0, 1.0);
 		loadBitmapImage(reactorTextureArray[textureReactorIndex].data());
 		glTranslatef(0.0, 0.0, reactorFireballTranslate);
-		drawReactorFireball();
+		drawReactorFireball(reactorFireballScale);
 		endTexture();
-	glPopMatrix();
-
+		glPopMatrix();
 
 
 // Reactor shell
@@ -5170,7 +5173,8 @@ void jaegerRobot()
 			glPushMatrix();
 			glTranslatef(1.55, -0.20, -0.0);
 			glRotatef(leftWristRotatey, 0.0, 1.0, 0.0);
-			glRotatef(LeftHandPalmAngle, 0.0, 0.0, 1.0);
+			glRotatef(leftWristRotatez, 0.0, 0.0, 1.0);
+			glRotatef(LeftHandPalmAngle, 1.0, 0.0, 0.0);
 			glTranslatef(-1.55, 0.20, 0.0);
 			drawLeftHandPalm();
 			glPopMatrix();
@@ -5267,6 +5271,24 @@ void jaegerRobot()
 
 void manyJaegerRobot()
 {
+	glPushMatrix();            //Front disk
+		glTranslatef(-5.0, 5.0, -28.6);
+		drawGluDisk(0.0, 8.5, 30, 30);
+	glPopMatrix();
+	glPushMatrix();            //Back disk
+		glTranslatef(-5.0, 5.0, -29);
+		drawGluDisk(0.0, 9.0, 30, 30);
+	glPopMatrix();
+
+	glPushMatrix();           //Front disk
+		glTranslatef(11.0, 3.0, -28.6);
+		drawGluDisk(0.0, 7.0, 30, 30);
+	glPopMatrix();
+	glPushMatrix();             //Back disk
+		glTranslatef(11.0, 3.0, -29);
+		drawGluDisk(0.0, 6.5, 30, 30);
+	glPopMatrix();
+
 	glPushMatrix();
 		glTranslatef(0.0, 0.0, manyRobotTranslate);
 		glTranslatef(1.0, 6.0, -35.0);
@@ -5277,9 +5299,17 @@ void manyJaegerRobot()
 
 	glPushMatrix();
 		glTranslatef(0.0, 0.0, manyRobotTranslate);
-		glTranslatef(5.0, 5.0, -35.0);
+		glTranslatef(7.0, 5.0, -35.0);
 		glRotatef(-60, 1.0, 0.0, 0.0);
 		glScalef(0.5, 0.5, 0.5);
+		jaegerRobot();
+	glPopMatrix();
+
+	glPushMatrix();
+		glTranslatef(0.0, 0.0, manyRobotTranslate);
+		glTranslatef(12.0, 4.0, -35.0);
+		glRotatef(-60, 1.0, 0.0, 0.0);
+		glScalef(1.0, 1.0, 1.0);
 		jaegerRobot();
 	glPopMatrix();
 
@@ -5382,7 +5412,6 @@ void display()
 		textureReactorIndex = 1;
 		textureEnvironmentIndex = 3;
 	}
-
 }
 //--------------------------------------------------------------------
 
@@ -5458,11 +5487,22 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 
 		if (reactorFireball == true)
 		{
-			reactorFireballTranslate += 0.3;
+			if (reactorFireballTranslate < 18)
+			{
+				reactorFireballTranslate += 0.5;
+			}
+			else if (reactorFireballTranslate == 18)
+			{
+				if (reactorFireballScale < 7)
+				{
+					reactorFireballScale += 0.3;
+				}
+			}			
 		}
 		else if (reactorFireball == false)
 		{
 			reactorFireballTranslate = 0.0;
+			reactorFireballScale = 0.2;
 		}
 
 		if (drillRotate < 360) {
@@ -5492,8 +5532,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
 		else {
 			manyRobotTranslate = 0.0f;
 		}
-
-
 
 		display();
 
