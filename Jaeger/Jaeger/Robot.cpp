@@ -626,6 +626,7 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			else if (leftHandPalmRotatez == true && leftWristRotatey < 0)
 			{
 				leftWristRotatey += 15;
+				leftWristRotatez -= 5;
 
 				if (leftWristRotatey == 0)
 					leftWristRotateyDS = true;
