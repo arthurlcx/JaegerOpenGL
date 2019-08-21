@@ -730,7 +730,7 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			RightLegUpBack = false;
 			RightLegDownBack = false;
 			robotUpperBodyTranslate = 0.0;
-			robotLeftLegMoveWithBody = 0.0, robotRightLegMoveWithBody;
+			robotLeftLegMoveWithBody = 0.0, robotRightLegMoveWithBody = 0.0;
 			manyRobotTranslate = 0.0;
 		}
 		else if (wParam == 0x31)		// 1 key on/off ambient light
